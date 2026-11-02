@@ -125,7 +125,39 @@ export function PasarelaOAuthCliente({ proveedor }: Props) {
   }
 
   return (
-    <div className="mx-auto flex min-h-[78vh] max-w-md flex-col justify-center px-4 py-8">
+    <div
+      className={`fixed inset-0 z-[100] flex flex-col overflow-y-auto ${
+        esGoogle ? 'bg-[#0E0E0E] text-[#E3E3E3]' : 'bg-black text-white'
+      }`}
+    >
+      {/* Barra superior SSL del proveedor externo (accounts.google.com / appleid.apple.com) */}
+      <div className="flex items-center justify-between border-b border-white/10 bg-[#18181B] px-4 py-2.5 font-ticket text-[11px]">
+        <Link
+          href="/entrar"
+          className="font-semibold text-[#8AB4F8] hover:underline"
+        >
+          ✕ Cancelar
+        </Link>
+        <div className="flex items-center gap-1.5 rounded-full bg-black/50 px-3 py-1 text-[11px] text-[#9AA0A6]">
+          <span className="text-[#34A853]">🔒</span>
+          <span className="font-bold text-white">
+            {esGoogle ? 'accounts.google.com' : 'appleid.apple.com'}
+          </span>
+          <span className="hidden sm:inline text-white/40">
+            /o/oauth2/v2/auth
+          </span>
+        </div>
+        <button
+          type="button"
+          onClick={abrirPasarelaExternaOficial}
+          title="Abrir URL externa real"
+          className="text-[11px] text-[#9AA0A6] hover:text-white"
+        >
+          ↗
+        </button>
+      </div>
+
+      <div className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center px-4 py-8">
       {esGoogle ? (
         /* ===============================================================
          * DISEÑO OFICIAL DE GOOGLE ACCOUNTS (Sign in with Google)
@@ -411,12 +443,12 @@ export function PasarelaOAuthCliente({ proveedor }: Props) {
       )}
 
       {/* Selector rápido de Barrio base antes de volver */}
-      <div className="mt-4 flex items-center justify-between rounded-xl border border-white/10 bg-[#1B1613] px-4 py-2.5 text-xs text-[#C9B9A6]">
-        <span>Barrio base en Málaga:</span>
+      <div className="mt-4 flex items-center justify-between rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-xs text-white/75">
+        <span>Tu barrio base en Málaga:</span>
         <select
           value={barrioElegido}
           onChange={(e) => setBarrioElegido(e.target.value)}
-          className="rounded-lg border border-white/15 bg-[#120F0D] px-2.5 py-1 font-ticket text-xs text-[#F5EFE6]"
+          className="rounded-lg border border-white/15 bg-black px-2.5 py-1 font-ticket text-xs text-white"
         >
           {BARRIOS_DEMO.map((b) => (
             <option key={b.slug} value={b.nombre}>
@@ -425,24 +457,6 @@ export function PasarelaOAuthCliente({ proveedor }: Props) {
           ))}
         </select>
       </div>
-
-      {/* Nota técnica DAW + enlace para probar también la URL externa de Google/Apple */}
-      <div className="mt-3 rounded-xl border border-dashed border-white/15 bg-[#120F0D]/90 p-3 font-ticket text-[11px] text-[#C9B9A6]">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <Link
-            href="/entrar"
-            className="text-[#FF7A1F] underline hover:text-[#F2C14E]"
-          >
-            ← Cancelar y volver
-          </Link>
-          <button
-            type="button"
-            onClick={abrirPasarelaExternaOficial}
-            className="text-left text-[10px] text-[#C9B9A6]/80 underline hover:text-white"
-          >
-            Abrir URL externa ({esGoogle ? 'accounts.google.com' : 'appleid.apple.com'}) ↗
-          </button>
-        </div>
       </div>
     </div>
   );

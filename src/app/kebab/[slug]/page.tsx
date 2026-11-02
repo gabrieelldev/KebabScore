@@ -15,6 +15,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { BotonCheckinRapido24h } from '@/components/kebab/BotonCheckinRapido24h';
 import { TicketsLocalCliente } from '@/components/kebab/TicketsLocalCliente';
 import { Icono } from '@/components/ui/Icono';
 import { obtenerLocalPorSlug } from '@/lib/datos/consultas';
@@ -253,6 +254,14 @@ export default async function PaginaFichaLocal({ params }: { params: Params }) {
           </div>
         </div>
       </section>
+
+      {/* ============ 1B. PASE GPS RÁPIDO 24H EN MOSTRADOR ============ */}
+      <BotonCheckinRapido24h
+        localSlug={local.slug}
+        localNombre={local.nombre}
+        lat={local.lat}
+        lng={local.lng}
+      />
 
       {/* ============ 2. KEBABSCORE EN CAPAS (CORTE ANATÓMICO) ============ */}
       <section aria-label="KebabScore en capas" className="mt-2 px-4">

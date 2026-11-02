@@ -48,6 +48,9 @@ export function Cabecera() {
     }, 600);
   }
 
+  const esRutaOAuth = pathname.startsWith('/auth/');
+  if (esRutaOAuth) return null;
+
   const esSubpagina = pathname.startsWith('/kebab/');
 
   if (esSubpagina) {
@@ -194,8 +197,8 @@ export function Cabecera() {
 /** Barra inferior de navegación de Stitch con el botón central VALORAR flameante. */
 export function BarraPulgar() {
   const pathname = usePathname();
-  // Las páginas de ficha de local y de reseñar tienen su propio botón fijo inferior
-  if (pathname.startsWith('/kebab/')) return null;
+  // Las páginas de ficha de local, reseñar y pasarelas OAuth no muestran la barra inferior
+  if (pathname.startsWith('/kebab/') || pathname.startsWith('/auth/')) return null;
 
   const esInicio = pathname === '/';
   const esRanking = pathname.startsWith('/ranking') || pathname.startsWith('/barrio');
