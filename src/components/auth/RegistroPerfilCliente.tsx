@@ -2,18 +2,20 @@
 // RegistroPerfilCliente · Creación obligatoria de Perfil (Email / Google / Apple)
 // ---------------------------------------------------------------------
 // Explicación para 1.º de DAW:
-// - Permite al usuario elegir entre Google, Apple o Correo Electrónico.
-// - Pide su correo, su Alias de Crítico Nocturno, su Barrio base de
-//   Málaga y su Salsa de cabecera.
-// - Al completarlo, crea la sesión en `ProveedorAuth` (y si Supabase
-//   está configurado en `.env.local`, lanza el flujo OAuth/Magic Link).
+// - Al pulsar "Continuar con Google" o "Continuar con Apple", llama a
+//   `iniciarSesionConProveedor('google' | 'apple')`, que redirige el
+//   navegador al flujo de inicio de sesión OAuth 2.0 de esa plataforma
+//   (vía Supabase Auth, URL OAuth directa o la Pasarela OAuth en
+//   `/auth/oauth/google` y `/auth/oauth/apple`) y regresa a `/auth/callback`.
+// - Si el usuario prefiere registrarse manualmente con correo electrónico,
+//   completa el formulario inferior con su Email, Alias, Barrio y Salsa.
 // =====================================================================
 
 'use client';
 
 import { useState } from 'react';
 import { Icono } from '@/components/ui/Icono';
-import { type MetodoAuth, useAuth } from '@/lib/auth/contexto';
+import { useAuth } from '@/lib/auth/contexto';
 import { BARRIOS_DEMO } from '@/lib/datos/demo';
 
 type Props = {
@@ -27,33 +29,28 @@ export function RegistroPerfilCliente({
   subtituloPersonalizado,
   onCompletado,
 }: Props) {
-  const { registrarOIniciarPerfil } = useAuth();
+  const { registrarOIniciarPerfil, iniciarSesionConProveedor } = useAuth();
 
-  const [metodo, setMetodo] = useState<MetodoAuth>('email');
   const [email, setEmail] = useState('');
   const [nombre, setNombre] = useState('');
-  const [barrioBase, setBarrioBase] = useState(BARRIOS_DEMO[0]?.nombre ?? 'Centro Histórico');
+  const [barrioBase, setBarrioBase] = useState(
+    BARRIOS_DEMO[0]?.nombre ?? 'Centro Histórico',
+  );
   const [salsaFavorita, setSalsaFavorita] = useState<
     'Mixta Chorreo' | 'Roja Picante' | 'Blanca Yogur'
   >('Mixta Chorreo');
+  const [proveedorRedirigiendo, setProveedorRedirigiendo] = useState<
+    'google' | 'apple' | null
+  >(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  function elegirProveedorOAuth(proveedor: 'google' | 'apple') {
-    setMetodo(proveedor);
+  async function lanzarLoginOAuth(proveedor: 'google' | 'apple') {
     setErrorMsg(null);
-    if (!email) {
-      setEmail(
-        proveedor === 'google'
-          ? 'tu.cuenta@gmail.com'
-          : 'tu.id@icloud.com',
-      );
-    }
-    if (!nombre) {
-      setNombre('Gabriel "El Jefe"');
-    }
+    setProveedorRedirigiendo(proveedor);
+    await iniciarSesionConProveedor(proveedor);
   }
 
-  function manejarEnvio(e: React.FormEvent) {
+  function manejarEnvioEmail(e: React.FormEvent) {
     e.preventDefault();
     const correoLimpio = email.trim();
     const nombreLimpio = nombre.trim();
@@ -70,7 +67,7 @@ export function RegistroPerfilCliente({
     registrarOIniciarPerfil({
       email: correoLimpio,
       nombre: nombreLimpio,
-      metodoAuth: metodo,
+      metodoAuth: 'email',
       barrioBase,
       salsaFavorita,
     });
@@ -96,19 +93,16 @@ export function RegistroPerfilCliente({
         </h1>
         <p className="mt-2 text-xs leading-relaxed text-[#C9B9A6]">
           {subtituloPersonalizado ??
-            'Para evitar reseñas falsas y guardar tus tickets térmicos, tus misiones y tus pegatinas de escaparate, identifícate con Google, Apple o tu correo.'}
+            'Para evitar reseñas falsas y guardar tus tickets térmicos, tus misiones y tus pegatinas de escaparate, inicia sesión con Google, Apple o regístrate con tu correo.'}
         </p>
 
-        {/* Botones de proveedores: Google, Apple y Correo */}
-        <div className="mt-5 grid grid-cols-2 gap-2.5">
+        {/* Botones de redirección OAuth real a Google y Apple */}
+        <div className="mt-5 space-y-2.5">
           <button
             type="button"
-            onClick={() => elegirProveedorOAuth('google')}
-            className={`flex items-center justify-center gap-2 rounded-xl border px-3 py-3 font-ticket text-xs font-bold transition-all active:scale-95 ${
-              metodo === 'google'
-                ? 'border-[#FF7A1F] bg-[#FF7A1F]/20 text-[#F5EFE6] shadow-[0_0_15px_rgba(255,122,31,0.3)]'
-                : 'border-white/15 bg-[#241D18] text-[#F5EFE6] hover:border-[#FF7A1F]/50'
-            }`}
+            disabled={proveedorRedirigiendo !== null}
+            onClick={() => void lanzarLoginOAuth('google')}
+            className="flex w-full items-center justify-center gap-3 rounded-xl border border-white/20 bg-white px-4 py-3 font-ticket text-xs font-bold text-[#1F1F1F] shadow-md transition-all hover:bg-[#F8F9FA] active:scale-95 disabled:opacity-60"
           >
             <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0" aria-hidden="true">
               <path
@@ -128,17 +122,18 @@ export function RegistroPerfilCliente({
                 d="M12 24c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3.1 0-5.8-2.1-6.7-5l-3.7 2.9C3.5 21.4 7.4 24 12 24Z"
               />
             </svg>
-            <span>Google</span>
+            <span>
+              {proveedorRedirigiendo === 'google'
+                ? 'REDIRIGIENDO A GOOGLE...'
+                : 'CONTINUAR CON GOOGLE'}
+            </span>
           </button>
 
           <button
             type="button"
-            onClick={() => elegirProveedorOAuth('apple')}
-            className={`flex items-center justify-center gap-2 rounded-xl border px-3 py-3 font-ticket text-xs font-bold transition-all active:scale-95 ${
-              metodo === 'apple'
-                ? 'border-[#FF7A1F] bg-[#FF7A1F]/20 text-[#F5EFE6] shadow-[0_0_15px_rgba(255,122,31,0.3)]'
-                : 'border-white/15 bg-[#241D18] text-[#F5EFE6] hover:border-[#FF7A1F]/50'
-            }`}
+            disabled={proveedorRedirigiendo !== null}
+            onClick={() => void lanzarLoginOAuth('apple')}
+            className="flex w-full items-center justify-center gap-3 rounded-xl border border-white/25 bg-black px-4 py-3 font-ticket text-xs font-bold text-white shadow-md transition-all hover:bg-[#151517] active:scale-95 disabled:opacity-60"
           >
             <svg
               viewBox="0 0 24 24"
@@ -148,28 +143,28 @@ export function RegistroPerfilCliente({
             >
               <path d="M16.4 12.7c0-2.2 1.8-3.3 1.9-3.4-1-1.5-2.6-1.7-3.2-1.8-1.4-.1-2.6.8-3.3.8-.7 0-1.8-.8-3-.8-1.5 0-2.9.9-3.7 2.2-1.6 2.7-.4 6.8 1.1 9 .8 1.1 1.7 2.3 2.9 2.2 1.1 0 1.6-.7 3-.7s1.8.7 3 .7c1.3 0 2.1-1.1 2.8-2.2.9-1.3 1.3-2.6 1.3-2.7-.1 0-2.8-1.1-2.8-3.3ZM14.1 6.4c.6-.8 1.1-1.9 1-3-.9 0-2.1.6-2.7 1.4-.6.7-1.1 1.8-.9 2.9 1 .1 2-.5 2.6-1.3Z" />
             </svg>
-            <span>Apple</span>
+            <span>
+              {proveedorRedirigiendo === 'apple'
+                ? 'REDIRIGIENDO A APPLE ID...'
+                : 'CONTINUAR CON APPLE'}
+            </span>
           </button>
         </div>
 
-        <div className="my-4 flex items-center gap-3 font-ticket text-[10px] text-[#C9B9A6]">
+        <div className="my-5 flex items-center gap-3 font-ticket text-[10px] text-[#C9B9A6]">
           <span className="h-px flex-1 bg-white/10" />
-          <span>
-            {metodo === 'email'
-              ? 'O REGÍSTRATE CON TU CORREO'
-              : `COMPLETA TU FICHA (${metodo.toUpperCase()})`}
-          </span>
+          <span>O REGÍSTRATE CON TU CORREO</span>
           <span className="h-px flex-1 bg-white/10" />
         </div>
 
-        {/* Formulario de datos del perfil */}
-        <form onSubmit={manejarEnvio} className="space-y-3.5">
+        {/* Formulario manual con Correo Electrónico */}
+        <form onSubmit={manejarEnvioEmail} className="space-y-3.5">
           <div>
             <label
               htmlFor="registro-email"
               className="block font-ticket text-[11px] uppercase text-[#C9B9A6]"
             >
-              Correo electrónico ({metodo === 'email' ? 'Enlace Mágico' : metodo.toUpperCase()})
+              Correo electrónico
             </label>
             <input
               id="registro-email"
@@ -269,7 +264,7 @@ export function RegistroPerfilCliente({
             className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#FF3B30] via-[#FF5126] to-[#FF7A1F] py-3.5 font-rotulo text-xl uppercase tracking-wider text-[#F5EFE6] shadow-[0_0_24px_rgba(255,59,48,0.45)] transition-transform active:scale-95"
           >
             <Icono nombre="verified" className="h-5 w-5" />
-            <span>CREAR PERFIL Y ENTRAR (+100 XP)</span>
+            <span>CREAR PERFIL CON CORREO (+100 XP)</span>
           </button>
         </form>
       </div>

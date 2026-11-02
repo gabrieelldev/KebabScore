@@ -5,15 +5,25 @@
 // - Cuando un usuario entra por primera vez, `usuarioActual` es `null`.
 // - Para ver su perfil o publicar un ticket de reseña, debe crearse su
 //   ficha de crítico iniciando sesión con:
-//     1. Correo electrónico (Magic Link / Registro directo)
-//     2. Google OAuth
-//     3. Apple ID
-// - Una vez creado el perfil, se guarda en `localStorage` (y se conecta
-//   con Supabase Auth si `.env.local` tiene las claves configuradas).
+//     1. Google OAuth (`iniciarSesionConProveedor('google')`)
+//     2. Apple ID (`iniciarSesionConProveedor('apple')`)
+//     3. Correo electrónico (Registro directo / Magic Link)
+// - Cómo funciona la redirección OAuth al pulsar Google o Apple:
+//     A) Si `.env.local` tiene `NEXT_PUBLIC_SUPABASE_URL` y
+//        `NEXT_PUBLIC_SUPABASE_ANON_KEY`, llama a
+//        `supabase.auth.signInWithOAuth({ provider })`, que redirige a
+//        `accounts.google.com` o `appleid.apple.com` y vuelve a `/auth/callback`.
+//     B) Si `.env.local` tiene `NEXT_PUBLIC_GOOGLE_CLIENT_ID` o
+//        `NEXT_PUBLIC_APPLE_CLIENT_ID`, redirige directamente a la URL
+//        oficial OAuth 2.0 de Google/Apple.
+//     C) Si aún no hay claves en `.env.local`, redirige a la Pasarela
+//        OAuth (`/auth/oauth/google` o `/auth/oauth/apple`), que reproduce
+//        el selector de cuentas de Google/Apple y redirige a `/auth/callback`.
 // =====================================================================
 
 'use client';
 
+import { useRouter } from 'next/navigation';
 import {
   createContext,
   useCallback,
@@ -23,6 +33,10 @@ import {
   useState,
 } from 'react';
 import type { ResenaTicket } from '@/lib/datos/tipos';
+import {
+  construirUrlOAuthDirecta,
+  crearClienteNavegador,
+} from '@/lib/supabase/browser';
 
 export type MetodoAuth = 'email' | 'google' | 'apple';
 
@@ -58,6 +72,7 @@ export type PerfilUsuario = {
 };
 
 const CLAVE_STORAGE_PERFIL = 'kebabscore_perfil_usuario_v1';
+export const CLAVE_RETORNO_OAUTH = 'kebabscore_oauth_return_to';
 
 type DatosRegistro = {
   email: string;
@@ -71,6 +86,10 @@ type ContextoAuthValor = {
   hidratado: boolean;
   usuarioActual: PerfilUsuario | null;
   registrarOIniciarPerfil: (datos: DatosRegistro) => PerfilUsuario;
+  iniciarSesionConProveedor: (
+    proveedor: 'google' | 'apple',
+    rutaRetorno?: string,
+  ) => Promise<void>;
   cerrarSesion: () => void;
   registrarSelloGps: (localSlug: string, distanciaMetros: number) => void;
   registrarTicketVerificado: (
@@ -102,6 +121,7 @@ function crearSlugAlias(nombre: string): string {
 }
 
 export function ProveedorAuth({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
   const [hidratado, setHidratado] = useState(false);
   const [usuarioActual, setUsuarioActual] = useState<PerfilUsuario | null>(null);
 
@@ -122,6 +142,56 @@ export function ProveedorAuth({ children }: { children: React.ReactNode }) {
       }
     });
     return () => window.cancelAnimationFrame(id);
+  }, []);
+
+  // Sincronización con Supabase Auth si está configurado en .env.local
+  useEffect(() => {
+    const supabase = crearClienteNavegador();
+    if (!supabase) return;
+
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user?.email) {
+        const email = session.user.email;
+        const meta = session.user.user_metadata ?? {};
+        const nombre =
+          (meta.full_name as string | undefined) ||
+          (meta.name as string | undefined) ||
+          email.split('@')[0] ||
+          'Crítico Nocturno';
+        const rawProvider = session.user.app_metadata?.provider;
+        const metodoAuth: MetodoAuth =
+          rawProvider === 'apple'
+            ? 'apple'
+            : rawProvider === 'google'
+              ? 'google'
+              : 'email';
+
+        setUsuarioActual((prev) => {
+          if (prev && prev.email.toLowerCase() === email.toLowerCase()) {
+            return prev;
+          }
+          return {
+            id: session.user.id,
+            email,
+            nombre,
+            alias: crearSlugAlias(nombre),
+            iniciales: calcularIniciales(nombre),
+            metodoAuth,
+            barrioBase: 'Centro Histórico',
+            salsaFavorita: 'Mixta Chorreo',
+            nivel: 1,
+            xp: 100,
+            creadoEn: new Date().toISOString(),
+            ticketsPublicados: [],
+            sellosGps: {},
+          };
+        });
+      }
+    });
+
+    return () => {
+      sub.subscription.unsubscribe();
+    };
   }, []);
 
   useEffect(() => {
@@ -154,11 +224,75 @@ export function ProveedorAuth({ children }: { children: React.ReactNode }) {
       ticketsPublicados: [],
       sellosGps: {},
     };
+    // Guardamos también sincrónicamente para que al redirigir en OAuth esté disponible al instante
+    try {
+      window.localStorage.setItem(
+        CLAVE_STORAGE_PERFIL,
+        JSON.stringify(nuevoPerfil),
+      );
+    } catch {}
     setUsuarioActual(nuevoPerfil);
     return nuevoPerfil;
   }, []);
 
+  const iniciarSesionConProveedor = useCallback(
+    async (proveedor: 'google' | 'apple', rutaRetorno?: string) => {
+      const destinoFinal =
+        rutaRetorno ||
+        (typeof window !== 'undefined' &&
+        window.location.pathname !== '/entrar'
+          ? window.location.pathname
+          : '/perfil/marcos-padrino');
+
+      try {
+        window.sessionStorage.setItem(CLAVE_RETORNO_OAUTH, destinoFinal);
+      } catch {}
+
+      const redirectUri = `${window.location.origin}/auth/callback`;
+
+      // 1. Si Supabase está configurado en .env.local, lanzamos su flujo OAuth real
+      const supabase = crearClienteNavegador();
+      if (supabase) {
+        const { data, error } = await supabase.auth.signInWithOAuth({
+          provider: proveedor,
+          options: {
+            redirectTo: redirectUri,
+          },
+        });
+        if (!error && data?.url) {
+          window.location.assign(data.url);
+          return;
+        }
+      }
+
+      // 2. Si hay CLIENT_ID directo de Google Cloud o Apple Developer en .env.local
+      const urlDirecta = construirUrlOAuthDirecta(
+        proveedor,
+        redirectUri,
+        encodeURIComponent(destinoFinal),
+      );
+      if (urlDirecta) {
+        window.location.assign(urlDirecta);
+        return;
+      }
+
+      // 3. Pasarela OAuth interactiva (/auth/oauth/google o /auth/oauth/apple)
+      const params = new URLSearchParams({
+        returnTo: destinoFinal,
+      });
+      router.push(`/auth/oauth/${proveedor}?${params.toString()}`);
+    },
+    [router],
+  );
+
   const cerrarSesion = useCallback(() => {
+    const supabase = crearClienteNavegador();
+    if (supabase) {
+      void supabase.auth.signOut();
+    }
+    try {
+      window.localStorage.removeItem(CLAVE_STORAGE_PERFIL);
+    } catch {}
     setUsuarioActual(null);
   }, []);
 
@@ -216,6 +350,7 @@ export function ProveedorAuth({ children }: { children: React.ReactNode }) {
       hidratado,
       usuarioActual,
       registrarOIniciarPerfil,
+      iniciarSesionConProveedor,
       cerrarSesion,
       registrarSelloGps,
       registrarTicketVerificado,
@@ -225,6 +360,7 @@ export function ProveedorAuth({ children }: { children: React.ReactNode }) {
       hidratado,
       usuarioActual,
       registrarOIniciarPerfil,
+      iniciarSesionConProveedor,
       cerrarSesion,
       registrarSelloGps,
       registrarTicketVerificado,
