@@ -19,16 +19,12 @@
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
+import { useAuth } from '@/lib/auth/contexto';
 import { BARRIOS_DEMO } from '@/lib/datos/demo';
 
 type Props = {
   proveedor: 'google' | 'apple';
 };
-
-function generarCodigoOAuth(proveedor: string, email: string): string {
-  const base = email.replace(/[^a-z0-9]/gi, '').slice(0, 8) || 'usr';
-  return `4/0AfJohX_${proveedor}_${base}_verified`;
-}
 
 const CUENTAS_RAPIDAS_GOOGLE = [
   {
@@ -48,6 +44,7 @@ const CUENTAS_RAPIDAS_GOOGLE = [
 export function PasarelaOAuthCliente({ proveedor }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { registrarOIniciarPerfil } = useAuth();
   const returnTo = searchParams.get('returnTo') || '/perfil/marcos-padrino';
 
   const esGoogle = proveedor === 'google';
@@ -68,19 +65,14 @@ export function PasarelaOAuthCliente({ proveedor }: Props) {
 
   function completarAutorizacionOAuth(emailFinal: string, nombreFinal: string) {
     setRedirigiendo(true);
-    const codigoOAuth = generarCodigoOAuth(proveedor, emailFinal);
-    const params = new URLSearchParams({
-      provider: proveedor,
-      code: codigoOAuth,
+    registrarOIniciarPerfil({
       email: emailFinal.trim().toLowerCase(),
-      name: nombreFinal.trim(),
-      barrio: barrioElegido,
-      returnTo,
+      nombre: nombreFinal.trim() || 'Crítico Verificado',
+      metodoAuth: proveedor,
+      barrioBase: barrioElegido,
+      salsaFavorita: 'Mixta Chorreo',
     });
-
-    window.setTimeout(() => {
-      router.push(`/auth/callback?${params.toString()}`);
-    }, 350);
+    router.push(returnTo);
   }
 
   function manejarSubmitPersonalizado(e: React.FormEvent) {

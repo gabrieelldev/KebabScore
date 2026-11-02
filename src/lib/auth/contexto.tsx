@@ -1,29 +1,19 @@
 // =====================================================================
-// Contexto de Autenticación y Perfil de Crítico (src/lib/auth/contexto.tsx)
+// Contexto de Autenticación y Base de Perfiles (src/lib/auth/contexto.tsx)
 // ---------------------------------------------------------------------
 // Explicación para 1.º de DAW:
-// - Cuando un usuario entra por primera vez, `usuarioActual` es `null`.
-// - Para ver su perfil o publicar un ticket de reseña, debe crearse su
-//   ficha de crítico iniciando sesión con:
-//     1. Google OAuth (`iniciarSesionConProveedor('google')`)
-//     2. Apple ID (`iniciarSesionConProveedor('apple')`)
-//     3. Correo electrónico (Registro directo / Magic Link)
-// - Cómo funciona la redirección OAuth al pulsar Google o Apple:
-//     A) Si `.env.local` tiene `NEXT_PUBLIC_SUPABASE_URL` y
-//        `NEXT_PUBLIC_SUPABASE_ANON_KEY`, llama a
-//        `supabase.auth.signInWithOAuth({ provider })`, que redirige a
-//        `accounts.google.com` o `appleid.apple.com` y vuelve a `/auth/callback`.
-//     B) Si `.env.local` tiene `NEXT_PUBLIC_GOOGLE_CLIENT_ID` o
-//        `NEXT_PUBLIC_APPLE_CLIENT_ID`, redirige directamente a la URL
-//        oficial OAuth 2.0 de Google/Apple.
-//     C) Si aún no hay claves en `.env.local`, redirige a la Pasarela
-//        OAuth (`/auth/oauth/google` o `/auth/oauth/apple`), que reproduce
-//        el selector de cuentas de Google/Apple y redirige a `/auth/callback`.
+// - Gestiona la sesión activa (`usuarioActual`) y también una base de
+//   datos local de perfiles registrados (`kebabscore_cuentas_registradas_v1`)
+//   además de sincronizar con Supabase Auth si `.env.local` tiene claves.
+// - Cuando inicias sesión con Google, Apple o Correo:
+//     1. Si tu correo ya tenía un perfil registrado, recupera tu nivel,
+//        tu XP, tus tickets verificados y tus sellos GPS.
+//     2. Si es la primera vez que entras, crea tu ficha de Crítico con
+//        +100 XP de bienvenida y la guarda inmediatamente como tu perfil.
 // =====================================================================
 
 'use client';
 
-import { useRouter } from 'next/navigation';
 import {
   createContext,
   useCallback,
@@ -33,10 +23,7 @@ import {
   useState,
 } from 'react';
 import type { ResenaTicket } from '@/lib/datos/tipos';
-import {
-  construirUrlOAuthDirecta,
-  crearClienteNavegador,
-} from '@/lib/supabase/browser';
+import { crearClienteNavegador } from '@/lib/supabase/browser';
 
 export type MetodoAuth = 'email' | 'google' | 'apple';
 
@@ -71,10 +58,11 @@ export type PerfilUsuario = {
   sellosGps: Record<string, { fechaIso: string; distanciaMetros: number }>;
 };
 
-const CLAVE_STORAGE_PERFIL = 'kebabscore_perfil_usuario_v1';
+const CLAVE_SESION_ACTIVA = 'kebabscore_perfil_usuario_v1';
+const CLAVE_CUENTAS_GUARDADAS = 'kebabscore_cuentas_registradas_v1';
 export const CLAVE_RETORNO_OAUTH = 'kebabscore_oauth_return_to';
 
-type DatosRegistro = {
+export type DatosRegistro = {
   email: string;
   nombre: string;
   metodoAuth: MetodoAuth;
@@ -85,11 +73,8 @@ type DatosRegistro = {
 type ContextoAuthValor = {
   hidratado: boolean;
   usuarioActual: PerfilUsuario | null;
+  cuentasGuardadas: PerfilUsuario[];
   registrarOIniciarPerfil: (datos: DatosRegistro) => PerfilUsuario;
-  iniciarSesionConProveedor: (
-    proveedor: 'google' | 'apple',
-    rutaRetorno?: string,
-  ) => Promise<void>;
   cerrarSesion: () => void;
   registrarSelloGps: (localSlug: string, distanciaMetros: number) => void;
   registrarTicketVerificado: (
@@ -120,19 +105,47 @@ function crearSlugAlias(nombre: string): string {
   );
 }
 
+function leerMapaCuentas(): Record<string, PerfilUsuario> {
+  if (typeof window === 'undefined') return {};
+  try {
+    const raw = window.localStorage.getItem(CLAVE_CUENTAS_GUARDADAS);
+    if (!raw) return {};
+    const parsed = JSON.parse(raw) as Record<string, PerfilUsuario>;
+    return parsed && typeof parsed === 'object' ? parsed : {};
+  } catch {
+    return {};
+  }
+}
+
+function guardarPerfilEnStorage(perfil: PerfilUsuario) {
+  if (typeof window === 'undefined') return;
+  try {
+    window.localStorage.setItem(CLAVE_SESION_ACTIVA, JSON.stringify(perfil));
+    const mapa = leerMapaCuentas();
+    mapa[perfil.email.toLowerCase()] = perfil;
+    window.localStorage.setItem(CLAVE_CUENTAS_GUARDADAS, JSON.stringify(mapa));
+  } catch {
+    // Ignoramos errores de cuota de localStorage
+  }
+}
+
 export function ProveedorAuth({ children }: { children: React.ReactNode }) {
-  const router = useRouter();
   const [hidratado, setHidratado] = useState(false);
   const [usuarioActual, setUsuarioActual] = useState<PerfilUsuario | null>(null);
+  const [cuentasGuardadas, setCuentasGuardadas] = useState<PerfilUsuario[]>([]);
 
+  // Hidratación inicial desde localStorage sin sobrescribir si ya se inició sesión
   useEffect(() => {
     const id = window.requestAnimationFrame(() => {
       try {
-        const guardado = window.localStorage.getItem(CLAVE_STORAGE_PERFIL);
+        const mapa = leerMapaCuentas();
+        setCuentasGuardadas(Object.values(mapa));
+
+        const guardado = window.localStorage.getItem(CLAVE_SESION_ACTIVA);
         if (guardado) {
           const parsed = JSON.parse(guardado) as PerfilUsuario;
           if (parsed && parsed.email && parsed.nombre) {
-            setUsuarioActual(parsed);
+            setUsuarioActual((prev) => prev ?? parsed);
           }
         }
       } catch {
@@ -151,7 +164,7 @@ export function ProveedorAuth({ children }: { children: React.ReactNode }) {
 
     const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
       if (session?.user?.email) {
-        const email = session.user.email;
+        const email = session.user.email.toLowerCase();
         const meta = session.user.user_metadata ?? {};
         const nombre =
           (meta.full_name as string | undefined) ||
@@ -167,10 +180,11 @@ export function ProveedorAuth({ children }: { children: React.ReactNode }) {
               : 'email';
 
         setUsuarioActual((prev) => {
-          if (prev && prev.email.toLowerCase() === email.toLowerCase()) {
+          if (prev && prev.email.toLowerCase() === email) {
             return prev;
           }
-          return {
+          const existente = leerMapaCuentas()[email];
+          const perfil: PerfilUsuario = existente ?? {
             id: session.user.id,
             email,
             nombre,
@@ -185,6 +199,9 @@ export function ProveedorAuth({ children }: { children: React.ReactNode }) {
             ticketsPublicados: [],
             sellosGps: {},
           };
+          guardarPerfilEnStorage(perfil);
+          setCuentasGuardadas(Object.values(leerMapaCuentas()));
+          return perfil;
         });
       }
     });
@@ -194,95 +211,57 @@ export function ProveedorAuth({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
+  // Cada vez que cambia `usuarioActual` (por ganar XP, subir ticket o fichar GPS),
+  // actualizamos tanto la sesión activa como la base de perfiles registrados.
   useEffect(() => {
     if (!hidratado) return;
-    try {
-      if (usuarioActual) {
-        window.localStorage.setItem(
-          CLAVE_STORAGE_PERFIL,
-          JSON.stringify(usuarioActual),
-        );
-      } else {
-        window.localStorage.removeItem(CLAVE_STORAGE_PERFIL);
-      }
-    } catch {}
+    if (usuarioActual) {
+      guardarPerfilEnStorage(usuarioActual);
+    }
   }, [hidratado, usuarioActual]);
 
-  const registrarOIniciarPerfil = useCallback((datos: DatosRegistro): PerfilUsuario => {
-    const nuevoPerfil: PerfilUsuario = {
-      id: `usr-${Date.now()}`,
-      email: datos.email.trim().toLowerCase(),
-      nombre: datos.nombre.trim(),
-      alias: crearSlugAlias(datos.nombre),
-      iniciales: calcularIniciales(datos.nombre),
-      metodoAuth: datos.metodoAuth,
-      barrioBase: datos.barrioBase,
-      salsaFavorita: datos.salsaFavorita,
-      nivel: 1,
-      xp: 100, // Bono de bienvenida por crear su ficha de crítico
-      creadoEn: new Date().toISOString(),
-      ticketsPublicados: [],
-      sellosGps: {},
-    };
-    // Guardamos también sincrónicamente para que al redirigir en OAuth esté disponible al instante
-    try {
-      window.localStorage.setItem(
-        CLAVE_STORAGE_PERFIL,
-        JSON.stringify(nuevoPerfil),
-      );
-    } catch {}
-    setUsuarioActual(nuevoPerfil);
-    return nuevoPerfil;
-  }, []);
+  const registrarOIniciarPerfil = useCallback(
+    (datos: DatosRegistro): PerfilUsuario => {
+      const correoLimpio = datos.email.trim().toLowerCase();
+      const nombreLimpio =
+        datos.nombre.trim() || correoLimpio.split('@')[0] || 'Crítico Nocturno';
 
-  const iniciarSesionConProveedor = useCallback(
-    async (proveedor: 'google' | 'apple', rutaRetorno?: string) => {
-      const destinoFinal =
-        rutaRetorno ||
-        (typeof window !== 'undefined' &&
-        window.location.pathname !== '/entrar'
-          ? window.location.pathname
-          : '/perfil/marcos-padrino');
+      const mapa = leerMapaCuentas();
+      const cuentaPrevia = mapa[correoLimpio];
 
-      try {
-        window.sessionStorage.setItem(CLAVE_RETORNO_OAUTH, destinoFinal);
-      } catch {}
+      const perfilFinal: PerfilUsuario = cuentaPrevia
+        ? {
+            ...cuentaPrevia,
+            nombre: nombreLimpio || cuentaPrevia.nombre,
+            alias: crearSlugAlias(nombreLimpio || cuentaPrevia.nombre),
+            iniciales: calcularIniciales(nombreLimpio || cuentaPrevia.nombre),
+            metodoAuth: datos.metodoAuth,
+            barrioBase: datos.barrioBase || cuentaPrevia.barrioBase,
+            salsaFavorita: datos.salsaFavorita || cuentaPrevia.salsaFavorita,
+          }
+        : {
+            id: `usr-${Date.now()}`,
+            email: correoLimpio,
+            nombre: nombreLimpio,
+            alias: crearSlugAlias(nombreLimpio),
+            iniciales: calcularIniciales(nombreLimpio),
+            metodoAuth: datos.metodoAuth,
+            barrioBase: datos.barrioBase,
+            salsaFavorita: datos.salsaFavorita,
+            nivel: 1,
+            xp: 100, // Bono de bienvenida por crear su ficha de crítico
+            creadoEn: new Date().toISOString(),
+            ticketsPublicados: [],
+            sellosGps: {},
+          };
 
-      const redirectUri = `${window.location.origin}/auth/callback`;
-
-      // 1. Si Supabase está configurado en .env.local, lanzamos su flujo OAuth real
-      const supabase = crearClienteNavegador();
-      if (supabase) {
-        const { data, error } = await supabase.auth.signInWithOAuth({
-          provider: proveedor,
-          options: {
-            redirectTo: redirectUri,
-          },
-        });
-        if (!error && data?.url) {
-          window.location.assign(data.url);
-          return;
-        }
-      }
-
-      // 2. Si hay CLIENT_ID directo de Google Cloud o Apple Developer en .env.local
-      const urlDirecta = construirUrlOAuthDirecta(
-        proveedor,
-        redirectUri,
-        encodeURIComponent(destinoFinal),
-      );
-      if (urlDirecta) {
-        window.location.assign(urlDirecta);
-        return;
-      }
-
-      // 3. Pasarela OAuth interactiva (/auth/oauth/google o /auth/oauth/apple)
-      const params = new URLSearchParams({
-        returnTo: destinoFinal,
-      });
-      router.push(`/auth/oauth/${proveedor}?${params.toString()}`);
+      guardarPerfilEnStorage(perfilFinal);
+      setCuentasGuardadas(Object.values(leerMapaCuentas()));
+      setUsuarioActual(perfilFinal);
+      setHidratado(true);
+      return perfilFinal;
     },
-    [router],
+    [],
   );
 
   const cerrarSesion = useCallback(() => {
@@ -291,7 +270,7 @@ export function ProveedorAuth({ children }: { children: React.ReactNode }) {
       void supabase.auth.signOut();
     }
     try {
-      window.localStorage.removeItem(CLAVE_STORAGE_PERFIL);
+      window.localStorage.removeItem(CLAVE_SESION_ACTIVA);
     } catch {}
     setUsuarioActual(null);
   }, []);
@@ -300,7 +279,7 @@ export function ProveedorAuth({ children }: { children: React.ReactNode }) {
     (localSlug: string, distanciaMetros: number) => {
       setUsuarioActual((prev) => {
         if (!prev) return prev;
-        return {
+        const actualizado: PerfilUsuario = {
           ...prev,
           sellosGps: {
             ...prev.sellosGps,
@@ -310,6 +289,8 @@ export function ProveedorAuth({ children }: { children: React.ReactNode }) {
             },
           },
         };
+        guardarPerfilEnStorage(actualizado);
+        return actualizado;
       });
     },
     [],
@@ -321,12 +302,14 @@ export function ProveedorAuth({ children }: { children: React.ReactNode }) {
         if (!prev) return prev;
         const nuevoXp = prev.xp + xpGanado;
         const nuevoNivel = Math.max(1, Math.floor(nuevoXp / 500) + 1);
-        return {
+        const actualizado: PerfilUsuario = {
           ...prev,
           xp: nuevoXp,
           nivel: nuevoNivel,
           ticketsPublicados: [ticket, ...prev.ticketsPublicados],
         };
+        guardarPerfilEnStorage(actualizado);
+        return actualizado;
       });
     },
     [],
@@ -337,11 +320,13 @@ export function ProveedorAuth({ children }: { children: React.ReactNode }) {
       if (!prev) return prev;
       const nuevoXp = prev.xp + puntos;
       const nuevoNivel = Math.max(1, Math.floor(nuevoXp / 500) + 1);
-      return {
+      const actualizado: PerfilUsuario = {
         ...prev,
         xp: nuevoXp,
         nivel: nuevoNivel,
       };
+      guardarPerfilEnStorage(actualizado);
+      return actualizado;
     });
   }, []);
 
@@ -349,8 +334,8 @@ export function ProveedorAuth({ children }: { children: React.ReactNode }) {
     () => ({
       hidratado,
       usuarioActual,
+      cuentasGuardadas,
       registrarOIniciarPerfil,
-      iniciarSesionConProveedor,
       cerrarSesion,
       registrarSelloGps,
       registrarTicketVerificado,
@@ -359,8 +344,8 @@ export function ProveedorAuth({ children }: { children: React.ReactNode }) {
     [
       hidratado,
       usuarioActual,
+      cuentasGuardadas,
       registrarOIniciarPerfil,
-      iniciarSesionConProveedor,
       cerrarSesion,
       registrarSelloGps,
       registrarTicketVerificado,
