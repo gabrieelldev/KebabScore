@@ -119,7 +119,7 @@ export function BotonCheckinRapido24h({
             className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-lg border border-[#FF7A1F]/40 bg-[#FF7A1F]/15 py-2 font-ticket text-[11px] font-bold uppercase text-[#FF7A1F] hover:bg-[#FF7A1F]/25"
           >
             <Icono nombre="person" className="h-3.5 w-3.5" />
-            <span>Inicia sesión (Google / Apple / Email) para fichar GPS</span>
+            <span>Inicia sesión con tu correo para fichar GPS</span>
           </Link>
         ) : selloExistente ? (
           <div className="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-lg border border-[#2ECC71]/40 bg-[#2ECC71]/15 px-3 py-2 font-ticket text-[11px] text-[#2ECC71]">

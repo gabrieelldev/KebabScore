@@ -132,7 +132,7 @@ export function MisionesYPerfilCliente({ aliasUsuario }: Props) {
               ? 'CREA TU PERFIL PARA VER TU FICHA'
               : 'IDENTIFÍCATE PARA DESBLOQUEAR MISIONES'
           }
-          subtituloPersonalizado="Crea tu cuenta en 10 segundos con tu correo electrónico, Google o Apple para guardar tus tickets verificados, tu nivel XP y tus pegatinas de escaparate."
+          subtituloPersonalizado="Crea tu cuenta en 10 segundos con tu correo electrónico y contraseña para guardar tus tickets verificados, tu nivel XP y tus pegatinas de escaparate."
         />
       </div>
     );

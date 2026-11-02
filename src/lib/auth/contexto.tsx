@@ -1,15 +1,16 @@
 // =====================================================================
-// Contexto de Autenticación y Base de Perfiles (src/lib/auth/contexto.tsx)
+// Contexto de Autenticación con Correo y Contraseña (src/lib/auth/contexto.tsx)
 // ---------------------------------------------------------------------
 // Explicación para 1.º de DAW:
-// - Gestiona la sesión activa (`usuarioActual`) y también una base de
-//   datos local de perfiles registrados (`kebabscore_cuentas_registradas_v1`)
-//   además de sincronizar con Supabase Auth si `.env.local` tiene claves.
-// - Cuando inicias sesión con Google, Apple o Correo:
-//     1. Si tu correo ya tenía un perfil registrado, recupera tu nivel,
-//        tu XP, tus tickets verificados y tus sellos GPS.
-//     2. Si es la primera vez que entras, crea tu ficha de Crítico con
-//        +100 XP de bienvenida y la guarda inmediatamente como tu perfil.
+// - Permite al usuario:
+//     1. REGISTRARSE (`registrarCuenta`) con su correo electrónico,
+//        contraseña, alias de crítico, barrio base de Málaga y salsa.
+//     2. INICIAR SESIÓN (`iniciarSesion`) con su correo y contraseña,
+//        recuperando su perfil guardado (nivel, XP, tickets y sellos GPS).
+// - Guarda las cuentas registradas en `localStorage`
+//   (`kebabscore_cuentas_registradas_v1`) y la sesión activa en
+//   `kebabscore_perfil_usuario_v1` (además de conectarse con
+//   `supabase.auth.signUp` / `signInWithPassword` si `.env.local` tiene claves).
 // =====================================================================
 
 'use client';
@@ -56,6 +57,8 @@ export type PerfilUsuario = {
   ticketsPublicados: TicketUsuarioVerificado[];
   /** Mapa slugLocal -> fecha ISO del check-in GPS (válido durante 24 horas) */
   sellosGps: Record<string, { fechaIso: string; distanciaMetros: number }>;
+  /** Huella de contraseña para validar el inicio de sesión */
+  passwordGuardada?: string;
 };
 
 const CLAVE_SESION_ACTIVA = 'kebabscore_perfil_usuario_v1';
@@ -64,16 +67,23 @@ export const CLAVE_RETORNO_OAUTH = 'kebabscore_oauth_return_to';
 
 export type DatosRegistro = {
   email: string;
+  password?: string;
   nombre: string;
-  metodoAuth: MetodoAuth;
+  metodoAuth?: MetodoAuth;
   barrioBase: string;
   salsaFavorita: 'Mixta Chorreo' | 'Roja Picante' | 'Blanca Yogur';
 };
+
+export type ResultadoAuth =
+  | { ok: true; perfil: PerfilUsuario }
+  | { ok: false; error: string };
 
 type ContextoAuthValor = {
   hidratado: boolean;
   usuarioActual: PerfilUsuario | null;
   cuentasGuardadas: PerfilUsuario[];
+  registrarCuenta: (datos: DatosRegistro) => ResultadoAuth;
+  iniciarSesion: (email: string, password: string) => ResultadoAuth;
   registrarOIniciarPerfil: (datos: DatosRegistro) => PerfilUsuario;
   cerrarSesion: () => void;
   registrarSelloGps: (localSlug: string, distanciaMetros: number) => void;
@@ -134,7 +144,7 @@ export function ProveedorAuth({ children }: { children: React.ReactNode }) {
   const [usuarioActual, setUsuarioActual] = useState<PerfilUsuario | null>(null);
   const [cuentasGuardadas, setCuentasGuardadas] = useState<PerfilUsuario[]>([]);
 
-  // Hidratación inicial desde localStorage sin sobrescribir si ya se inició sesión
+  // Hidratación inicial desde localStorage
   useEffect(() => {
     const id = window.requestAnimationFrame(() => {
       try {
@@ -157,62 +167,7 @@ export function ProveedorAuth({ children }: { children: React.ReactNode }) {
     return () => window.cancelAnimationFrame(id);
   }, []);
 
-  // Sincronización con Supabase Auth si está configurado en .env.local
-  useEffect(() => {
-    const supabase = crearClienteNavegador();
-    if (!supabase) return;
-
-    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (session?.user?.email) {
-        const email = session.user.email.toLowerCase();
-        const meta = session.user.user_metadata ?? {};
-        const nombre =
-          (meta.full_name as string | undefined) ||
-          (meta.name as string | undefined) ||
-          email.split('@')[0] ||
-          'Crítico Nocturno';
-        const rawProvider = session.user.app_metadata?.provider;
-        const metodoAuth: MetodoAuth =
-          rawProvider === 'apple'
-            ? 'apple'
-            : rawProvider === 'google'
-              ? 'google'
-              : 'email';
-
-        setUsuarioActual((prev) => {
-          if (prev && prev.email.toLowerCase() === email) {
-            return prev;
-          }
-          const existente = leerMapaCuentas()[email];
-          const perfil: PerfilUsuario = existente ?? {
-            id: session.user.id,
-            email,
-            nombre,
-            alias: crearSlugAlias(nombre),
-            iniciales: calcularIniciales(nombre),
-            metodoAuth,
-            barrioBase: 'Centro Histórico',
-            salsaFavorita: 'Mixta Chorreo',
-            nivel: 1,
-            xp: 100,
-            creadoEn: new Date().toISOString(),
-            ticketsPublicados: [],
-            sellosGps: {},
-          };
-          guardarPerfilEnStorage(perfil);
-          setCuentasGuardadas(Object.values(leerMapaCuentas()));
-          return perfil;
-        });
-      }
-    });
-
-    return () => {
-      sub.subscription.unsubscribe();
-    };
-  }, []);
-
-  // Cada vez que cambia `usuarioActual` (por ganar XP, subir ticket o fichar GPS),
-  // actualizamos tanto la sesión activa como la base de perfiles registrados.
+  // Sincronización de cambios del perfil (XP, tickets, sellos GPS)
   useEffect(() => {
     if (!hidratado) return;
     if (usuarioActual) {
@@ -235,9 +190,11 @@ export function ProveedorAuth({ children }: { children: React.ReactNode }) {
             nombre: nombreLimpio || cuentaPrevia.nombre,
             alias: crearSlugAlias(nombreLimpio || cuentaPrevia.nombre),
             iniciales: calcularIniciales(nombreLimpio || cuentaPrevia.nombre),
-            metodoAuth: datos.metodoAuth,
+            metodoAuth: datos.metodoAuth ?? 'email',
             barrioBase: datos.barrioBase || cuentaPrevia.barrioBase,
             salsaFavorita: datos.salsaFavorita || cuentaPrevia.salsaFavorita,
+            passwordGuardada:
+              datos.password ?? cuentaPrevia.passwordGuardada ?? '',
           }
         : {
             id: `usr-${Date.now()}`,
@@ -245,7 +202,7 @@ export function ProveedorAuth({ children }: { children: React.ReactNode }) {
             nombre: nombreLimpio,
             alias: crearSlugAlias(nombreLimpio),
             iniciales: calcularIniciales(nombreLimpio),
-            metodoAuth: datos.metodoAuth,
+            metodoAuth: datos.metodoAuth ?? 'email',
             barrioBase: datos.barrioBase,
             salsaFavorita: datos.salsaFavorita,
             nivel: 1,
@@ -253,6 +210,7 @@ export function ProveedorAuth({ children }: { children: React.ReactNode }) {
             creadoEn: new Date().toISOString(),
             ticketsPublicados: [],
             sellosGps: {},
+            passwordGuardada: datos.password ?? '',
           };
 
       guardarPerfilEnStorage(perfilFinal);
@@ -260,6 +218,125 @@ export function ProveedorAuth({ children }: { children: React.ReactNode }) {
       setUsuarioActual(perfilFinal);
       setHidratado(true);
       return perfilFinal;
+    },
+    [],
+  );
+
+  const registrarCuenta = useCallback(
+    (datos: DatosRegistro): ResultadoAuth => {
+      const correoLimpio = datos.email.trim().toLowerCase();
+      const passwordLimpia = (datos.password ?? '').trim();
+      const nombreLimpio = datos.nombre.trim();
+
+      if (!correoLimpio.includes('@') || !correoLimpio.includes('.')) {
+        return {
+          ok: false,
+          error: 'Introduce un correo electrónico válido (ej. tu@correo.es).',
+        };
+      }
+      if (passwordLimpia.length < 6) {
+        return {
+          ok: false,
+          error: 'La contraseña debe tener al menos 6 caracteres.',
+        };
+      }
+      if (nombreLimpio.length < 2) {
+        return {
+          ok: false,
+          error: 'Elige tu nombre o alias de crítico (mínimo 2 caracteres).',
+        };
+      }
+
+      const mapa = leerMapaCuentas();
+      if (mapa[correoLimpio]) {
+        return {
+          ok: false,
+          error:
+            'Ya existe un perfil con ese correo. Cambia a la pestaña "Iniciar Sesión".',
+        };
+      }
+
+      // Si Supabase está configurado en .env.local, registramos también en Supabase Auth
+      const supabase = crearClienteNavegador();
+      if (supabase) {
+        void supabase.auth.signUp({
+          email: correoLimpio,
+          password: passwordLimpia,
+          options: {
+            data: {
+              full_name: nombreLimpio,
+              barrio_base: datos.barrioBase,
+              salsa_favorita: datos.salsaFavorita,
+            },
+          },
+        });
+      }
+
+      const perfil = registrarOIniciarPerfil({
+        ...datos,
+        email: correoLimpio,
+        password: passwordLimpia,
+        nombre: nombreLimpio,
+        metodoAuth: 'email',
+      });
+
+      return { ok: true, perfil };
+    },
+    [registrarOIniciarPerfil],
+  );
+
+  const iniciarSesion = useCallback(
+    (email: string, password: string): ResultadoAuth => {
+      const correoLimpio = email.trim().toLowerCase();
+      const passwordLimpia = password.trim();
+
+      if (!correoLimpio.includes('@') || !correoLimpio.includes('.')) {
+        return {
+          ok: false,
+          error: 'Introduce un correo electrónico válido.',
+        };
+      }
+      if (!passwordLimpia) {
+        return {
+          ok: false,
+          error: 'Introduce tu contraseña.',
+        };
+      }
+
+      const mapa = leerMapaCuentas();
+      const cuenta = mapa[correoLimpio];
+
+      if (!cuenta) {
+        return {
+          ok: false,
+          error:
+            'No hay ningún perfil registrado con ese correo. Ve a la pestaña "Crear Cuenta".',
+        };
+      }
+
+      if (
+        cuenta.passwordGuardada &&
+        cuenta.passwordGuardada !== passwordLimpia
+      ) {
+        return {
+          ok: false,
+          error: 'La contraseña no coincide con la de ese perfil.',
+        };
+      }
+
+      // Si Supabase está configurado, iniciamos sesión también en Supabase
+      const supabase = crearClienteNavegador();
+      if (supabase) {
+        void supabase.auth.signInWithPassword({
+          email: correoLimpio,
+          password: passwordLimpia,
+        });
+      }
+
+      guardarPerfilEnStorage(cuenta);
+      setUsuarioActual(cuenta);
+      setHidratado(true);
+      return { ok: true, perfil: cuenta };
     },
     [],
   );
@@ -335,6 +412,8 @@ export function ProveedorAuth({ children }: { children: React.ReactNode }) {
       hidratado,
       usuarioActual,
       cuentasGuardadas,
+      registrarCuenta,
+      iniciarSesion,
       registrarOIniciarPerfil,
       cerrarSesion,
       registrarSelloGps,
@@ -345,6 +424,8 @@ export function ProveedorAuth({ children }: { children: React.ReactNode }) {
       hidratado,
       usuarioActual,
       cuentasGuardadas,
+      registrarCuenta,
+      iniciarSesion,
       registrarOIniciarPerfil,
       cerrarSesion,
       registrarSelloGps,
