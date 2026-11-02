@@ -1,18 +1,25 @@
 // =====================================================================
-// Layout raíz · incluye las ascuas flotantes de Stitch, ProveedorCreador
-// y la BarraPulgar inferior.
+// Layout raíz · PWA + Capacitor Ready + ProveedorCreador + BarraPulgar
 // =====================================================================
 
 import '@fontsource/anton/latin-400.css';
 import '@fontsource-variable/dm-sans';
 import '@fontsource/space-mono/latin-400.css';
 import '@fontsource/space-mono/latin-700.css';
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Suspense } from 'react';
 import { BarraPulgar, Cabecera } from '@/components/layout/Cabecera';
+import { InstaladorPwa } from '@/components/pwa/InstaladorPwa';
 import { ProveedorCreador } from '@/lib/creador/contexto';
 import { SCRIPT_TEMA_INICIAL } from '@/lib/tema';
 import './globals.css';
+
+export const viewport: Viewport = {
+  themeColor: '#120F0D',
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+};
 
 export const metadata: Metadata = {
   title: {
@@ -21,6 +28,15 @@ export const metadata: Metadata = {
   },
   description:
     'Encuentra dónde cenar esta noche en Málaga. Valoramos el kebab (carne, salsas, pan, tamaño/precio, verdura y horario nocturno), no el local.',
+  manifest: '/manifest.webmanifest',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'KebabScore',
+  },
+  formatDetection: {
+    telephone: false,
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -67,6 +83,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </Suspense>
 
           <main id="contenido-principal" className="relative z-20 flex-1 pt-20 pb-20">
+            <InstaladorPwa />
             {children}
           </main>
 

@@ -6,8 +6,13 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { CartaLuminosaCliente } from '@/components/kebab/CartaLuminosaCliente';
 import { obtenerDatosInicio } from '@/lib/datos/consultas';
+import { BARRIOS_DEMO } from '@/lib/datos/demo';
 
 type Params = Promise<{ slug: string }>;
+
+export function generateStaticParams() {
+  return BARRIOS_DEMO.map((b) => ({ slug: b.slug }));
+}
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { slug } = await params;

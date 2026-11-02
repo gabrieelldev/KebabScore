@@ -18,10 +18,14 @@ import { notFound } from 'next/navigation';
 import { TicketsLocalCliente } from '@/components/kebab/TicketsLocalCliente';
 import { Icono } from '@/components/ui/Icono';
 import { obtenerLocalPorSlug } from '@/lib/datos/consultas';
-import { FOTOS_STITCH } from '@/lib/datos/demo';
+import { FOTOS_STITCH, LOCALES_DEMO } from '@/lib/datos/demo';
 import { formatearNota, formatearPrecio, infoNivelPicante } from '@/lib/puntuacion';
 
 type Params = Promise<{ slug: string }>;
+
+export function generateStaticParams() {
+  return LOCALES_DEMO.map((l) => ({ slug: l.slug }));
+}
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { slug } = await params;

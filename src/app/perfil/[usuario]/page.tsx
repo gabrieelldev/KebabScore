@@ -7,6 +7,14 @@ import { MisionesYPerfilCliente } from '@/components/kebab/MisionesYPerfilClient
 
 type Params = Promise<{ usuario: string }>;
 
+export function generateStaticParams() {
+  return [
+    { usuario: 'marcos-padrino' },
+    { usuario: 'salva-doner99' },
+    { usuario: 'elena-callejera' },
+  ];
+}
+
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { usuario } = await params;
   return {

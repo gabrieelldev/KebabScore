@@ -1,0 +1,27 @@
+{
+  "appId": "es.malaga.kebabscore",
+  "appName": "KebabScore Málaga",
+  "webDir": "out",
+  "bundledWebRuntime": false,
+  "backgroundColor": "#120F0D",
+  "android": {
+    "backgroundColor": "#120F0D",
+    "allowMixedContent": false
+  },
+  "ios": {
+    "backgroundColor": "#120F0D",
+    "contentInset": "always"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 1400,
+      "backgroundColor": "#120F0D",
+      "androidSpinnerStyle": "small",
+      "spinnerColor": "#FF7A1F"
+    },
+    "StatusBar": {
+      "style": "DARK",
+      "backgroundColor": "#120F0D"
+    }
+  }
+}

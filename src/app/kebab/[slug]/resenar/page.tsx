@@ -6,8 +6,13 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { FormularioResenaCliente } from '@/components/kebab/FormularioResenaCliente';
 import { obtenerLocalPorSlug } from '@/lib/datos/consultas';
+import { LOCALES_DEMO } from '@/lib/datos/demo';
 
 type Params = Promise<{ slug: string }>;
+
+export function generateStaticParams() {
+  return LOCALES_DEMO.map((l) => ({ slug: l.slug }));
+}
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { slug } = await params;
