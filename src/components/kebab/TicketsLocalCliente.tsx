@@ -14,6 +14,7 @@
 
 import { useMemo, useState } from 'react';
 import { Icono } from '@/components/ui/Icono';
+import { useCreador } from '@/lib/creador/contexto';
 import type { ResenaTicket } from '@/lib/datos/tipos';
 import { formatearNota } from '@/lib/puntuacion';
 
@@ -33,14 +34,23 @@ export function TicketsLocalCliente({
   numResenasTotal,
   tickets,
 }: Props) {
+  const { hidratado, locales } = useCreador();
+  const localEnCreador = useMemo(
+    () => locales.find((l) => l.nombre === nombreLocal),
+    [locales, nombreLocal],
+  );
+  const listaTickets = hidratado && localEnCreador ? localEnCreador.tickets : tickets;
+  const totalResenas =
+    hidratado && localEnCreador ? localEnCreador.numResenas : numResenasTotal;
+
   const [filtro, setFiltro] = useState<'todos' | 'foto' | 'noche'>('todos');
   const [ticketStory, setTicketStory] = useState<ResenaTicket | null>(null);
   const [copiado, setCopiado] = useState(false);
 
   const ticketsFiltrados = useMemo(() => {
-    if (filtro === 'foto') return tickets.filter((t) => Boolean(t.fotoUrl));
+    if (filtro === 'foto') return listaTickets.filter((t) => Boolean(t.fotoUrl));
     if (filtro === 'noche') {
-      return tickets.filter(
+      return listaTickets.filter(
         (t) =>
           t.horaTexto.includes('02:') ||
           t.horaTexto.includes('03:') ||
@@ -48,8 +58,8 @@ export function TicketsLocalCliente({
           t.notas.night >= 8.8,
       );
     }
-    return tickets;
-  }, [tickets, filtro]);
+    return listaTickets;
+  }, [listaTickets, filtro]);
 
   async function compartirStory(ticket: ResenaTicket) {
     const texto = `🥙 ${nombreLocal} (${barrioNombre}) · TOTAL: ${formatearNota(ticket.notaTotal)}/10 en KebabScore Málaga — "${ticket.comentario}"`;
@@ -84,7 +94,7 @@ export function TicketsLocalCliente({
           </h2>
         </div>
         <span className="rounded border border-[#44372E]/50 bg-[#1B1613] px-2 py-1 font-ticket text-xs text-[#C9B9A6]">
-          MOSTRANDO {ticketsFiltrados.length}/{numResenasTotal}
+          MOSTRANDO {ticketsFiltrados.length}/{totalResenas}
         </span>
       </div>
 
@@ -99,7 +109,7 @@ export function TicketsLocalCliente({
               : 'border border-[#44372E]/60 bg-[#1B1613] text-[#C9B9A6] hover:text-[#F5EFE6]'
           }`}
         >
-          Todos ({numResenasTotal})
+          Todos ({totalResenas})
         </button>
         <button
           type="button"

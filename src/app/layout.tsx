@@ -10,6 +10,7 @@ import type { Metadata, Viewport } from 'next';
 import { Suspense } from 'react';
 import { BarraPulgar, Cabecera } from '@/components/layout/Cabecera';
 import { InstaladorPwa } from '@/components/pwa/InstaladorPwa';
+import { ProveedorAuth } from '@/lib/auth/contexto';
 import { ProveedorCreador } from '@/lib/creador/contexto';
 import { SCRIPT_TEMA_INICIAL } from '@/lib/tema';
 import './globals.css';
@@ -46,7 +47,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script dangerouslySetInnerHTML={{ __html: SCRIPT_TEMA_INICIAL }} />
       </head>
       <body className="flex min-h-screen flex-col overflow-x-hidden bg-surface font-body-md text-crema-100 selection:bg-brasa-orange selection:text-carbon-900">
-        <ProveedorCreador>
+        <ProveedorAuth>
+          <ProveedorCreador>
           {/* ASCUAS DECORATIVAS DEL ASADOR (partículas suaves de Stitch) */}
           <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-10 overflow-hidden">
             <span
@@ -90,7 +92,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Suspense fallback={null}>
             <BarraPulgar />
           </Suspense>
-        </ProveedorCreador>
+          </ProveedorCreador>
+        </ProveedorAuth>
       </body>
     </html>
   );

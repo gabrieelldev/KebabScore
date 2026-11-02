@@ -16,12 +16,14 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useRef } from 'react';
 import { Icono } from '@/components/ui/Icono';
+import { useAuth } from '@/lib/auth/contexto';
 import { useCreador } from '@/lib/creador/contexto';
 import { SelectorModo } from './SelectorModo';
 
 export function Cabecera() {
   const pathname = usePathname();
   const router = useRouter();
+  const { usuarioActual } = useAuth();
   const { modoCreadorActivo, activarAtajoCreador } = useCreador();
   const contadorClicsRef = useRef<{ clics: number; timer: number | null }>({
     clics: 0,
@@ -154,13 +156,24 @@ export function Cabecera() {
             )}
 
             <Link
-              href="/misiones"
-              aria-label="Perfil de Crítico Nocturno"
+              href="/perfil/marcos-padrino"
+              aria-label={
+                usuarioActual
+                  ? `Perfil de ${usuarioActual.nombre}`
+                  : 'Crear perfil o iniciar sesión'
+              }
               className="relative h-9 w-9 rounded-full bg-gradient-to-tr from-brasa-orange to-mostaza-gold p-0.5 shadow-[0_0_16px_rgba(255,122,31,0.22)] transition-transform hover:scale-105 active:scale-95"
             >
-              <span className="flex h-full w-full items-center justify-center rounded-full bg-carbon-800 text-primary">
-                <Icono nombre="person" className="h-[19px] w-[19px]" />
+              <span className="flex h-full w-full items-center justify-center rounded-full bg-carbon-800 font-ticket text-xs font-bold text-primary">
+                {usuarioActual ? (
+                  usuarioActual.iniciales
+                ) : (
+                  <Icono nombre="person" className="h-[19px] w-[19px]" />
+                )}
               </span>
+              {usuarioActual && (
+                <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border border-[#120F0D] bg-[#35C759]" />
+              )}
             </Link>
           </div>
         </div>

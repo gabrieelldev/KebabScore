@@ -1,29 +1,30 @@
 // =====================================================================
-// MisionesYPerfilCliente · Misiones, Retos Nocturnos, Insignias y Ranking
+// MisionesYPerfilCliente · Perfil Obligatorio + Misiones + Pegatinas
 // ---------------------------------------------------------------------
-// Reproduce la pantalla 5 de Stitch y está conectada en tiempo real con
-// el Panel de Creador (`/creador`):
-//   1. Banner de Eventos Especiales activos
-//   2. HUD del crítico nocturno conectado a `ajustes`
-//   3. Stream de misiones activas conectado a `misionesActivas`
-//   4. Recibo Térmico #4092 con botón interactivo "RECLAMAR +250 XP AHORA"
-//   5. Escaparate de Pegatinas conectado a `pegatinas`
-//   6. Tabla "RANKING DE LA PEÑA"
+// Explicación para 1.º de DAW:
+// - Si `usuarioActual === null`, muestra el formulario obligatorio para
+//   crear tu perfil con Google, Apple o Correo Electrónico.
+// - Una vez creado tu perfil, muestra tu ficha real (correo, proveedor
+//   de acceso, barrio base, salsa favorita, XP, tus tickets verificados
+//   y botón para cerrar sesión), además de los Retos Nocturnos, las
+//   Pegatinas de Escaparate y el Ranking de la Peña.
 // =====================================================================
 
 'use client';
 
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
+import { RegistroPerfilCliente } from '@/components/auth/RegistroPerfilCliente';
 import { BannerEventosEspeciales } from '@/components/creador/BannerEventosEspeciales';
 import { Icono } from '@/components/ui/Icono';
+import { useAuth } from '@/lib/auth/contexto';
 import {
   type CategoriaMision,
   type DificultadMision,
   type MisionCreador,
   useCreador,
 } from '@/lib/creador/contexto';
-import { FOTOS_STITCH } from '@/lib/datos/demo';
+import { formatearNota } from '@/lib/puntuacion';
 
 type FiltroCategoria = 'all' | CategoriaMision;
 type FiltroDificultad = 'all' | DificultadMision;
@@ -78,6 +79,7 @@ type Props = {
 };
 
 export function MisionesYPerfilCliente({ aliasUsuario }: Props) {
+  const { hidratado: authHidratado, usuarioActual, cerrarSesion, sumarXp } = useAuth();
   const {
     modoCreadorActivo,
     misionesActivas,
@@ -89,10 +91,6 @@ export function MisionesYPerfilCliente({ aliasUsuario }: Props) {
   const [categoria, setCategoria] = useState<FiltroCategoria>('all');
   const [dificultad, setDificultad] = useState<FiltroDificultad>('all');
   const [reclamado4092, setReclamado4092] = useState(false);
-
-  const xpActual = ajustes.xpBaseCritico + (reclamado4092 ? 250 : 0);
-  const xpMeta = 3000;
-  const porcentajeXp = Math.min(100, Math.round((xpActual / xpMeta) * 100));
 
   const misionesFiltradas = useMemo(() => {
     return misionesActivas.filter((m) => {
@@ -115,22 +113,49 @@ export function MisionesYPerfilCliente({ aliasUsuario }: Props) {
     setDificultad('all');
   }
 
-  const nombreMostrar = useMemo(() => {
-    if (!aliasUsuario || aliasUsuario === 'marcos-padrino') {
-      return ajustes.nombreCritico;
-    }
-    return aliasUsuario.replace(/-/g, ' ').toUpperCase();
-  }, [aliasUsuario, ajustes.nombreCritico]);
+  if (!authHidratado) {
+    return (
+      <div className="mx-auto max-w-lg px-4 py-12 text-center font-ticket text-xs text-[#C9B9A6]">
+        Comprobando tu ficha de crítico…
+      </div>
+    );
+  }
 
+  // Si aún NO se ha creado un perfil, exigimos crearse uno con Email, Google o Apple
+  if (!usuarioActual) {
+    return (
+      <div className="mx-auto max-w-lg pb-12">
+        <BannerEventosEspeciales />
+        <RegistroPerfilCliente
+          tituloPersonalizado={
+            aliasUsuario
+              ? 'CREA TU PERFIL PARA VER TU FICHA'
+              : 'IDENTIFÍCATE PARA DESBLOQUEAR MISIONES'
+          }
+          subtituloPersonalizado="Crea tu cuenta en 10 segundos con tu correo electrónico, Google o Apple para guardar tus tickets verificados, tu nivel XP y tus pegatinas de escaparate."
+        />
+      </div>
+    );
+  }
+
+  const xpActual = usuarioActual.xp;
+  const xpMeta = usuarioActual.nivel * 500 + 500;
+  const porcentajeXp = Math.min(100, Math.round((xpActual / xpMeta) * 100));
   const pegatinasDesbloqueadas = pegatinas.filter((p) => p.desbloqueada).length;
+
+  const etiquetaProveedor =
+    usuarioActual.metodoAuth === 'google'
+      ? 'GOOGLE VERIFICADO'
+      : usuarioActual.metodoAuth === 'apple'
+        ? 'APPLE ID VERIFICADO'
+        : 'CORREO VERIFICADO';
 
   return (
     <div className="mx-auto max-w-lg pb-12">
-      {/* Eventos Especiales activos gestionados desde /creador */}
       <BannerEventosEspeciales />
 
       <div className="space-y-6 px-4 pt-5">
-        {/* ============ 1. HUD GAMIFICADO DEL CRÍTICO NOCTURNO ============ */}
+        {/* ============ 1. HUD REAL DEL PERFIL DEL USUARIO ============ */}
         <section aria-label="Perfil y nivel de experiencia" className="relative">
           <div className="relative overflow-hidden rounded-xl border border-[#44372E]/60 bg-gradient-to-br from-[#241D18] via-[#1B1613] to-[#120F0D] p-4 shadow-2xl">
             <div
@@ -138,60 +163,74 @@ export function MisionesYPerfilCliente({ aliasUsuario }: Props) {
               className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-[#FF7A1F]/15 blur-2xl"
             />
 
-            <div className="relative z-10 flex items-center justify-between gap-3">
+            <div className="relative z-10 flex items-start justify-between gap-3">
               <div className="flex items-center gap-3.5">
                 <div className="relative">
-                  <div className="h-14 w-14 overflow-hidden rounded-xl border-2 border-[#FF7A1F] bg-[#120F0D] p-0.5 shadow-[0_0_15px_rgba(255,122,31,0.3)]">
-                    <img
-                      src={FOTOS_STITCH.avatarMarcos}
-                      alt={nombreMostrar}
-                      className="h-full w-full rounded-[9px] object-cover"
-                    />
+                  <div className="flex h-14 w-14 items-center justify-center rounded-xl border-2 border-[#FF7A1F] bg-[#120F0D] font-rotulo text-2xl tracking-wider text-[#FF7A1F] shadow-[0_0_15px_rgba(255,122,31,0.3)]">
+                    {usuarioActual.iniciales}
                   </div>
                   <span className="absolute -bottom-1.5 -right-1.5 rounded border border-[#120F0D] bg-[#FF3B30] px-1.5 py-0.5 font-ticket text-[10px] font-bold text-[#F5EFE6] shadow">
-                    LVL {ajustes.nivelCritico}
+                    LVL {usuarioActual.nivel}
                   </span>
                 </div>
 
                 <div>
-                  <div className="flex items-center gap-1.5">
-                    <span className="font-ticket text-[10px] uppercase tracking-widest text-[#FF7A1F]">
-                      CRÍTICO NOCTURNO
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    <span className="rounded border border-[#35C759]/40 bg-[#35C759]/15 px-1.5 py-0.5 font-ticket text-[9px] font-bold uppercase text-[#35C759]">
+                      {etiquetaProveedor}
                     </span>
                     <Icono nombre="verified" className="h-3.5 w-3.5 text-[#35C759]" />
                   </div>
-                  <h1 className="font-rotulo text-2xl uppercase leading-none tracking-wide text-[#F5EFE6]">
-                    {nombreMostrar}
+                  <h1 className="mt-1 font-rotulo text-2xl uppercase leading-none tracking-wide text-[#F5EFE6]">
+                    {usuarioActual.nombre}
                   </h1>
+                  <p className="mt-0.5 font-ticket text-[11px] text-[#C9B9A6]">
+                    {usuarioActual.email}
+                  </p>
                   <p className="mt-0.5 font-sans text-xs text-[#C9B9A6]">
-                    Rango:{' '}
-                    <span className="font-semibold text-[#F2C14E]">
-                      {ajustes.rangoCritico}
-                    </span>
+                    Barrio:{' '}
+                    <strong className="text-[#F5EFE6]">
+                      {usuarioActual.barrioBase}
+                    </strong>{' '}
+                    · Salsa:{' '}
+                    <strong className="text-[#F2C14E]">
+                      {usuarioActual.salsaFavorita}
+                    </strong>
                   </p>
                 </div>
               </div>
 
-              <div className="rounded-lg border border-[#44372E]/50 bg-[#120F0D]/80 px-3 py-2 text-right">
-                <span className="block font-ticket text-[10px] uppercase text-[#C9B9A6]">
-                  TOTAL XP
-                </span>
-                <span className="font-ticket text-lg font-bold tracking-tight text-[#FF7A1F]">
-                  {xpActual.toLocaleString('es-ES')}
-                </span>
-                <span className="block font-ticket text-[9px] text-[#C9B9A6]/70">
-                  / 3.000 XP
-                </span>
+              <div className="shrink-0 text-right">
+                <div className="rounded-lg border border-[#44372E]/50 bg-[#120F0D]/80 px-3 py-2">
+                  <span className="block font-ticket text-[10px] uppercase text-[#C9B9A6]">
+                    TOTAL XP
+                  </span>
+                  <span className="font-ticket text-lg font-bold tracking-tight text-[#FF7A1F]">
+                    {xpActual.toLocaleString('es-ES')}
+                  </span>
+                  <span className="block font-ticket text-[9px] text-[#C9B9A6]/70">
+                    / {xpMeta} XP
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={cerrarSesion}
+                  className="mt-1.5 font-ticket text-[10px] text-[#C9B9A6] underline-offset-2 hover:text-[#FF3B30] hover:underline"
+                >
+                  Cerrar sesión
+                </button>
               </div>
             </div>
 
             <div className="mt-4">
               <div className="mb-1.5 flex justify-between font-ticket text-[11px]">
                 <span className="text-[#C9B9A6]">
-                  {Math.max(0, xpMeta - xpActual)} XP para rango{' '}
-                  <strong className="text-[#F5EFE6]">&ldquo;Sultán de Carretería&rdquo;</strong>
+                  {Math.max(0, xpMeta - xpActual)} XP para subir a{' '}
+                  <strong className="text-[#F5EFE6]">
+                    LVL {usuarioActual.nivel + 1} ({ajustes.rangoCritico})
+                  </strong>
                 </span>
-                <span className="font-bold text-[#35C759]">RACHA: 3 VIERNES</span>
+                <span className="font-bold text-[#35C759]">CUENTA VERIFICADA</span>
               </div>
               <div className="h-2.5 w-full overflow-hidden rounded-full border border-[#44372E]/60 bg-[#120F0D] p-0.5">
                 <div
@@ -204,25 +243,70 @@ export function MisionesYPerfilCliente({ aliasUsuario }: Props) {
             <div className="mt-4 grid grid-cols-3 gap-2 border-t border-[#44372E]/40 pt-3 text-center">
               <div className="rounded-lg bg-[#120F0D]/50 py-1.5">
                 <span className="block font-ticket text-sm font-bold text-[#F5EFE6]">
-                  {misionesActivas.length} Activas
+                  {usuarioActual.ticketsPublicados.length} Tickets
                 </span>
-                <span className="text-[10px] text-[#C9B9A6]">En curso hoy</span>
+                <span className="text-[10px] text-[#C9B9A6]">Auditados por ti</span>
               </div>
               <div className="rounded-lg bg-[#120F0D]/50 py-1.5">
                 <span className="block font-ticket text-sm font-bold text-[#35C759]">
-                  {reclamado4092 ? '9 Completas' : '8 Completas'}
+                  {misionesActivas.length} Retos
                 </span>
-                <span className="text-[10px] text-[#C9B9A6]">Este mes</span>
+                <span className="text-[10px] text-[#C9B9A6]">Activos hoy</span>
               </div>
               <div className="rounded-lg bg-[#120F0D]/50 py-1.5">
                 <span className="block font-ticket text-sm font-bold text-[#F2C14E]">
-                  +{reclamado4092 ? 670 : 420} XP
+                  {pegatinasDesbloqueadas} Pegatinas
                 </span>
-                <span className="text-[10px] text-[#C9B9A6]">Esta semana</span>
+                <span className="text-[10px] text-[#C9B9A6]">En tu vitrina</span>
               </div>
             </div>
           </div>
         </section>
+
+        {/* ============ MIS TICKETS VERIFICADOS ============ */}
+        {usuarioActual.ticketsPublicados.length > 0 && (
+          <section aria-label="Tus tickets verificados" className="space-y-3">
+            <h2 className="font-rotulo text-xl uppercase tracking-wide text-[#F5EFE6]">
+              TUS TICKETS AUDITADOS ({usuarioActual.ticketsPublicados.length})
+            </h2>
+            <div className="space-y-2.5">
+              {usuarioActual.ticketsPublicados.map((t) => (
+                <div
+                  key={t.id}
+                  className="flex items-center justify-between gap-3 rounded-xl border border-[#35C759]/40 bg-[#1B1613] p-3.5"
+                >
+                  <div>
+                    <div className="flex items-center gap-2 font-ticket text-[10px]">
+                      <span className="rounded bg-[#35C759]/20 px-1.5 py-0.5 font-bold text-[#35C759]">
+                        {t.metodoVerificacion === 'double_verified'
+                          ? '✓✓ DOBLE VERIFICACIÓN (GPS + FOTO)'
+                          : t.metodoVerificacion === 'gps_checkin'
+                            ? `✓ GPS VERIFICADO (${t.distanciaMetros ?? 25}m)`
+                            : `✓ TICKET CAJA (${t.referenciaTicketCaja ?? 'FOTO'})`}
+                      </span>
+                      <span className="text-[#C9B9A6]">{t.codigoTicket}</span>
+                    </div>
+                    <Link
+                      href={`/kebab/${t.localSlug}`}
+                      className="mt-1 block font-rotulo text-lg uppercase text-[#F5EFE6] hover:text-[#FF7A1F]"
+                    >
+                      {t.localNombre} ({t.barrioNombre})
+                    </Link>
+                    <p className="text-xs italic text-[#C9B9A6]">
+                      &ldquo;{t.comentario}&rdquo;
+                    </p>
+                  </div>
+                  <div className="shrink-0 rounded-lg bg-[#120F0D] px-3 py-1.5 text-center font-ticket">
+                    <span className="block text-lg font-bold text-[#FF7A1F]">
+                      {formatearNota(t.notaTotal)}
+                    </span>
+                    <span className="text-[9px] text-[#C9B9A6]">/ 10</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* ============ 2. PANEL DE CONTROL DE MISIONES & FILTROS ============ */}
         <section aria-label="Filtrar y crear retos nocturnos" className="space-y-3">
@@ -470,7 +554,10 @@ export function MisionesYPerfilCliente({ aliasUsuario }: Props) {
                 <button
                   type="button"
                   disabled={reclamado4092}
-                  onClick={() => setReclamado4092(true)}
+                  onClick={() => {
+                    setReclamado4092(true);
+                    sumarXp(250);
+                  }}
                   className={`flex items-center gap-1.5 rounded px-3.5 py-2 text-xs font-bold uppercase tracking-wider transition-all ${
                     reclamado4092
                       ? 'bg-[#35C759] text-[#120F0D]'
@@ -609,38 +696,20 @@ export function MisionesYPerfilCliente({ aliasUsuario }: Props) {
                   <div>
                     <div className="flex items-center gap-1.5">
                       <span className="text-sm font-bold text-[#FF7A1F]">
-                        {nombreMostrar} (TÚ)
+                        {usuarioActual.nombre} (TÚ)
                       </span>
                       <span className="rounded bg-[#FF3B30] px-1.5 py-0.5 font-ticket text-[9px] font-bold text-[#F5EFE6]">
-                        LVL {ajustes.nivelCritico}
+                        LVL {usuarioActual.nivel}
                       </span>
                     </div>
                     <span className="font-ticket text-[10px] text-[#C9B9A6]">
-                      24 tickets · {ajustes.rangoCritico}
+                      {usuarioActual.ticketsPublicados.length} tickets verificados ·{' '}
+                      {usuarioActual.barrioBase}
                     </span>
                   </div>
                 </div>
                 <span className="font-ticket text-sm font-bold text-[#FF7A1F]">
                   {xpActual.toLocaleString('es-ES')} XP
-                </span>
-              </div>
-
-              <div className="flex items-center justify-between px-4 py-3">
-                <div className="flex items-center gap-3">
-                  <span className="flex h-6 w-6 items-center justify-center rounded bg-[#241D18] font-ticket text-xs font-bold text-[#C9B9A6]">
-                    4
-                  </span>
-                  <div>
-                    <span className="text-sm font-medium text-[#F5EFE6]">
-                      Elena_Callejera
-                    </span>
-                    <span className="block font-ticket text-[10px] text-[#C9B9A6]">
-                      21 tickets · Teatinos
-                    </span>
-                  </div>
-                </div>
-                <span className="font-ticket text-sm font-bold text-[#C9B9A6]">
-                  2.190 XP
                 </span>
               </div>
             </div>
