@@ -1,0 +1,432 @@
+/* =====================================================================
+ * KebabScore · Sistema de diseño Stitch ("Nocturnal Street Spit & Neon")
+ * ---------------------------------------------------------------------
+ * Basado en el export de Google Stitch:
+ *   - Paleta cálida de carbón y brasa (#120D0A, #18120F, #FF7A1F, #FF4A3D,
+ *     #7ED957, #F2C14E) y papel térmico (#FAF4E6 / #FBF6EA).
+ *   - Modo Noche (3 AM, por defecto) y Modo Día (Terraza).
+ *   - Animaciones de ascuas flotantes (.ember), pulso de neón (.neon-pulse),
+ *     ticket recién impreso (.ticket-entry), ondas de radar (.heat-wave),
+ *     botón central flameante (.flame-active) y sliders de chorro de salsa.
+ * ===================================================================== */
+
+@import "tailwindcss";
+
+/* ---------- 1. PALETA DE STITCH ---------- */
+:root {
+  --surface:                   #18120F;
+  --surface-dim:               #18120F;
+  --surface-bright:            #3F3834;
+  --surface-container-lowest:  #130D0A;
+  --surface-container-low:     #211A17;
+  --surface-container:         #251E1B;
+  --surface-container-high:    #302825;
+  --surface-container-highest: #3B3330;
+
+  --carbon-950:    #100B08;
+  --carbon-900:    #120D0A;
+  --carbon-800:    #1A1411;
+  --carbon-700:    #251D18;
+  --carbon-600:    #352922;
+  --carbon-border: #3E3027;
+
+  --crema-50:      #FFF8EB;
+  --crema-100:     #F7EEDB;
+  --crema-200:     #EADBC0;
+  --crema-300:     #C9B9A0;
+  --crema-500:     #8E7D6B;
+
+  --primary:            #FFB68F;
+  --primary-container:  #FF7A1F;
+  --on-primary:         #542100;
+
+  --brasa-400:     #FF9447;
+  --brasa-500:     #FF7A1F;
+  --brasa-700:     #A9430A;
+
+  --guindilla-500: #FF4A3D;
+  --guindilla-700: #B8231B;
+
+  --lechuga-400:   #7ED957;
+  --lechuga-700:   #276B12;
+
+  --mostaza-400:   #F2C14E;
+  --mostaza-700:   #7A5E00;
+
+  --salsa-yogur:   #FFFDF7;
+  --ticket-papel:  #FAF4E6;
+  --ticket-tinta:  #2B2420;
+  --ticket-suave:  #6B5E54;
+}
+
+/* ---------- 2. TOKENS SEMÁNTICOS · Modo Noche (3 AM, por defecto) ---------- */
+:root,
+[data-tema="noche"] {
+  --fondo:            var(--surface);
+  --superficie:       var(--carbon-700);
+  --superficie-baja:  var(--surface-container-low);
+  --superficie-alta:  var(--surface-container-high);
+  --borde:            var(--carbon-border);
+
+  --texto:            var(--crema-100);
+  --texto-suave:      var(--crema-300);
+  --texto-apagado:    var(--crema-500);
+
+  --primario:         var(--brasa-500);
+  --primario-texto:   var(--carbon-900);
+  --acento:           var(--brasa-500);
+
+  --guindilla:        var(--guindilla-500);
+  --lechuga:          var(--lechuga-400);
+  --mostaza:          var(--mostaza-400);
+
+  --neon: 1;
+  color-scheme: dark;
+}
+
+/* ---------- 2b. TOKENS SEMÁNTICOS · Modo Día (Terraza) ---------- */
+[data-tema="dia"] {
+  --fondo:            var(--crema-100);
+  --superficie:       var(--crema-50);
+  --superficie-baja:  #F2E5CE;
+  --superficie-alta:  var(--crema-200);
+  --borde:            #D8C6A8;
+
+  --texto:            var(--carbon-800);
+  --texto-suave:      #5A4A3E;
+  --texto-apagado:    #786657;
+
+  --primario:         var(--brasa-500);
+  --primario-texto:   var(--carbon-900);
+  --acento:           var(--brasa-700);
+
+  --guindilla:        var(--guindilla-700);
+  --lechuga:          var(--lechuga-700);
+  --mostaza:          var(--mostaza-700);
+
+  --neon: 0;
+  color-scheme: light;
+}
+
+/* ---------- 3. PUENTE CON TAILWIND v4 (incluye nombres de Stitch) ---------- */
+@theme inline {
+  --color-fondo:                       var(--fondo);
+  --color-superficie:                  var(--superficie);
+  --color-superficie-baja:             var(--superficie-baja);
+  --color-superficie-alta:             var(--superficie-alta);
+  --color-borde:                       var(--borde);
+
+  --color-texto:                       var(--texto);
+  --color-texto-suave:                 var(--texto-suave);
+  --color-texto-apagado:               var(--texto-apagado);
+
+  --color-primario:                    var(--primario);
+  --color-primario-texto:              var(--primario-texto);
+  --color-acento:                      var(--acento);
+
+  --color-guindilla:                   var(--guindilla);
+  --color-lechuga:                     var(--lechuga);
+  --color-mostaza:                     var(--mostaza);
+
+  /* Aliases exactos de Stitch para que las clases del HTML funcionen directo */
+  --color-surface:                     var(--surface);
+  --color-surface-container-lowest:    var(--surface-container-lowest);
+  --color-surface-container-low:       var(--surface-container-low);
+  --color-surface-container:           var(--surface-container);
+  --color-surface-container-high:      var(--surface-container-high);
+  --color-surface-container-highest:   var(--surface-container-highest);
+
+  --color-carbon:                      var(--carbon-900);
+  --color-carbon-900:                  var(--carbon-900);
+  --color-carbon-800:                  var(--carbon-800);
+  --color-carbon-700:                  var(--carbon-700);
+  --color-carbon-600:                  var(--carbon-600);
+  --color-carbon-border:               var(--carbon-border);
+
+  --color-crema:                       var(--crema-100);
+  --color-crema-100:                   var(--crema-100);
+  --color-crema-300:                   var(--crema-300);
+  --color-crema-500:                   var(--crema-500);
+
+  --color-primary:                     var(--primary);
+  --color-primary-container:           var(--primary-container);
+  --color-on-primary:                  var(--on-primary);
+
+  --color-brasa:                       var(--brasa-500);
+  --color-brasa-orange:                var(--brasa-500);
+  --color-guindilla-red:               var(--guindilla-500);
+  --color-lechuga-green:               var(--lechuga-400);
+  --color-mostaza-gold:                var(--mostaza-400);
+  --color-salsa-yogur:                 var(--salsa-yogur);
+
+  --color-ticket-papel:                var(--ticket-papel);
+  --color-ticket-tinta:                var(--ticket-tinta);
+  --color-ticket-suave:                var(--ticket-suave);
+
+  /* Familias tipográficas */
+  --font-rotulo:            "Anton", Impact, "Arial Narrow", sans-serif;
+  --font-sans:              "DM Sans Variable", "DM Sans", system-ui, sans-serif;
+  --font-ticket:            "Space Mono", ui-monospace, monospace;
+
+  /* Aliases tipográficos de Stitch */
+  --font-headline-xl:        "Anton", Impact, sans-serif;
+  --font-headline-xl-mobile: "Anton", Impact, sans-serif;
+  --font-headline-lg:        "Anton", Impact, sans-serif;
+  --font-headline-lg-mobile: "Anton", Impact, sans-serif;
+  --font-headline-md:        "Anton", Impact, sans-serif;
+  --font-headline-sm:        "Anton", Impact, sans-serif;
+  --font-body-lg:            "DM Sans Variable", "DM Sans", sans-serif;
+  --font-body-md:            "DM Sans Variable", "DM Sans", sans-serif;
+  --font-body-sm:            "DM Sans Variable", "DM Sans", sans-serif;
+  --font-ticket-code-lg:     "Space Mono", monospace;
+  --font-ticket-code-md:     "Space Mono", monospace;
+  --font-ticket-code-sm:     "Space Mono", monospace;
+  --font-label-caps:         "Space Mono", monospace;
+
+  /* Sombras de Stitch */
+  --shadow-glow-orange:        0 0 24px -2px rgba(255, 122, 31, 0.45);
+  --shadow-glow-orange-subtle: 0 0 16px rgba(255, 122, 31, 0.22);
+  --shadow-glow-green:         0 0 14px rgba(126, 217, 87, 0.4);
+  --shadow-ticket:             0 18px 36px -8px rgba(0, 0, 0, 0.75), 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+
+/* ---------- 4. BASE ---------- */
+html {
+  background-color: var(--fondo);
+  color: var(--texto);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+body {
+  background: radial-gradient(
+    circle at 50% 0%,
+    rgb(37 26 19 / calc(1 * var(--neon))) 0%,
+    var(--fondo) 55%
+  );
+  background-color: var(--fondo);
+  color: var(--texto);
+  overscroll-behavior: none;
+}
+
+.pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
+.pt-safe { padding-top: env(safe-area-inset-top, 0px); }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+:focus-visible {
+  outline: 2px solid var(--guindilla);
+  outline-offset: 2px;
+}
+
+/* ---------- 5. ANIMACIONES Y METÁFORAS DE STITCH ---------- */
+
+/* Chispas flotantes del asador (ember particles) */
+@keyframes floatEmber {
+  0%   { transform: translateY(0) translateX(0) scale(0.7); opacity: 0; }
+  30%  { opacity: calc(0.85 * var(--neon)); }
+  80%  { opacity: calc(0.35 * var(--neon)); }
+  100% { transform: translateY(-90px) translateX(14px) scale(1.1); opacity: 0; }
+}
+.ember {
+  position: absolute;
+  border-radius: 9999px;
+  pointer-events: none;
+  animation: floatEmber linear infinite;
+}
+
+/* Brillo respirable de neón cálido */
+@keyframes neonGlow {
+  0%, 100% {
+    text-shadow:
+      0 0 calc(12px * var(--neon)) rgb(255 122 31 / calc(0.55 * var(--neon))),
+      0 0 calc(24px * var(--neon)) rgb(255 122 31 / calc(0.28 * var(--neon)));
+  }
+  50% {
+    text-shadow:
+      0 0 calc(20px * var(--neon)) rgb(255 122 31 / calc(0.85 * var(--neon))),
+      0 0 calc(35px * var(--neon)) rgb(255 74 61 / calc(0.42 * var(--neon)));
+  }
+}
+.neon-pulse,
+.rotulo-neon {
+  font-family: var(--font-rotulo);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  animation: neonGlow 3.2s ease-in-out infinite;
+}
+
+/* Ticket recién impreso */
+@keyframes ticketGlide {
+  0%   { transform: translateY(-6px) rotate(-1.2deg); opacity: 0.9; }
+  100% { transform: translateY(0) rotate(-0.6deg); opacity: 1; }
+}
+.ticket-entry {
+  animation: ticketGlide 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Vibración corta de impresora térmica al mover un slider */
+@keyframes ticketFeed {
+  0%   { transform: translateY(-3px) rotate(-1deg); filter: brightness(1.06); }
+  50%  { transform: translateY(1px) rotate(-0.7deg); filter: brightness(1); }
+  100% { transform: translateY(0) rotate(-1deg); }
+}
+.receipt-feed-anim {
+  animation: ticketFeed 0.32s ease-out;
+}
+
+/* Giro suave del icono del radar */
+@keyframes trompoSpin {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.spin-trompo {
+  animation: trompoSpin 14s linear infinite;
+}
+
+/* Ondas de calor del radar de asadores */
+@keyframes heatPulse {
+  0%   { transform: scale(0.85); opacity: 0.65; }
+  50%  { transform: scale(1.2); opacity: 0.2; }
+  100% { transform: scale(1.42); opacity: 0; }
+}
+.heat-wave {
+  animation: heatPulse 2.8s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+}
+
+/* Botón central VALORAR con llama palpitante */
+@keyframes flameFlicker {
+  0%, 100% {
+    transform: scale(1) translateY(0);
+    box-shadow: 0 0 22px rgba(255, 122, 31, 0.6), 0 0 40px rgba(255, 74, 61, 0.3);
+  }
+  50% {
+    transform: scale(1.04) translateY(-1px);
+    box-shadow: 0 0 32px rgba(255, 122, 31, 0.85), 0 0 50px rgba(255, 170, 0, 0.45);
+  }
+}
+.flame-active {
+  animation: flameFlicker 2.2s ease-in-out infinite;
+}
+
+/* Vapor / calor sobre las fotos de los kebabs en la Carta Luminosa */
+@keyframes steamRise {
+  0%   { opacity: 0.15; transform: translateY(10px) scaleX(0.96); }
+  50%  { opacity: 0.32; transform: translateY(0px) scaleX(1.04); }
+  100% { opacity: 0.10; transform: translateY(-12px) scaleX(1.08); }
+}
+.kebab-steam {
+  background: radial-gradient(
+    ellipse 65% 55% at 50% 85%,
+    rgba(255, 220, 180, 0.32) 0%,
+    rgba(255, 140, 50, 0.14) 45%,
+    transparent 75%
+  );
+  animation: steamRise 3.6s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+/* Brillo fluido sobre la barra de capas del dürüm */
+@keyframes strataShimmer {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(250%); }
+}
+.strata-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.strata-shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.35) 50%, transparent 100%);
+  animation: strataShimmer 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  pointer-events: none;
+}
+
+/* Borde dentado superior de papel térmico (círculos troquelados de Stitch) */
+.serrated-edge {
+  background: radial-gradient(circle at 7px -2px, transparent 6px, var(--ticket-papel) 7px);
+  background-size: 14px 12px;
+  background-repeat: repeat-x;
+}
+
+/* Compatibilidad con el ticket térmico general */
+.ticket-termico {
+  background-color: var(--ticket-papel);
+  color: var(--ticket-tinta);
+  font-family: var(--font-ticket);
+  font-variant-numeric: tabular-nums;
+  box-shadow: var(--shadow-ticket);
+}
+
+.panel-luminoso {
+  background: linear-gradient(180deg, #251E1B 0%, #1D1612 100%);
+  color: var(--crema-100);
+  border: 1px solid rgba(255, 122, 31, 0.28);
+  box-shadow: 0 6px 24px -4px rgba(255, 122, 31, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* ---------- 6. SLIDERS DE SALSA CON GOTA EN EL PULGAR ---------- */
+input[type="range"].slider-salsa {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+}
+input[type="range"].slider-salsa:focus {
+  outline: none;
+}
+input[type="range"].slider-salsa::-webkit-slider-runnable-track {
+  height: 10px;
+  border-radius: 9999px;
+  cursor: pointer;
+}
+input[type="range"].slider-salsa::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 22px;
+  width: 22px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  cursor: grab;
+  margin-top: -6px;
+  background: var(--color-gota, #FF7A1F);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.55), 0 0 10px var(--color-gota, #FF7A1F);
+  transition: transform 0.15s ease;
+}
+input[type="range"].slider-salsa:active::-webkit-slider-thumb {
+  transform: rotate(-45deg) scale(1.22);
+  cursor: grabbing;
+}
+input[type="range"].slider-salsa::-moz-range-thumb {
+  height: 22px;
+  width: 22px;
+  border: none;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  cursor: grab;
+  background: var(--color-gota, #FF7A1F);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.55), 0 0 10px var(--color-gota, #FF7A1F);
+}
+
+/* ---------- 7. LEAFLET (mapa interactivo) ---------- */
+.pin-durum-icono {
+  background: transparent !important;
+  border: none !important;
+}
+[data-tema="noche"] .leaflet-tile-pane {
+  filter: brightness(0.75) contrast(1.12) saturate(0.8);
+}
+
+/* Respeto absoluto a prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
