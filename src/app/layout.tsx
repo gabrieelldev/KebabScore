@@ -14,11 +14,10 @@ import { BarraPulgar, Cabecera } from '@/components/layout/Cabecera';
 import { InstaladorPwa } from '@/components/pwa/InstaladorPwa';
 import { ProveedorAuth } from '@/lib/auth/contexto';
 import { ProveedorCreador } from '@/lib/creador/contexto';
-import { SCRIPT_TEMA_INICIAL } from '@/lib/tema';
+import { COLOR_BARRA, ID_META_COLOR_BARRA, SCRIPT_TEMA_INICIAL } from '@/lib/tema';
 import './globals.css';
 
 export const viewport: Viewport = {
-  themeColor: '#120F0D',
   width: 'device-width',
   initialScale: 1,
   viewportFit: 'cover',
@@ -46,6 +45,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="es" data-tema="noche" suppressHydrationWarning className="h-full antialiased">
       <head>
+        {/* Lo gestionamos a mano (no con viewport.themeColor) para cambiarlo
+            con el tema: el script de abajo lo ajusta antes de pintar. */}
+        <meta id={ID_META_COLOR_BARRA} name="theme-color" content={COLOR_BARRA.noche} />
         <script dangerouslySetInnerHTML={{ __html: SCRIPT_TEMA_INICIAL }} />
       </head>
       <body className="flex min-h-screen flex-col overflow-x-hidden bg-fondo font-body-md text-texto selection:bg-brasa-orange selection:text-carbon-900">

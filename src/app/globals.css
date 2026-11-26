@@ -579,7 +579,7 @@ body::after {
     radial-gradient(circle at 9px 5px, #000 8.5px, transparent 9px) 0 0 / 18px 14px repeat-x;
   filter: drop-shadow(0 3px 2px rgb(0 0 0 / 0.25));
   transform-origin: top;
-  animation: desplegarToldo 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s both;
+  animation: desplegarToldo 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s backwards;
 }
 
 /* Logo-letrero de neón
@@ -589,11 +589,12 @@ body::after {
  * cada letra es casi blanco y el halo es corto para que se lea nítido en
  * pantallas pequeñas. Dos tubos están gastados: .tubo-gastado se apaga a
  * tirones cada pocos segundos y .tubo-tocado zumba de vez en cuando. */
+/* Sin opacity a propósito: animar opacity convierte el texto en una capa
+ * aparte que el móvil rasteriza a menos resolución (se veía borroso). Solo
+ * se animan color y text-shadow, que se repintan nítidos. */
 @keyframes tuboNeon {
-  0%, 93%, 100% { opacity: 1; }
-  94%  { opacity: 0.82; }
-  95%  { opacity: 1; }
-  96.5% { opacity: 0.88; }
+  0%, 93%, 95%, 100% { text-shadow: var(--halo-neon); }
+  94%, 96.5% { text-shadow: var(--halo-debil); }
 }
 @keyframes tuboGastado {
   0%, 30%   { color: var(--tubo-encendido); text-shadow: var(--halo-neon); }
@@ -619,11 +620,12 @@ body::after {
   --tubo-encendido: #FFF1E0;
   --tubo-medio:     #C98A60;
   --tubo-apagado:   #5A3B2C;
+  /* Halo corto: el brillo rodea la letra sin emborronarla */
   --halo-neon:
     0 0 1px #FFF8EB,
-    0 0 4px #FF9447,
-    0 0 10px #FF7A1F,
-    0 0 20px rgb(255 74 61 / 0.5);
+    0 0 3px #FF9447,
+    0 0 8px rgb(255 122 31 / 0.85),
+    0 0 14px rgb(255 74 61 / 0.35);
   --halo-debil: 0 0 3px rgb(255 122 31 / 0.5);
   display: inline-block;
   padding: 0.2em 0.45em 0.14em;
@@ -641,7 +643,7 @@ body::after {
   line-height: 1;
   color: var(--tubo-encendido);
   text-shadow: var(--halo-neon);
-  animation: encenderNeon 1.3s linear 0.15s both, tuboNeon 6.3s linear 1.45s infinite;
+  animation: encenderNeon 1.3s steps(1, end) 0.15s both, tuboNeon 6.3s steps(1, end) 1.45s infinite;
 }
 .letrero .tubo-gastado {
   animation: tuboGastado 4.7s steps(1, end) 1.6s infinite;
@@ -710,13 +712,12 @@ html:not([data-modo]) .selector-compacto [data-icono-modo="auto"],
   to   { transform: scaleY(1); }
 }
 @keyframes encenderNeon {
-  0%   { opacity: 0.12; text-shadow: none; }
-  8%   { opacity: 1; }
-  10%  { opacity: 0.2; text-shadow: none; }
-  22%  { opacity: 0.2; text-shadow: none; }
-  24%  { opacity: 1; }
-  28%  { opacity: 0.35; }
-  34%, 100% { opacity: 1; }
+  0%, 7%    { color: var(--tubo-apagado, #5A3B2C); text-shadow: none; }
+  8%, 9%    { color: var(--tubo-encendido, #FFF1E0); text-shadow: var(--halo-neon, none); }
+  10%, 23%  { color: var(--tubo-apagado, #5A3B2C); text-shadow: none; }
+  24%, 27%  { color: var(--tubo-encendido, #FFF1E0); text-shadow: var(--halo-neon, none); }
+  28%, 33%  { color: var(--tubo-medio, #C98A60); text-shadow: var(--halo-debil, none); }
+  34%, 100% { color: var(--tubo-encendido, #FFF1E0); text-shadow: var(--halo-neon, none); }
 }
 @keyframes subirAlMostrador {
   from { opacity: 0; transform: translateY(18px) rotate(-0.4deg); }
@@ -789,4 +790,19 @@ html:not([data-modo]) .selector-compacto [data-icono-modo="auto"],
   pointer-events: none;
   opacity: 0;
   animation: ecoRadar 4s ease-out infinite;
+}
+
+/* =====================================================================
+ * 11. CABECERA FIJA NÍTIDA (app instalada)
+ * ---------------------------------------------------------------------
+ *  Fondo opaco, sin backdrop-filter: el desenfoque del cristal esmerilado
+ *  hacía que la parte de arriba se viera borrosa en la app instalada
+ *  (sobre todo bajo la barra de estado del iPhone).
+ *  En iPhone la barra de estado es translúcida con texto blanco, así que
+ *  la franja de la zona segura va siempre en carbón para que se lea.
+ * ===================================================================== */
+.cabecera-fija {
+  background:
+    linear-gradient(var(--carbon-900), var(--carbon-900)) top / 100% env(safe-area-inset-top, 0px) no-repeat,
+    var(--fondo);
 }

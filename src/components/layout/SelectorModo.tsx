@@ -6,7 +6,7 @@
 
 import { useLayoutEffect, useState } from 'react';
 import { Icono, type NombreIcono } from '@/components/ui/Icono';
-import { CLAVE_MODO, temaAutomatico, type Modo } from '@/lib/tema';
+import { CLAVE_MODO, aplicarTema, temaAutomatico, type Modo } from '@/lib/tema';
 
 const OPCIONES: ReadonlyArray<{ valor: Modo; etiqueta: string; descripcion: string }> = [
   { valor: 'auto', etiqueta: 'Auto', descripcion: 'Neón al atardecer de Málaga' },
@@ -15,9 +15,7 @@ const OPCIONES: ReadonlyArray<{ valor: Modo; etiqueta: string; descripcion: stri
 ];
 
 function aplicarEnDocumento(modo: Modo) {
-  const tema = modo === 'auto' ? temaAutomatico() : modo;
-  document.documentElement.setAttribute('data-tema', tema);
-  document.documentElement.setAttribute('data-modo', modo);
+  aplicarTema(modo === 'auto' ? temaAutomatico() : modo, modo);
 }
 
 const ICONO_MODO: Record<Modo, NombreIcono> = {
@@ -65,7 +63,7 @@ export function SelectorModo({ compacto = false }: Props) {
         aria-label={`Ambiente: ${actual.etiqueta}. Pulsa para cambiar`}
         title={actual.descripcion}
         suppressHydrationWarning
-        className="selector-compacto flex h-9 w-9 items-center justify-center rounded-full border border-linea/15 bg-superficie-baja/90 text-acento transition-transform active:scale-90"
+        className="selector-compacto flex h-9 w-9 items-center justify-center rounded-full border border-linea/15 bg-superficie-baja text-acento transition-transform active:scale-90"
       >
         {OPCIONES.map((op) => (
           <span key={op.valor} data-icono-modo={op.valor}>
@@ -80,7 +78,7 @@ export function SelectorModo({ compacto = false }: Props) {
     <div
       role="group"
       aria-label="Ambiente de la web"
-      className="flex items-center rounded-full border border-linea/10 bg-superficie-baja/90 p-0.5 backdrop-blur-md"
+      className="flex items-center rounded-full border border-linea/10 bg-superficie-baja p-0.5"
     >
       {OPCIONES.map((op) => {
         const activo = modo === op.valor;

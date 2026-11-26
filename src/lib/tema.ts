@@ -13,6 +13,21 @@ export type Modo = 'auto' | Tema;
 export const CLAVE_MODO = 'kebabscore-modo';
 
 /**
+ * Color de la barra de estado del móvil con la app instalada (Android usa
+ * <meta name="theme-color">). Va a juego con la cabecera de cada tema.
+ */
+export const COLOR_BARRA: Record<Tema, string> = { noche: '#18120F', dia: '#F7EEDB' };
+export const ID_META_COLOR_BARRA = 'color-barra';
+
+/** Aplica el tema al documento (atributos + color de la barra de estado). */
+export function aplicarTema(tema: Tema, modo: Modo): void {
+  const h = document.documentElement;
+  h.setAttribute('data-tema', tema);
+  h.setAttribute('data-modo', modo);
+  document.getElementById(ID_META_COLOR_BARRA)?.setAttribute('content', COLOR_BARRA[tema]);
+}
+
+/**
  * [amanecer, atardecer] en minutos desde las 00:00, hora oficial de Málaga
  * (ya incluye el horario de verano). Valores aproximados a mitad de mes.
  */
@@ -65,4 +80,5 @@ var min=g("hour")*60+g("minute");var r=s[g("month")-1];
 t=(min>=r[0]&&min<r[1])?"dia":"noche";
 }
 var h=document.documentElement;h.setAttribute("data-tema",t);h.setAttribute("data-modo",m||"auto");
+var c=document.getElementById(${JSON.stringify(ID_META_COLOR_BARRA)});if(c)c.setAttribute("content",${JSON.stringify(COLOR_BARRA)}[t]);
 }catch(e){}})();`;
