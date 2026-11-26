@@ -307,7 +307,7 @@ export function TicketsLocalCliente({
         >
           <div className="flex w-full max-w-xs flex-col items-center">
             {/* Lienzo vertical 9:16 */}
-            <div className="relative flex aspect-[9/16] w-full flex-col justify-between overflow-hidden rounded-2xl border-2 border-acento/50 bg-fondo p-5 shadow-[0_0_40px_rgba(255,122,31,0.35)]">
+            <div className="tarjeta relative flex aspect-[9/16] w-full flex-col justify-between overflow-hidden rounded-2xl border-2 border-acento/50 bg-fondo p-5 shadow-[0_0_40px_rgba(255,122,31,0.35)]">
               <div
                 aria-hidden="true"
                 className="pointer-events-none absolute -right-12 -top-12 h-44 w-44 rounded-full bg-primario/20 blur-2xl"

@@ -15,6 +15,7 @@
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
+import { Brocheta } from '@/components/kebab/Brocheta';
 import { Icono } from '@/components/ui/Icono';
 import type { Barrio, LocalResumen } from '@/lib/datos/tipos';
 import { estadoHorario, type EstadoHorario } from '@/lib/horario';
@@ -301,6 +302,7 @@ export function ExploradorInicio({ locales, barrios }: Props) {
             <h2 className="font-rotulo text-lg uppercase tracking-wide text-texto">
               Radar de Asadores
             </h2>
+            <Brocheta className="my-0.5" />
             <p className="font-ticket text-[11px] text-texto-suave">
               {localesFiltrados.length}{' '}
               {localesFiltrados.length === 1

@@ -465,3 +465,139 @@ input[type="range"].slider-salsa::-moz-range-thumb {
     scroll-behavior: auto !important;
   }
 }
+
+/* =====================================================================
+ * 8. IDENTIDAD DE LOCAL DE KEBAB (lo que la separa de una app genérica)
+ * ---------------------------------------------------------------------
+ *  · Pared de azulejos del local (noche) / baldosa hidráulica (Terraza).
+ *  · Grano de papel impreso por encima de todo, muy sutil.
+ *  · Toldo de rayas con festón bajo la cabecera.
+ *  · Logo como letrero: tubo de neón de noche, vinilo pintado de día.
+ *  · Tarjetas de carta impresa con sombra dura en modo Terraza.
+ * ===================================================================== */
+:root,
+[data-tema="noche"] {
+  --toldo-a:      #8C2A1C;
+  --toldo-b:      #2A201A;
+  --azulejo:      rgb(255 255 255 / 0.028);
+  --azulejo-dibujo: rgb(255 122 31 / 0.035);
+  --grano:        0.07;
+  --sombra-dura:  transparent;
+}
+[data-tema="dia"] {
+  --toldo-a:      #C8352A;
+  --toldo-b:      #FFF8EB;
+  --azulejo:      rgb(26 20 17 / 0.05);
+  --azulejo-dibujo: rgb(154 60 8 / 0.06);
+  --grano:        0.05;
+  --sombra-dura:  #1A1411;
+}
+
+/* Pared de azulejos 4x4 con una flor de baldosa hidráulica en cada cruce */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 0 0, var(--azulejo-dibujo) 0 7px, transparent 7.5px),
+    radial-gradient(circle at 100% 100%, var(--azulejo-dibujo) 0 7px, transparent 7.5px),
+    radial-gradient(circle at 100% 0, var(--azulejo-dibujo) 0 7px, transparent 7.5px),
+    radial-gradient(circle at 0 100%, var(--azulejo-dibujo) 0 7px, transparent 7.5px),
+    linear-gradient(var(--azulejo) 1px, transparent 1px),
+    linear-gradient(90deg, var(--azulejo) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+/* Grano de papel / cristal empañado */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: var(--grano);
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+}
+
+/* Toldo a rayas con festón (se cuelga justo debajo de la cabecera) */
+.toldo {
+  height: 14px;
+  background: repeating-linear-gradient(90deg, var(--toldo-a) 0 18px, var(--toldo-b) 18px 36px);
+  -webkit-mask:
+    linear-gradient(#000 0 0) top / 100% 5px no-repeat,
+    radial-gradient(circle at 9px 5px, #000 8.5px, transparent 9px) 0 0 / 18px 14px repeat-x;
+          mask:
+    linear-gradient(#000 0 0) top / 100% 5px no-repeat,
+    radial-gradient(circle at 9px 5px, #000 8.5px, transparent 9px) 0 0 / 18px 14px repeat-x;
+  filter: drop-shadow(0 3px 2px rgb(0 0 0 / 0.25));
+}
+
+/* Logo-letrero */
+@keyframes tuboNeon {
+  0%, 89%, 93%, 100% { opacity: 1; }
+  90%  { opacity: 0.55; }
+  91%  { opacity: 1; }
+  92%  { opacity: 0.7; }
+}
+.letrero {
+  font-family: var(--font-rotulo);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  line-height: 1;
+}
+:root .letrero,
+[data-tema="noche"] .letrero {
+  color: #FFF1E0;
+  text-shadow:
+    0 0 1px #FFF8EB,
+    0 0 6px #FF9447,
+    0 0 14px #FF7A1F,
+    0 0 28px rgb(255 74 61 / 0.6);
+  animation: tuboNeon 7s linear infinite;
+}
+[data-tema="dia"] .letrero {
+  color: var(--guindilla-700);
+  text-shadow: 2px 2px 0 var(--carbon-900);
+  animation: none;
+}
+
+/* Tarjeta de carta impresa: de día, sombra dura de cartel serigrafiado */
+[data-tema="dia"] .tarjeta {
+  border-color: color-mix(in srgb, var(--texto) 70%, transparent);
+  box-shadow: 3px 3px 0 var(--sombra-dura);
+}
+/* De noche, el canto de la tarjeta recoge el brillo de la brasa */
+:root .tarjeta,
+[data-tema="noche"] .tarjeta {
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.06),
+    0 18px 30px -18px rgb(0 0 0 / 0.9);
+}
+
+/* De día no hay humo: sombras cálidas y cortas en vez de negro al 65 % */
+[data-tema="dia"] .bg-ticket-papel,
+[data-tema="dia"] .ticket-termico {
+  box-shadow: 0 10px 22px -10px rgb(90 40 10 / 0.45), 0 2px 4px rgb(90 40 10 / 0.15);
+}
+[data-tema="dia"] .barra-fija {
+  box-shadow: 0 0 0 transparent;
+}
+
+/* Número de plato gigante perfilado (marca de agua en la carta) */
+.numero-plato {
+  font-family: var(--font-rotulo);
+  line-height: 0.8;
+  color: transparent;
+  -webkit-text-stroke: 1.5px color-mix(in srgb, var(--acento) 28%, transparent);
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Selector de ambiente compacto: solo se ve el icono del modo actual */
+.selector-compacto [data-icono-modo] { display: none; }
+html:not([data-modo]) .selector-compacto [data-icono-modo="auto"],
+[data-modo="auto"] .selector-compacto [data-icono-modo="auto"],
+[data-modo="noche"] .selector-compacto [data-icono-modo="noche"],
+[data-modo="dia"] .selector-compacto [data-icono-modo="dia"] { display: inline-flex; }

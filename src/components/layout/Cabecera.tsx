@@ -56,9 +56,9 @@ export function Cabecera() {
   if (esSubpagina) {
     // Cabecera compacta de pila móvil ("Detalle Kebab") igual que en Stitch
     return (
-      <header className="fixed top-0 z-50 w-full border-b border-acento/15 bg-fondo/85 pt-safe shadow-[0_6px_28px_rgba(0,0,0,0.7)] backdrop-blur-xl">
-        <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4">
-          <div className="flex items-center gap-2">
+      <header className="barra-fija fixed top-0 z-50 w-full border-b border-acento/15 bg-fondo/90 pt-safe shadow-[0_6px_28px_rgba(0,0,0,0.7)] backdrop-blur-xl">
+        <div className="mx-auto flex h-16 max-w-5xl items-center justify-between gap-2 px-4">
+          <div className="flex min-w-0 items-center gap-1">
             <Link
               href="/"
               aria-label="Volver al inicio"
@@ -70,17 +70,17 @@ export function Cabecera() {
               {pathname.endsWith('/resenar') ? 'Auditar Dürüm' : 'Detalle Kebab'}
             </span>
           </div>
-          <div className="flex items-center gap-2.5">
+          <div className="flex shrink-0 items-center gap-2">
             {modoCreadorActivo && (
               <Link
                 href="/creador"
-                className="inline-flex items-center gap-1 rounded-full border border-mostaza bg-mostaza-gold/20 px-2.5 py-1 font-ticket text-[10px] font-bold uppercase text-mostaza"
+                aria-label="Consola de creador"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-mostaza bg-mostaza-gold/20 text-mostaza"
               >
-                <Icono nombre="tune" className="h-3 w-3" />
-                Creador
+                <Icono nombre="tune" className="h-4 w-4" />
               </Link>
             )}
-            <SelectorModo />
+            <SelectorModo compacto />
             <Link
               href="/misiones"
               aria-label="Perfil y misiones"
@@ -90,20 +90,21 @@ export function Cabecera() {
             </Link>
           </div>
         </div>
+        <div aria-hidden="true" className="toldo pointer-events-none absolute inset-x-0 top-full" />
       </header>
     );
   }
 
   return (
-    <header className="fixed top-0 z-50 w-full border-b border-acento/15 bg-fondo/85 pt-safe shadow-[0_10px_30px_rgba(0,0,0,0.65)] backdrop-blur-2xl">
+    <header className="barra-fija fixed top-0 z-50 w-full border-b border-acento/15 bg-fondo/90 pt-safe shadow-[0_10px_30px_rgba(0,0,0,0.65)] backdrop-blur-2xl">
       <div className="mx-auto flex h-20 max-w-5xl flex-col justify-center gap-1.5 px-4">
-        <div className="flex items-center justify-between">
-          {/* Logo con chispa y neón + piloto de abiertos */}
-          <div className="flex items-center gap-2.5">
+        <div className="flex items-center justify-between gap-2">
+          {/* Logo-letrero (neón de noche, vinilo de día) + piloto de abiertos */}
+          <div className="flex min-w-0 items-center gap-2.5">
             <div className="flex items-baseline gap-1.5">
               <Link
                 href="/"
-                className="neon-pulse font-rotulo text-[25px] leading-none tracking-wider text-texto"
+                className="letrero text-[25px]"
               >
                 KEBABSCORE
               </Link>
@@ -119,20 +120,21 @@ export function Cabecera() {
 
             <Link
               href="/ranking"
-              className="flex items-center gap-1.5 rounded-full border border-lechuga/25 bg-superficie-alta/90 px-2.5 py-1 backdrop-blur-md"
+              aria-label="Locales abiertos a las 3 AM"
+              className="flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-lechuga/25 bg-superficie-alta/90 px-2.5 py-1 backdrop-blur-md"
             >
               <span className="relative flex h-2 w-2">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-lechuga-green opacity-75" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-lechuga-green shadow-[0_0_8px_#7ED957]" />
               </span>
               <span className="font-ticket text-[11px] font-bold tracking-tight text-texto">
-                ABIERTOS 3 AM
+                <span className={modoCreadorActivo ? 'hidden sm:inline' : ''}>ABIERTOS </span>3 AM
               </span>
             </Link>
           </div>
 
           {/* Enlaces rápidos en escritorio + Pastilla Creador (solo visible para ti) + Avatar */}
-          <div className="flex items-center gap-3">
+          <div className="flex shrink-0 items-center gap-2 sm:gap-3">
             <nav aria-label="Principal" className="hidden items-center gap-5 font-ticket text-xs md:flex">
               <Link href="/" className="text-texto-suave hover:text-acento">
                 EXPLORAR
@@ -151,10 +153,11 @@ export function Cabecera() {
             {modoCreadorActivo && (
               <Link
                 href="/creador"
-                className="inline-flex items-center gap-1 rounded-full border border-mostaza bg-mostaza-gold/20 px-2.5 py-1 font-ticket text-[10px] font-bold uppercase tracking-wider text-mostaza shadow-[0_0_12px_rgba(242,193,78,0.3)] hover:bg-mostaza-gold hover:text-carbon"
+                aria-label="Consola de creador"
+                className="inline-flex items-center gap-1 rounded-full border border-mostaza bg-mostaza-gold/20 px-2 py-1.5 font-ticket text-[10px] font-bold uppercase tracking-wider text-mostaza shadow-[0_0_12px_rgba(242,193,78,0.3)] hover:bg-mostaza-gold hover:text-carbon sm:px-2.5 sm:py-1"
               >
                 <Icono nombre="tune" className="h-3.5 w-3.5" />
-                <span>CREADOR</span>
+                <span className="hidden sm:inline">CREADOR</span>
               </Link>
             )}
 
@@ -190,6 +193,7 @@ export function Cabecera() {
           </div>
         </div>
       </div>
+      <div aria-hidden="true" className="toldo pointer-events-none absolute inset-x-0 top-full" />
     </header>
   );
 }
@@ -211,7 +215,7 @@ export function BarraPulgar() {
   return (
     <nav
       aria-label="Navegación inferior"
-      className="fixed bottom-0 z-50 w-full border-t border-acento/15 bg-fondo/95 pb-safe shadow-[0_-10px_35px_rgba(0,0,0,0.85)] backdrop-blur-2xl"
+      className="barra-fija fixed bottom-0 z-50 w-full border-t border-acento/15 bg-fondo/95 pb-safe shadow-[0_-10px_35px_rgba(0,0,0,0.85)] backdrop-blur-2xl"
     >
       <div className="mx-auto grid h-20 max-w-lg grid-cols-5 items-center px-2">
         <Link

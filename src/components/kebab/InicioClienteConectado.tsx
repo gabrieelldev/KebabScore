@@ -11,6 +11,7 @@
 'use client';
 
 import Link from 'next/link';
+import { Brocheta } from '@/components/kebab/Brocheta';
 import { BannerEventosEspeciales } from '@/components/creador/BannerEventosEspeciales';
 import { ExploradorInicio } from '@/components/kebab/ExploradorInicio';
 import { PodioCarta } from '@/components/kebab/PodioCarta';
@@ -98,6 +99,7 @@ export function InicioClienteConectado({
             {ajustes.heroLinea1} <br />
             <span className="text-acento">{ajustes.heroLineaAcento}</span>
           </h1>
+          <Brocheta className="mt-2.5" />
 
           <p className="mt-2.5 max-w-md text-sm leading-relaxed text-texto-suave">
             {ajustes.heroSubtitulo}
@@ -215,7 +217,9 @@ export function InicioClienteConectado({
       <ExploradorInicio locales={localesActivos} barrios={barrios} />
 
       {/* ============ 4. CARTA LUMINOSA: TOP 3 DE MÁLAGA ============ */}
-      <PodioCarta locales={localesActivos} />
+      <div className="px-4 py-3">
+        <PodioCarta locales={localesActivos} />
+      </div>
 
       {/* ============ 5. CTA RÁPIDO PARA CATAR UN DÜRÜM ============ */}
       <section aria-label="Valorar un kebab" className="px-4 py-3">

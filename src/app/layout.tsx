@@ -84,7 +84,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Cabecera />
           </Suspense>
 
-          <main id="contenido-principal" className="relative z-20 flex-1 pt-20 pb-20">
+          <main id="contenido-principal" className="relative z-20 flex-1 pt-24 pb-20">
             <InstaladorPwa />
             {children}
           </main>

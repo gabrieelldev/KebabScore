@@ -113,7 +113,7 @@ function ProcesadorCallbackOAuth() {
 
   return (
     <div className="mx-auto flex min-h-[70vh] max-w-md flex-col items-center justify-center px-4 text-center">
-      <div className="rounded-2xl border border-lechuga/40 bg-superficie-baja p-6 shadow-[0_16px_40px_rgba(0,0,0,0.75)]">
+      <div className="tarjeta rounded-2xl border border-lechuga/40 bg-superficie-baja p-6 shadow-[0_16px_40px_rgba(0,0,0,0.75)]">
         <div className="mx-auto mb-3 flex h-12 w-12 animate-pulse items-center justify-center rounded-full bg-lechuga-green/20 text-2xl text-lechuga">
           ✓
         </div>

@@ -20,6 +20,7 @@
 import Link from 'next/link';
 import { useMemo, useRef, useState } from 'react';
 import { RegistroPerfilCliente } from '@/components/auth/RegistroPerfilCliente';
+import { Brocheta } from '@/components/kebab/Brocheta';
 import { Icono } from '@/components/ui/Icono';
 import {
   type MetodoVerificacion,
@@ -547,6 +548,7 @@ export function FormularioResenaCliente({ local }: Props) {
           <h2 className="rotulo-neon font-rotulo text-3xl uppercase leading-none tracking-wide text-texto">
             AUDITAR DÜRÜM · DEJAR TICKET
           </h2>
+          <Brocheta className="mt-1.5" />
           <p className="mt-1 text-xs text-texto-suave">
             Desliza los chorros de salsa para puntuar las 6 capas oficiales.
           </p>
@@ -626,7 +628,7 @@ export function FormularioResenaCliente({ local }: Props) {
       {/* ============ 3. SISTEMA OBLIGATORIO ANTI-FRAUDE ("PROOF OF KEBAB") ============ */}
       <section
         aria-label="Verificación obligatoria de consumo real"
-        className="mb-8 rounded-2xl border-2 border-acento/60 bg-gradient-to-b from-superficie to-superficie-baja p-4 shadow-[0_12px_30px_rgba(0,0,0,0.65)]"
+        className="tarjeta mb-8 rounded-2xl border-2 border-acento/60 bg-gradient-to-b from-superficie to-superficie-baja p-4 shadow-[0_12px_30px_rgba(0,0,0,0.65)]"
       >
         <div className="flex items-start justify-between gap-2 border-b border-linea/10 pb-3">
           <div>

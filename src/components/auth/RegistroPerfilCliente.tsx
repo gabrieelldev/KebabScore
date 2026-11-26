@@ -77,7 +77,7 @@ export function RegistroPerfilCliente({
 
   return (
     <div className="mx-auto max-w-md px-4 py-6">
-      <div className="relative overflow-hidden rounded-2xl border border-acento/40 bg-superficie-baja p-6 shadow-[0_16px_40px_rgba(0,0,0,0.75)]">
+      <div className="tarjeta relative overflow-hidden rounded-2xl border border-acento/40 bg-superficie-baja p-6 shadow-[0_16px_40px_rgba(0,0,0,0.75)]">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute -right-12 -top-12 h-36 w-36 rounded-full bg-primario/15 blur-2xl"

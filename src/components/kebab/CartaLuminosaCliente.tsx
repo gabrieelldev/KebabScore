@@ -14,6 +14,7 @@
 
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
+import { Brocheta } from '@/components/kebab/Brocheta';
 import { Icono } from '@/components/ui/Icono';
 import { useCreador } from '@/lib/creador/contexto';
 import { FOTOS_STITCH } from '@/lib/datos/demo';
@@ -91,6 +92,7 @@ export function CartaLuminosaCliente({
             <h1 className="rotulo-neon font-rotulo text-3xl uppercase leading-none tracking-wide text-texto sm:text-4xl">
               {tituloPersonalizado ?? 'CARTA LUMINOSA · TOP MÁLAGA'}
             </h1>
+            <Brocheta className="mt-2" />
           </div>
 
           <div className="shrink-0 text-right font-ticket">

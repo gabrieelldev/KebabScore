@@ -5,6 +5,7 @@
 'use client';
 
 import { useLayoutEffect, useState } from 'react';
+import { Icono, type NombreIcono } from '@/components/ui/Icono';
 import { CLAVE_MODO, temaAutomatico, type Modo } from '@/lib/tema';
 
 const OPCIONES: ReadonlyArray<{ valor: Modo; etiqueta: string; descripcion: string }> = [
@@ -19,7 +20,19 @@ function aplicarEnDocumento(modo: Modo) {
   document.documentElement.setAttribute('data-modo', modo);
 }
 
-export function SelectorModo() {
+const ICONO_MODO: Record<Modo, NombreIcono> = {
+  auto: 'brightness_auto',
+  noche: 'dark_mode',
+  dia: 'light_mode',
+};
+const SIGUIENTE: Record<Modo, Modo> = { auto: 'noche', noche: 'dia', dia: 'auto' };
+
+type Props = {
+  /** Un único botón redondo que rota Auto → 3 AM → Terraza (para cabeceras estrechas). */
+  compacto?: boolean;
+};
+
+export function SelectorModo({ compacto = false }: Props) {
   const [modo, setModo] = useState<Modo>(() => {
     if (typeof window === 'undefined') return 'auto';
     const guardado = localStorage.getItem(CLAVE_MODO);
@@ -39,6 +52,28 @@ export function SelectorModo() {
       // modo privado estricto
     }
     aplicarEnDocumento(nuevo);
+  }
+
+  if (compacto) {
+    // Los tres iconos se pintan siempre y el CSS muestra el del `data-modo`
+    // actual (lo fija el script del <head>), así no hay saltos al hidratar.
+    const actual = OPCIONES.find((o) => o.valor === modo) ?? OPCIONES[0];
+    return (
+      <button
+        type="button"
+        onClick={() => cambiar(SIGUIENTE[modo])}
+        aria-label={`Ambiente: ${actual.etiqueta}. Pulsa para cambiar`}
+        title={actual.descripcion}
+        suppressHydrationWarning
+        className="selector-compacto flex h-9 w-9 items-center justify-center rounded-full border border-linea/15 bg-superficie-baja/90 text-acento transition-transform active:scale-90"
+      >
+        {OPCIONES.map((op) => (
+          <span key={op.valor} data-icono-modo={op.valor}>
+            <Icono nombre={ICONO_MODO[op.valor]} className="h-[18px] w-[18px]" />
+          </span>
+        ))}
+      </button>
+    );
   }
 
   return (

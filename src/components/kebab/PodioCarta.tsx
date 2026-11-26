@@ -10,6 +10,7 @@
 // =====================================================================
 
 import Link from 'next/link';
+import { Brocheta } from '@/components/kebab/Brocheta';
 import { Icono } from '@/components/ui/Icono';
 import type { LocalResumen } from '@/lib/datos/tipos';
 import {
@@ -65,6 +66,7 @@ export function PodioCarta({ locales }: { locales: LocalResumen[] }) {
           >
             Carta Luminosa: Top 3
           </h2>
+          <Brocheta className="mt-1" />
         </div>
         <Link
           href="/ranking"
@@ -74,17 +76,24 @@ export function PodioCarta({ locales }: { locales: LocalResumen[] }) {
         </Link>
       </div>
 
-      <div className="grid gap-3 md:grid-cols-3">
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
         {top.map((local, idx) => {
           const m = MEDALLA[idx] ?? MEDALLA[2];
           const esFuego = local.nota !== null && nivelDeNota(local.nota) === 'fuego';
           const cierreNocturno = local.horario.find((h) => h.cierra <= h.abre)?.cierra ?? '04:30';
 
           return (
-            <Link key={local.id} href={`/kebab/${local.slug}`} className="block">
+            <Link key={local.id} href={`/kebab/${local.slug}`} className="block min-w-0">
               <article
-                className={`group relative flex h-full flex-col justify-between gap-3 rounded-2xl border bg-gradient-to-b from-superficie to-superficie-baja p-4 transition-all active:scale-[0.99] ${m.claseBorde}`}
+                className={`tarjeta group relative flex h-full flex-col justify-between gap-3 overflow-hidden rounded-2xl border bg-gradient-to-b from-superficie to-superficie-baja p-4 transition-all active:scale-[0.99] ${m.claseBorde}`}
               >
+                {/* Número de plato gigante, como en la carta retroiluminada del mostrador */}
+                <span
+                  aria-hidden="true"
+                  className="numero-plato absolute -bottom-3 right-2 text-[110px]"
+                >
+                  {String(idx + 1).padStart(2, '0')}
+                </span>
                 {idx === 0 && (
                   <div className=" absolute left-6 right-6 top-0 h-[1px] bg-gradient-to-r from-transparent via-brasa-orange/50 to-transparent" />
                 )}
@@ -93,7 +102,7 @@ export function PodioCarta({ locales }: { locales: LocalResumen[] }) {
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-1.5">
                       <span
-                        className={`rounded-md px-2 py-0.5 font-ticket text-[10px] font-bold uppercase shadow-sm ${m.claseChip}`}
+                        className={`shrink-0 whitespace-nowrap rounded-md px-2 py-0.5 font-ticket text-[10px] font-bold uppercase shadow-sm ${m.claseChip}`}
                       >
                         {m.etiqueta}
                       </span>

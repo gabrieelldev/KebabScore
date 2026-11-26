@@ -200,7 +200,7 @@ export function PanelCreadorCliente() {
   if (!modoCreadorActivo) {
     return (
       <div className="mx-auto max-w-md px-4 py-10">
-        <div className="relative overflow-hidden rounded-2xl border-2 border-acento/50 bg-superficie-baja p-6 shadow-[0_0_40px_rgba(255,122,31,0.2)]">
+        <div className="tarjeta relative overflow-hidden rounded-2xl border-2 border-acento/50 bg-superficie-baja p-6 shadow-[0_0_40px_rgba(255,122,31,0.2)]">
           <div className="mb-3 inline-flex items-center gap-1.5 rounded border border-guindilla/40 bg-guindilla-red/15 px-2.5 py-1 font-ticket text-[10px] font-bold uppercase tracking-widest text-guindilla">
             <Icono nombre="lock" className="h-3.5 w-3.5" />
             ZONA RESTRINGIDA · SOLO CREADOR
@@ -300,7 +300,7 @@ export function PanelCreadorCliente() {
       )}
 
       {/* Cabecera del Panel de Creador */}
-      <section className="rounded-2xl border border-acento/50 bg-gradient-to-br from-superficie via-superficie-baja to-fondo p-4 shadow-2xl">
+      <section className="tarjeta rounded-2xl border border-acento/50 bg-gradient-to-br from-superficie via-superficie-baja to-fondo p-4 shadow-2xl">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <div className="inline-flex items-center gap-1.5 rounded border border-lechuga/40 bg-lechuga-green/15 px-2 py-0.5 font-ticket text-[10px] font-bold uppercase tracking-wider text-lechuga">
