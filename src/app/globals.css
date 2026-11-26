@@ -797,8 +797,8 @@ html:not([data-modo]) .selector-compacto [data-icono-modo="auto"],
  *  Fondo opaco, sin backdrop-filter: el desenfoque del cristal esmerilado
  *  hacía que la parte de arriba se viera borrosa en la app instalada
  *  (sobre todo bajo la barra de estado del iPhone).
- *  En iPhone la barra de estado es translúcida con texto blanco, así que
- *  la franja de la zona segura va siempre en carbón para que se lea.
+ *  Si algún dispositivo dibuja la app bajo la barra de estado (zona segura
+ *  > 0), esa franja va en carbón para que la hora en blanco se lea.
  * ===================================================================== */
 .cabecera-fija {
   background:

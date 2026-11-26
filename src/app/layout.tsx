@@ -34,7 +34,12 @@ export const metadata: Metadata = {
   manifest: '/manifest.webmanifest',
   appleWebApp: {
     capable: true,
-    statusBarStyle: 'black-translucent',
+    // 'black' y no 'black-translucent': con la barra translúcida la app se
+    // dibuja POR DEBAJO de la hora y la batería, y el iPhone difumina esa
+    // franja de arriba, que es justo donde estaba la primera fila de la
+    // cabecera. Con 'black' la app empieza debajo de la barra de estado.
+    // (iOS solo lee esto al añadir la app a la pantalla de inicio.)
+    statusBarStyle: 'black',
     title: 'KebabScore',
   },
   formatDetection: {
