@@ -2,10 +2,12 @@
 // Layout raíz · PWA + Capacitor Ready + ProveedorCreador + BarraPulgar
 // =====================================================================
 
-import '@fontsource/anton/latin-400.css';
-import '@fontsource-variable/dm-sans';
-import '@fontsource/space-mono/latin-400.css';
-import '@fontsource/space-mono/latin-700.css';
+// Tipografía de local: rótulo condensado de marquesina (Big Shoulders),
+// rotulación pintada a mano (Shrikhand) y Recursive para texto y tickets
+// (un solo archivo variable: eje CASL para el texto, eje MONO para la impresora).
+import '@fontsource-variable/big-shoulders-display';
+import '@fontsource/shrikhand/latin-400.css';
+import '@fontsource-variable/recursive/full.css';
 import type { Metadata, Viewport } from 'next';
 import { Suspense } from 'react';
 import { BarraPulgar, Cabecera } from '@/components/layout/Cabecera';

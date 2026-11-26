@@ -50,7 +50,7 @@ export function InicioClienteConectado({
   const localesActivos = hidratado ? localesCreador : localesServidor;
 
   return (
-    <div className="mx-auto max-w-lg pb-8">
+    <div className="escalonado mx-auto max-w-lg pb-8">
       {/* Cinta discreta cuando funciona en modo demo sin credenciales Supabase */}
       {esDemo && (
         <div
@@ -66,15 +66,6 @@ export function InicioClienteConectado({
 
       {/* ============ 1. HERO · RÓTULO DE LOCAL NOCTURNO ============ */}
       <section className="relative overflow-hidden px-4 pb-2 pt-5">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -right-12 -top-12 h-56 w-56 rounded-full bg-primario/15 blur-3xl"
-        />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute left-4 top-20 h-32 w-32 rounded-full bg-guindilla-red/10 blur-2xl"
-        />
-
         <div className="relative z-10">
           <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
             <div className="inline-flex items-center gap-1.5 rounded border border-acento/30 bg-primario/10 px-2.5 py-0.5">
@@ -95,9 +86,14 @@ export function InicioClienteConectado({
             )}
           </div>
 
-          <h1 className="font-rotulo text-4xl uppercase leading-[0.95] tracking-tight text-texto sm:text-5xl">
-            {ajustes.heroLinea1} <br />
-            <span className="text-acento">{ajustes.heroLineaAcento}</span>
+          {/* Rótulo de pizarra: línea de marquesina + línea pintada a mano */}
+          <h1 className="text-texto">
+            <span className="block font-rotulo text-[44px] font-black uppercase leading-[0.88] tracking-[-0.01em] sm:text-6xl">
+              {ajustes.heroLinea1}
+            </span>
+            <span className="font-pintado mt-1.5 block origin-left -rotate-2 text-balance text-[27px] leading-[1.1] text-acento sm:text-[38px]">
+              {ajustes.heroLineaAcento}
+            </span>
           </h1>
           <Brocheta className="mt-2.5" />
 

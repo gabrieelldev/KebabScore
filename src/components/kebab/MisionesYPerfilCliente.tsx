@@ -151,7 +151,7 @@ export function MisionesYPerfilCliente({ aliasUsuario }: Props) {
         : 'CORREO VERIFICADO';
 
   return (
-    <div className="mx-auto max-w-lg pb-12">
+    <div className="escalonado mx-auto max-w-lg pb-12">
       <BannerEventosEspeciales />
 
       <div className="space-y-6 px-4 pt-5">

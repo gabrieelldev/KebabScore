@@ -31,9 +31,11 @@ export function Brocheta({ className = '' }: Props) {
       {/* Varilla de acero */}
       <line x1="2" y1="7" x2="108" y2="7" stroke="var(--texto-apagado)" strokeWidth="1.5" strokeLinecap="round" />
       <circle cx="3" cy="7" r="2.2" fill="var(--texto-apagado)" />
-      {TROZOS.map((t) => (
+      {TROZOS.map((t, i) => (
         <rect
           key={t.x}
+          className="brocheta-trozo"
+          style={{ animationDelay: `${0.55 + (TROZOS.length - 1 - i) * 0.06}s` }}
           x={t.x}
           y={7 - 5}
           width={t.ancho}

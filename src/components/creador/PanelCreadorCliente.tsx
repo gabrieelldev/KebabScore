@@ -287,7 +287,7 @@ export function PanelCreadorCliente() {
   // CONSOLA DESBLOQUEADA DEL CREADOR
   // ===================================================================
   return (
-    <div className="mx-auto max-w-2xl px-4 pb-24 pt-5">
+    <div className="escalonado mx-auto max-w-2xl px-4 pb-24 pt-5">
       {/* Toast flotante de confirmación */}
       {avisoGuardado && (
         <div

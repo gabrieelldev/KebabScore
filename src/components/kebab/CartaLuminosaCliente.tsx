@@ -73,7 +73,7 @@ export function CartaLuminosaCliente({
   const resto = localesOrdenados.slice(3);
 
   return (
-    <div className="mx-auto max-w-lg pb-12">
+    <div className="escalonado mx-auto max-w-lg pb-12">
       {/* ============ 1. MARQUESINA SUPERIOR DE LA CARTA LUMINOSA ============ */}
       <section className="relative overflow-hidden border-b border-linea/10 bg-gradient-to-b from-superficie to-fondo px-4 pb-4 pt-5">
         <div

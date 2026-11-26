@@ -199,24 +199,25 @@
   --color-ticket-suave:                var(--ticket-suave);
 
   /* Familias tipográficas */
-  --font-rotulo:            "Anton", Impact, "Arial Narrow", sans-serif;
-  --font-sans:              "DM Sans Variable", "DM Sans", system-ui, sans-serif;
-  --font-ticket:            "Space Mono", ui-monospace, monospace;
+  --font-rotulo:            "Big Shoulders Display Variable", "Arial Narrow", sans-serif;
+  --font-pintado:           "Shrikhand", "Big Shoulders Display Variable", serif;
+  --font-sans:              "Recursive Variable", sans-serif;
+  --font-ticket:            "Recursive Variable", ui-monospace, monospace;
 
   /* Aliases tipográficos de Stitch */
-  --font-headline-xl:        "Anton", Impact, sans-serif;
-  --font-headline-xl-mobile: "Anton", Impact, sans-serif;
-  --font-headline-lg:        "Anton", Impact, sans-serif;
-  --font-headline-lg-mobile: "Anton", Impact, sans-serif;
-  --font-headline-md:        "Anton", Impact, sans-serif;
-  --font-headline-sm:        "Anton", Impact, sans-serif;
-  --font-body-lg:            "DM Sans Variable", "DM Sans", sans-serif;
-  --font-body-md:            "DM Sans Variable", "DM Sans", sans-serif;
-  --font-body-sm:            "DM Sans Variable", "DM Sans", sans-serif;
-  --font-ticket-code-lg:     "Space Mono", monospace;
-  --font-ticket-code-md:     "Space Mono", monospace;
-  --font-ticket-code-sm:     "Space Mono", monospace;
-  --font-label-caps:         "Space Mono", monospace;
+  --font-headline-xl:        var(--font-rotulo);
+  --font-headline-xl-mobile: var(--font-rotulo);
+  --font-headline-lg:        var(--font-rotulo);
+  --font-headline-lg-mobile: var(--font-rotulo);
+  --font-headline-md:        var(--font-rotulo);
+  --font-headline-sm:        var(--font-rotulo);
+  --font-body-lg:            var(--font-sans);
+  --font-body-md:            var(--font-sans);
+  --font-body-sm:            var(--font-sans);
+  --font-ticket-code-lg:     var(--font-ticket);
+  --font-ticket-code-md:     var(--font-ticket);
+  --font-ticket-code-sm:     var(--font-ticket);
+  --font-label-caps:         var(--font-ticket);
 
   /* Sombras de Stitch */
   --shadow-glow-orange:        0 0 24px -2px rgba(255, 122, 31, 0.45);
@@ -226,7 +227,11 @@
 }
 
 /* ---------- 4. BASE ---------- */
+/* Recursive: el eje CASL da al texto un punto de rotulador de pizarra;
+ * el eje MONO lo convierte en la letra de la impresora de tickets. */
 html {
+  --rec-mono: 0;
+  --rec-casl: 0.45;
   background-color: var(--fondo);
   color: var(--texto);
   font-family: var(--font-sans);
@@ -235,14 +240,38 @@ html {
 }
 
 body {
-  background: radial-gradient(
-    circle at 50% 0%,
-    rgb(37 26 19 / calc(1 * var(--neon))) 0%,
-    var(--fondo) 55%
-  );
+  background-image: var(--luz-ambiente);
+  background-attachment: fixed;
   background-color: var(--fondo);
   color: var(--texto);
   overscroll-behavior: none;
+}
+
+* {
+  font-variation-settings: "MONO" var(--rec-mono), "CASL" var(--rec-casl);
+}
+.font-ticket,
+.ticket-termico,
+.font-label-caps,
+[class*="font-ticket-code"] {
+  --rec-mono: 1;
+  --rec-casl: 0;
+}
+.font-sans,
+[class*="font-body-"] {
+  --rec-mono: 0;
+  --rec-casl: 0.45;
+}
+.font-pintado {
+  font-family: var(--font-pintado);
+  font-weight: 400;
+  font-synthesis: none;
+  text-transform: none;
+  letter-spacing: 0;
+}
+/* En capa base: un font-bold/font-black explícito sigue mandando */
+@layer base {
+  .font-rotulo { font-weight: 800; }
 }
 
 .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
@@ -297,8 +326,15 @@ body {
   0%   { transform: translateY(-6px) rotate(-1.2deg); opacity: 0.9; }
   100% { transform: translateY(0) rotate(-0.6deg); opacity: 1; }
 }
+/* Sale de la impresora a tirones (steps), como un ticket de verdad */
+@keyframes imprimirTicket {
+  from { clip-path: inset(0 -40px 100% -40px); }
+  to   { clip-path: inset(-40px); }
+}
 .ticket-entry {
-  animation: ticketGlide 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation:
+    imprimirTicket 0.9s steps(14, end) 0.35s backwards,
+    ticketGlide 0.7s cubic-bezier(0.16, 1, 0.3, 1) 1.2s both;
 }
 
 /* Vibración corta de impresora térmica al mover un slider */
@@ -479,35 +515,45 @@ input[type="range"].slider-salsa::-moz-range-thumb {
 [data-tema="noche"] {
   --toldo-a:      #8C2A1C;
   --toldo-b:      #2A201A;
-  --azulejo:      rgb(255 255 255 / 0.028);
-  --azulejo-dibujo: rgb(255 122 31 / 0.035);
+  --azulejo-dibujo: rgb(255 148 71 / 0.11);
+  /* Brasa del asador abajo, fluorescente frío del techo arriba */
+  --luz-ambiente:
+    radial-gradient(130% 55% at 50% 112%, rgb(255 90 20 / 0.22) 0%, rgb(255 74 61 / 0.07) 40%, transparent 70%),
+    radial-gradient(90% 40% at 50% -8%, rgb(255 241 224 / 0.07) 0%, transparent 70%);
   --grano:        0.07;
   --sombra-dura:  transparent;
 }
 [data-tema="dia"] {
   --toldo-a:      #C8352A;
   --toldo-b:      #FFF8EB;
-  --azulejo:      rgb(26 20 17 / 0.05);
-  --azulejo-dibujo: rgb(154 60 8 / 0.06);
+  --azulejo-dibujo: rgb(154 60 8 / 0.13);
+  /* Sol de terraza entrando en diagonal + sombra del toldo arriba */
+  --luz-ambiente:
+    radial-gradient(80% 50% at 100% 0%, rgb(255 196 110 / 0.38) 0%, transparent 65%),
+    linear-gradient(180deg, rgb(200 53 42 / 0.06) 0%, transparent 18%);
   --grano:        0.05;
   --sombra-dura:  #1A1411;
 }
 
-/* Pared de azulejos 4x4 con una flor de baldosa hidráulica en cada cruce */
+/* Pared de azulejos: celosía de estrellas de ocho puntas (el azulejo
+ * andalusí y el de Iznik son primos). El SVG es solo una máscara, así el
+ * color sale del token del tema; se desvanece hacia abajo como una pared
+ * iluminada desde el techo. */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background-image:
-    radial-gradient(circle at 0 0, var(--azulejo-dibujo) 0 7px, transparent 7.5px),
-    radial-gradient(circle at 100% 100%, var(--azulejo-dibujo) 0 7px, transparent 7.5px),
-    radial-gradient(circle at 100% 0, var(--azulejo-dibujo) 0 7px, transparent 7.5px),
-    radial-gradient(circle at 0 100%, var(--azulejo-dibujo) 0 7px, transparent 7.5px),
-    linear-gradient(var(--azulejo) 1px, transparent 1px),
-    linear-gradient(90deg, var(--azulejo) 1px, transparent 1px);
-  background-size: 44px 44px;
+  background-color: var(--azulejo-dibujo);
+  -webkit-mask:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' fill='none' stroke='%23000' stroke-width='1.1'%3E%3Cpath d='M28 11 45 28 28 45 11 28Z'/%3E%3Cpath d='M16 16h24v24H16z'/%3E%3Cpath d='M0 0l16 16M56 0 40 16M0 56l16-16M56 56 40 40M28 0v11M28 45v11M0 28h11M45 28h11'/%3E%3Ccircle cx='28' cy='28' r='4'/%3E%3C/svg%3E") 0 0 / 56px 56px repeat,
+    linear-gradient(#000 0%, rgb(0 0 0 / 0.55) 45%, transparent 85%);
+  -webkit-mask-composite: source-in;
+          mask:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' fill='none' stroke='%23000' stroke-width='1.1'%3E%3Cpath d='M28 11 45 28 28 45 11 28Z'/%3E%3Cpath d='M16 16h24v24H16z'/%3E%3Cpath d='M0 0l16 16M56 0 40 16M0 56l16-16M56 56 40 40M28 0v11M28 45v11M0 28h11M45 28h11'/%3E%3Ccircle cx='28' cy='28' r='4'/%3E%3C/svg%3E") 0 0 / 56px 56px repeat,
+    linear-gradient(#000 0%, rgb(0 0 0 / 0.55) 45%, transparent 85%);
+          mask-composite: intersect;
 }
 /* Grano de papel / cristal empañado */
 body::after {
@@ -532,6 +578,8 @@ body::after {
     linear-gradient(#000 0 0) top / 100% 5px no-repeat,
     radial-gradient(circle at 9px 5px, #000 8.5px, transparent 9px) 0 0 / 18px 14px repeat-x;
   filter: drop-shadow(0 3px 2px rgb(0 0 0 / 0.25));
+  transform-origin: top;
+  animation: desplegarToldo 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s both;
 }
 
 /* Logo-letrero */
@@ -542,9 +590,10 @@ body::after {
   92%  { opacity: 0.7; }
 }
 .letrero {
-  font-family: var(--font-rotulo);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+  font-family: var(--font-pintado);
+  font-weight: 400;
+  font-synthesis: none;
+  letter-spacing: 0.01em;
   line-height: 1;
 }
 :root .letrero,
@@ -555,12 +604,12 @@ body::after {
     0 0 6px #FF9447,
     0 0 14px #FF7A1F,
     0 0 28px rgb(255 74 61 / 0.6);
-  animation: tuboNeon 7s linear infinite;
+  animation: encenderNeon 1.3s linear 0.15s both, tuboNeon 7s linear 1.45s infinite;
 }
 [data-tema="dia"] .letrero {
   color: var(--guindilla-700);
   text-shadow: 2px 2px 0 var(--carbon-900);
-  animation: none;
+  animation: pegarVinilo 0.7s cubic-bezier(0.65, 0, 0.35, 1) 0.15s both;
 }
 
 /* Tarjeta de carta impresa: de día, sombra dura de cartel serigrafiado */
@@ -587,10 +636,11 @@ body::after {
 
 /* Número de plato gigante perfilado (marca de agua en la carta) */
 .numero-plato {
-  font-family: var(--font-rotulo);
   line-height: 0.8;
   color: transparent;
-  -webkit-text-stroke: 1.5px color-mix(in srgb, var(--acento) 28%, transparent);
+  font-family: var(--font-pintado);
+  font-synthesis: none;
+  -webkit-text-stroke: 1.5px color-mix(in srgb, var(--acento) 30%, transparent);
   user-select: none;
   pointer-events: none;
 }
@@ -601,3 +651,67 @@ html:not([data-modo]) .selector-compacto [data-icono-modo="auto"],
 [data-modo="auto"] .selector-compacto [data-icono-modo="auto"],
 [data-modo="noche"] .selector-compacto [data-icono-modo="noche"],
 [data-modo="dia"] .selector-compacto [data-icono-modo="dia"] { display: inline-flex; }
+
+/* =====================================================================
+ * 9. COREOGRAFÍA DE ENTRADA
+ * ---------------------------------------------------------------------
+ *  Un solo momento fuerte al cargar cada pantalla, sin JS:
+ *   1. se despliega el toldo,  2. se enciende el neón (o se pega el
+ *   vinilo de día),  3. las secciones suben en cascada,  4. los trozos
+ *   se ensartan en la brocheta,  5. el ticket sale de la impresora.
+ *  Todo se anula con prefers-reduced-motion (bloque de la sección 7).
+ * ===================================================================== */
+@keyframes desplegarToldo {
+  from { transform: scaleY(0); }
+  to   { transform: scaleY(1); }
+}
+@keyframes encenderNeon {
+  0%   { opacity: 0.12; text-shadow: none; }
+  8%   { opacity: 1; }
+  10%  { opacity: 0.2; text-shadow: none; }
+  22%  { opacity: 0.2; text-shadow: none; }
+  24%  { opacity: 1; }
+  28%  { opacity: 0.35; }
+  34%, 100% { opacity: 1; }
+}
+@keyframes pegarVinilo {
+  from { clip-path: inset(0 100% 0 0); transform: translateY(1px); }
+  to   { clip-path: inset(-4px -4px -4px -4px); transform: none; }
+}
+@keyframes subirAlMostrador {
+  from { opacity: 0; transform: translateY(18px) rotate(-0.4deg); }
+  to   { opacity: 1; transform: none; }
+}
+.escalonado > * {
+  animation: subirAlMostrador 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: calc(0.3s + var(--orden, 6) * 0.08s);
+}
+.escalonado > :nth-child(1) { --orden: 0; }
+.escalonado > :nth-child(2) { --orden: 1; }
+.escalonado > :nth-child(3) { --orden: 2; }
+.escalonado > :nth-child(4) { --orden: 3; }
+.escalonado > :nth-child(5) { --orden: 4; }
+.escalonado > :nth-child(6) { --orden: 5; }
+
+/* Brocheta: cada trozo entra deslizándose por la varilla */
+@keyframes ensartar {
+  from { transform: translateX(-28px); opacity: 0; }
+  to   { transform: none; opacity: 1; }
+}
+.brocheta-trozo {
+  transform-box: fill-box;
+  animation: ensartar 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.25) both;
+}
+
+/* Tarjetas de la carta: se levantan del mostrador al pasar el puntero */
+@media (hover: hover) {
+  .tarjeta {
+    transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease;
+  }
+  .tarjeta:hover {
+    transform: translate(-1px, -3px) rotate(-0.3deg);
+  }
+  [data-tema="dia"] .tarjeta:hover {
+    box-shadow: 5px 6px 0 var(--sombra-dura);
+  }
+}

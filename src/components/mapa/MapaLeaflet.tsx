@@ -38,7 +38,7 @@ function crearIconoDurum(nota: number | null, seleccionado: boolean): L.DivIcon 
 
   const html = `
     <div style="transform:${escala};transform-origin:bottom center;transition:transform 150ms ease;display:flex;flex-direction:column;align-items:center;">
-      <div style="background:${c.fondo};color:${c.texto};border:2px solid ${c.borde};border-radius:999px;padding:2px 7px;font-family:'Space Mono',monospace;font-weight:700;font-size:12px;line-height:1.1;box-shadow:0 3px 10px rgba(0,0,0,.45);display:flex;align-items:center;gap:4px;white-space:nowrap;">
+      <div style="background:${c.fondo};color:${c.texto};border:2px solid ${c.borde};border-radius:999px;padding:2px 7px;font-family:'Recursive Variable',monospace;font-variation-settings:'MONO' 1;font-weight:700;font-size:12px;line-height:1.1;box-shadow:0 3px 10px rgba(0,0,0,.45);display:flex;align-items:center;gap:4px;white-space:nowrap;">
         <svg width="12" height="16" viewBox="0 0 12 16" aria-hidden="true">
           <ellipse cx="6" cy="3" rx="4.5" ry="2" fill="#EADBC0"/>
           <circle cx="5" cy="3" r="1" fill="#A9430A"/>

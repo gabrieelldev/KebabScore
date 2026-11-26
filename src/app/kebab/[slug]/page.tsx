@@ -4,7 +4,7 @@
 // Reproduce la pantalla 2 de Stitch (ficha_local_el_trompo_de_oro):
 //   1. Hero con imagen hotlinked del trompo girando, brasas flotantes y
 //      placa colgante "Dürüm Mixto · 6,50 €".
-//   2. Estado en neón verde, título Anton, dirección y 3 chapas metálicas
+//   2. Estado en neón verde, título de marquesina, dirección y 3 chapas metálicas
 //      (HALAL CERTIFICADO, PAN CASERO AL MOMENTO, OPCIÓN FALAFEL).
 //   3. Corte Anatómico del Dürüm (las 6 capas apiladas con sus notas).
 //   4. Últimos Tickets Auditados en papel térmico + botón "Story 9:16".
@@ -153,7 +153,7 @@ export default async function PaginaFichaLocal({ params }: { params: Params }) {
   };
 
   return (
-    <div className="mx-auto max-w-md pb-28">
+    <div className="escalonado mx-auto max-w-md pb-28">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaOrg) }}
