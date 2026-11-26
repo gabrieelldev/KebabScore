@@ -620,18 +620,17 @@ body::after {
   --tubo-encendido: #FFF1E0;
   --tubo-medio:     #C98A60;
   --tubo-apagado:   #5A3B2C;
-  /* Halo corto: el brillo rodea la letra sin emborronarla */
+  /* Halo mínimo pegado a la letra: el resplandor grande lo pone el fondo
+   * de la caja de luz (radial-gradient), así el trazo queda nítido. */
   --halo-neon:
-    0 0 1px #FFF8EB,
-    0 0 3px #FF9447,
-    0 0 8px rgb(255 122 31 / 0.85),
-    0 0 14px rgb(255 74 61 / 0.35);
-  --halo-debil: 0 0 3px rgb(255 122 31 / 0.5);
+    0 0 2px rgb(255 148 71 / 0.9),
+    0 0 6px rgb(255 122 31 / 0.55);
+  --halo-debil: 0 0 2px rgb(255 122 31 / 0.45);
   display: inline-block;
   padding: 0.2em 0.45em 0.14em;
   border-radius: 7px;
   background:
-    radial-gradient(80% 120% at 50% 50%, rgb(255 110 30 / 0.16), transparent 70%),
+    radial-gradient(85% 130% at 50% 50%, rgb(255 110 30 / 0.24), transparent 72%),
     #140E0B;
   box-shadow:
     inset 0 0 0 1px rgb(255 148 71 / 0.28),

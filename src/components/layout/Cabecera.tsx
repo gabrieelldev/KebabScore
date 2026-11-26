@@ -123,7 +123,7 @@ export function Cabecera() {
                 type="button"
                 onClick={manejarClicSecretoMlg}
                 title="Málaga (3 clics para Consola de Creador)"
-                className="rounded-full border border-acento/40 bg-brasa-orange/20 px-1.5 py-0.5 font-ticket text-[10px] font-bold uppercase tracking-wider text-acento"
+                className="rounded-full border border-acento/50 bg-superficie-alta px-1.5 py-0.5 font-ticket text-[10px] font-bold uppercase tracking-wider text-acento"
               >
                 MLG
               </button>
@@ -134,10 +134,10 @@ export function Cabecera() {
               aria-label="Locales abiertos a las 3 AM"
               className="flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-lechuga/25 bg-superficie-alta px-2.5 py-1"
             >
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-lechuga-green opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-lechuga-green shadow-[0_0_8px_#7ED957]" />
-              </span>
+              {/* Piloto fijo, sin animate-ping: en iPhone una animación de
+                  transform/opacity en la cabecera fija hacía que la fila entera
+                  se pintara a menos resolución (se veía borrosa). */}
+              <span className="inline-flex h-2 w-2 rounded-full bg-lechuga-green shadow-[0_0_6px_#7ED957]" />
               <span className="font-ticket text-[11px] font-bold tracking-tight text-texto">
                 <span className="hidden sm:inline">ABIERTOS </span>3 AM
               </span>
