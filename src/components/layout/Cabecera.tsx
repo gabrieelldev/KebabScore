@@ -64,7 +64,7 @@ export function Cabecera() {
   if (esSubpagina) {
     // Cabecera compacta de pila móvil ("Detalle Kebab") igual que en Stitch
     return (
-      <header className="barra-fija cabecera-fija fixed top-0 z-50 w-full border-b border-acento/15 pt-safe shadow-[0_6px_28px_rgba(0,0,0,0.7)]">
+      <header className="barra-fija cabecera-fija fixed top-0 z-50 w-full border-b border-acento/15 shadow-[0_6px_28px_rgba(0,0,0,0.7)]">
         <div className="mx-auto flex h-16 max-w-5xl items-center justify-between gap-2 px-4">
           <div className="flex min-w-0 items-center gap-1">
             <Link
@@ -104,7 +104,7 @@ export function Cabecera() {
   }
 
   return (
-    <header className="barra-fija cabecera-fija fixed top-0 z-50 w-full border-b border-acento/15 pt-safe shadow-[0_10px_30px_rgba(0,0,0,0.65)]">
+    <header className="barra-fija cabecera-fija fixed top-0 z-50 w-full border-b border-acento/15 shadow-[0_10px_30px_rgba(0,0,0,0.65)]">
       <div className="mx-auto flex h-20 max-w-5xl flex-col justify-center gap-1.5 px-4">
         <div className="flex items-center justify-between gap-2">
           {/* Logo-letrero de neón con dos tubos gastados + piloto de abiertos */}

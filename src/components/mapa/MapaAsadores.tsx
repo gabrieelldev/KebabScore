@@ -132,7 +132,7 @@ export function MapaAsadores({
       className="mapa-asadores fixed inset-0 z-[70] flex flex-col bg-fondo"
     >
       {/* Cabecera del mapa */}
-      <div className="pt-safe flex items-center justify-between gap-3 border-b border-linea/10 bg-fondo px-4 py-3">
+      <div className="cabecera-mapa flex items-center justify-between gap-3 border-b border-linea/10 bg-fondo px-4 py-3">
         <div className="min-w-0">
           <h2
             id="titulo-mapa-asadores"

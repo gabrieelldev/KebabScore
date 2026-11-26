@@ -794,14 +794,45 @@ html:not([data-modo]) .selector-compacto [data-icono-modo="auto"],
 /* =====================================================================
  * 11. CABECERA FIJA NÍTIDA (app instalada)
  * ---------------------------------------------------------------------
- *  Fondo opaco, sin backdrop-filter: el desenfoque del cristal esmerilado
- *  hacía que la parte de arriba se viera borrosa en la app instalada
- *  (sobre todo bajo la barra de estado del iPhone).
- *  Si algún dispositivo dibuja la app bajo la barra de estado (zona segura
- *  > 0), esa franja va en carbón para que la hora en blanco se lea.
+ *  Fondo opaco y sin backdrop-filter.
+ *
+ *  iPhone con la app en la pantalla de inicio: el sistema dibuja la app
+ *  bajo la hora y la batería y DIFUMINA una franja de arriba que va más
+ *  allá de la barra de estado. La primera fila de la cabecera caía dentro
+ *  y se veía borrosa. Solución: en iPhone instalado bajamos la cabecera
+ *  una franja (--franja-ios) que es pura decoración (bombillas de
+ *  marquesina), así lo borroso es la franja y no el logo.
+ *  -webkit-touch-callout solo existe en Safari de iOS.
  * ===================================================================== */
+:root {
+  --franja-ios: 0px;
+  --capa-bombillas: linear-gradient(transparent, transparent);
+}
+@media (display-mode: standalone) {
+  @supports (-webkit-touch-callout: none) {
+    :root {
+      --franja-ios: 40px;
+      /* bombillas de marquesina centradas en la franja */
+      --capa-bombillas:
+        radial-gradient(circle, rgb(255 180 110 / 0.55) 0 1.6px, transparent 2.4px)
+        0 calc(env(safe-area-inset-top, 0px) + 11px) / 18px 18px repeat-x;
+    }
+  }
+}
+
 .cabecera-fija {
+  padding-top: calc(env(safe-area-inset-top, 0px) + var(--franja-ios));
   background:
-    linear-gradient(var(--carbon-900), var(--carbon-900)) top / 100% env(safe-area-inset-top, 0px) no-repeat,
+    var(--capa-bombillas),
+    /* zona segura en carbón: la hora en blanco se lee siempre */
+    linear-gradient(var(--carbon-900), var(--carbon-900))
+      top / 100% calc(env(safe-area-inset-top, 0px) + var(--franja-ios)) no-repeat,
     var(--fondo);
+}
+/* El contenido empieza debajo de la cabecera: 6rem + zona segura + franja */
+.hueco-cabecera {
+  padding-top: calc(6rem + env(safe-area-inset-top, 0px) + var(--franja-ios));
+}
+.cabecera-mapa {
+  padding-top: calc(0.75rem + env(safe-area-inset-top, 0px) + var(--franja-ios));
 }
