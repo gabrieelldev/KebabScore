@@ -17,6 +17,7 @@ import { useMemo, useState } from 'react';
 import { RegistroPerfilCliente } from '@/components/auth/RegistroPerfilCliente';
 import { BannerEventosEspeciales } from '@/components/creador/BannerEventosEspeciales';
 import { Icono } from '@/components/ui/Icono';
+import { AjustesAvisos } from '@/components/pwa/AjustesAvisos';
 import { useAuth } from '@/lib/auth/contexto';
 import {
   type CategoriaMision,
@@ -262,6 +263,9 @@ export function MisionesYPerfilCliente({ aliasUsuario }: Props) {
             </div>
           </div>
         </section>
+
+        {/* ============ AVISOS DE LA APP ============ */}
+        <AjustesAvisos />
 
         {/* ============ MIS TICKETS VERIFICADOS ============ */}
         {usuarioActual.ticketsPublicados.length > 0 && (

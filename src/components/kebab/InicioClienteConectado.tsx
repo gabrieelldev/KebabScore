@@ -15,6 +15,7 @@ import { Brocheta } from '@/components/kebab/Brocheta';
 import { BannerEventosEspeciales } from '@/components/creador/BannerEventosEspeciales';
 import { ExploradorInicio } from '@/components/kebab/ExploradorInicio';
 import { PodioCarta } from '@/components/kebab/PodioCarta';
+import { SugerenciaAvisos } from '@/components/pwa/SugerenciaAvisos';
 import { Icono } from '@/components/ui/Icono';
 import { useCreador } from '@/lib/creador/contexto';
 import type { Barrio, LocalResumen } from '@/lib/datos/tipos';
@@ -120,6 +121,9 @@ export function InicioClienteConectado({
           </div>
         </div>
       </section>
+
+      {/* Tarjeta discreta para activar avisos (solo si tiene sentido) */}
+      <SugerenciaAvisos />
 
       {/* ============ 2. TICKET TÉRMICO: FÓRMULA KEBABSCORE™ ============ */}
       <section aria-label="Fórmula KebabScore" className="px-4 py-3">

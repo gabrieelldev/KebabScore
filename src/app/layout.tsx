@@ -11,6 +11,7 @@ import '@fontsource-variable/recursive/full.css';
 import type { Metadata, Viewport } from 'next';
 import { Suspense } from 'react';
 import { BarraPulgar, Cabecera } from '@/components/layout/Cabecera';
+import { GestorAvisos } from '@/components/pwa/GestorAvisos';
 import { InstaladorPwa } from '@/components/pwa/InstaladorPwa';
 import { ProveedorAuth } from '@/lib/auth/contexto';
 import { ProveedorCreador } from '@/lib/creador/contexto';
@@ -88,6 +89,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
           <main id="contenido-principal" className="relative z-20 flex-1 pt-24 pb-20">
             <InstaladorPwa />
+            <GestorAvisos />
             {children}
           </main>
 
