@@ -18,6 +18,7 @@ import { useRef } from 'react';
 import { Icono } from '@/components/ui/Icono';
 import { useAuth } from '@/lib/auth/contexto';
 import { useCreador } from '@/lib/creador/contexto';
+import { useHidratado } from '@/lib/useHidratado';
 
 // Letrero de neón: cada letra es un tubo. Dos de ellos están gastados y
 // parpadean a su aire (con ritmos distintos para que no parezca un bucle).
@@ -31,8 +32,15 @@ import { SelectorModo } from './SelectorModo';
 export function Cabecera() {
   const pathname = usePathname();
   const router = useRouter();
-  const { usuarioActual } = useAuth();
-  const { modoCreadorActivo, activarAtajoCreador } = useCreador();
+  // La cabecera va en su propio <Suspense> e hidrata después de que los
+  // proveedores lean localStorage: hasta hidratar pintamos lo mismo que el
+  // servidor (sin sesión ni modo creador) para evitar el desajuste.
+  const hidratado = useHidratado();
+  const auth = useAuth();
+  const creador = useCreador();
+  const usuarioActual = hidratado ? auth.usuarioActual : null;
+  const modoCreadorActivo = hidratado && creador.modoCreadorActivo;
+  const { activarAtajoCreador } = creador;
   const contadorClicsRef = useRef<{ clics: number; timer: number | null }>({
     clics: 0,
     timer: null,
