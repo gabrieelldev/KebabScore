@@ -5,8 +5,8 @@
 // aplicación instalable (PWA) y mantiene una caché rápida de navegación.
 // =====================================================================
 
-const CACHE_NAME = 'kebabscore-pwa-v1';
-const URLS_BASE = ['/', '/ranking', '/misiones', '/icon.svg'];
+const CACHE_NAME = 'kebabscore-pwa-v2';
+const URLS_BASE = ['/', '/ranking', '/misiones', '/icons/icon-192.png'];
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();

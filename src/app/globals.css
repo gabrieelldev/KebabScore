@@ -508,7 +508,7 @@ input[type="range"].slider-salsa::-moz-range-thumb {
  *  · Pared de azulejos del local (noche) / baldosa hidráulica (Terraza).
  *  · Grano de papel impreso por encima de todo, muy sutil.
  *  · Toldo de rayas con festón bajo la cabecera.
- *  · Logo como letrero: tubo de neón de noche, vinilo pintado de día.
+ *  · Logo como letrero de neón en caja de luz, con dos tubos gastados.
  *  · Tarjetas de carta impresa con sombra dura en modo Terraza.
  * ===================================================================== */
 :root,
@@ -560,7 +560,7 @@ body::after {
   content: "";
   position: fixed;
   inset: 0;
-  z-index: 60;
+  z-index: 40; /* por debajo de las barras fijas: el grano no ensucia el letrero */
   pointer-events: none;
   opacity: var(--grano);
   mix-blend-mode: overlay;
@@ -582,34 +582,78 @@ body::after {
   animation: desplegarToldo 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s both;
 }
 
-/* Logo-letrero */
+/* Logo-letrero de neón
+ * ---------------------------------------------------------------------
+ * Una caja de luz oscura con tubos de neón en los dos temas (de día
+ * también: un letrero luminoso se ve encendido a pleno sol). El núcleo de
+ * cada letra es casi blanco y el halo es corto para que se lea nítido en
+ * pantallas pequeñas. Dos tubos están gastados: .tubo-gastado se apaga a
+ * tirones cada pocos segundos y .tubo-tocado zumba de vez en cuando. */
 @keyframes tuboNeon {
-  0%, 89%, 93%, 100% { opacity: 1; }
-  90%  { opacity: 0.55; }
-  91%  { opacity: 1; }
-  92%  { opacity: 0.7; }
+  0%, 93%, 100% { opacity: 1; }
+  94%  { opacity: 0.82; }
+  95%  { opacity: 1; }
+  96.5% { opacity: 0.88; }
+}
+@keyframes tuboGastado {
+  0%, 30%   { color: var(--tubo-encendido); text-shadow: var(--halo-neon); }
+  31%       { color: var(--tubo-apagado); text-shadow: none; }
+  32%       { color: var(--tubo-encendido); text-shadow: var(--halo-neon); }
+  33%, 37%  { color: var(--tubo-apagado); text-shadow: none; }
+  38%, 62%  { color: var(--tubo-encendido); text-shadow: var(--halo-neon); }
+  63%, 64%  { color: var(--tubo-medio); text-shadow: var(--halo-debil); }
+  65%, 81%  { color: var(--tubo-encendido); text-shadow: var(--halo-neon); }
+  82%, 92%  { color: var(--tubo-apagado); text-shadow: none; }
+  93%       { color: var(--tubo-medio); text-shadow: var(--halo-debil); }
+  94%       { color: var(--tubo-apagado); text-shadow: none; }
+  95%, 100% { color: var(--tubo-encendido); text-shadow: var(--halo-neon); }
+}
+@keyframes tuboTocado {
+  0%, 71%   { color: var(--tubo-encendido); text-shadow: var(--halo-neon); }
+  72%, 73%  { color: var(--tubo-medio); text-shadow: var(--halo-debil); }
+  74%, 88%  { color: var(--tubo-encendido); text-shadow: var(--halo-neon); }
+  89%       { color: var(--tubo-apagado); text-shadow: none; }
+  90%, 100% { color: var(--tubo-encendido); text-shadow: var(--halo-neon); }
 }
 .letrero {
+  --tubo-encendido: #FFF1E0;
+  --tubo-medio:     #C98A60;
+  --tubo-apagado:   #5A3B2C;
+  --halo-neon:
+    0 0 1px #FFF8EB,
+    0 0 4px #FF9447,
+    0 0 10px #FF7A1F,
+    0 0 20px rgb(255 74 61 / 0.5);
+  --halo-debil: 0 0 3px rgb(255 122 31 / 0.5);
+  display: inline-block;
+  padding: 0.2em 0.45em 0.14em;
+  border-radius: 7px;
+  background:
+    radial-gradient(80% 120% at 50% 50%, rgb(255 110 30 / 0.16), transparent 70%),
+    #140E0B;
+  box-shadow:
+    inset 0 0 0 1px rgb(255 148 71 / 0.28),
+    inset 0 1px 0 rgb(255 255 255 / 0.06);
   font-family: var(--font-pintado);
   font-weight: 400;
   font-synthesis: none;
   letter-spacing: 0.01em;
   line-height: 1;
+  color: var(--tubo-encendido);
+  text-shadow: var(--halo-neon);
+  animation: encenderNeon 1.3s linear 0.15s both, tuboNeon 6.3s linear 1.45s infinite;
 }
-:root .letrero,
-[data-tema="noche"] .letrero {
-  color: #FFF1E0;
-  text-shadow:
-    0 0 1px #FFF8EB,
-    0 0 6px #FF9447,
-    0 0 14px #FF7A1F,
-    0 0 28px rgb(255 74 61 / 0.6);
-  animation: encenderNeon 1.3s linear 0.15s both, tuboNeon 7s linear 1.45s infinite;
+.letrero .tubo-gastado {
+  animation: tuboGastado 4.7s steps(1, end) 1.6s infinite;
 }
+.letrero .tubo-tocado {
+  animation: tuboTocado 7.9s steps(1, end) 2.4s infinite;
+}
+/* De día la caja de luz cuelga sobre la crema: canto duro de cartel */
 [data-tema="dia"] .letrero {
-  color: var(--guindilla-700);
-  text-shadow: 2px 2px 0 var(--carbon-900);
-  animation: pegarVinilo 0.7s cubic-bezier(0.65, 0, 0.35, 1) 0.15s both;
+  box-shadow:
+    inset 0 0 0 1px rgb(255 148 71 / 0.35),
+    2px 2px 0 var(--carbon-900);
 }
 
 /* Tarjeta de carta impresa: de día, sombra dura de cartel serigrafiado */
@@ -656,8 +700,8 @@ html:not([data-modo]) .selector-compacto [data-icono-modo="auto"],
  * 9. COREOGRAFÍA DE ENTRADA
  * ---------------------------------------------------------------------
  *  Un solo momento fuerte al cargar cada pantalla, sin JS:
- *   1. se despliega el toldo,  2. se enciende el neón (o se pega el
- *   vinilo de día),  3. las secciones suben en cascada,  4. los trozos
+ *   1. se despliega el toldo,  2. se enciende el letrero de neón,
+ *   3. las secciones suben en cascada,  4. los trozos
  *   se ensartan en la brocheta,  5. el ticket sale de la impresora.
  *  Todo se anula con prefers-reduced-motion (bloque de la sección 7).
  * ===================================================================== */
@@ -673,10 +717,6 @@ html:not([data-modo]) .selector-compacto [data-icono-modo="auto"],
   24%  { opacity: 1; }
   28%  { opacity: 0.35; }
   34%, 100% { opacity: 1; }
-}
-@keyframes pegarVinilo {
-  from { clip-path: inset(0 100% 0 0); transform: translateY(1px); }
-  to   { clip-path: inset(-4px -4px -4px -4px); transform: none; }
 }
 @keyframes subirAlMostrador {
   from { opacity: 0; transform: translateY(18px) rotate(-0.4deg); }

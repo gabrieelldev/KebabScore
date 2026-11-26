@@ -30,19 +30,14 @@ export default function manifest(): MetadataRoute.Manifest {
     theme_color: '#120F0D',
     lang: 'es-ES',
     categories: ['food', 'lifestyle', 'navigation'],
+    // PNG nítidos: iOS y muchos lanzadores de Android no usan SVG y
+    // acababan reescalando una imagen pequeña (el icono se veía borroso).
+    // El maskable lleva el letrero más pequeño, dentro de la zona segura,
+    // para que Android no lo recorte al ponerle la forma redonda.
     icons: [
-      {
-        src: '/icon.svg',
-        sizes: 'any',
-        type: 'image/svg+xml',
-        purpose: 'any',
-      },
-      {
-        src: '/icon.svg',
-        sizes: '512x512',
-        type: 'image/svg+xml',
-        purpose: 'maskable',
-      },
+      { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
+      { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
+      { src: '/icons/maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
     ],
     shortcuts: [
       {

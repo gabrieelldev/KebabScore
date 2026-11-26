@@ -18,6 +18,14 @@ import { useRef } from 'react';
 import { Icono } from '@/components/ui/Icono';
 import { useAuth } from '@/lib/auth/contexto';
 import { useCreador } from '@/lib/creador/contexto';
+
+// Letrero de neón: cada letra es un tubo. Dos de ellos están gastados y
+// parpadean a su aire (con ritmos distintos para que no parezca un bucle).
+const LETRAS_LOGO = 'KEBABSCORE'.split('');
+const TUBOS_GASTADOS: Partial<Record<number, string>> = {
+  4: 'tubo-gastado',
+  8: 'tubo-tocado',
+};
 import { SelectorModo } from './SelectorModo';
 
 export function Cabecera() {
@@ -99,14 +107,17 @@ export function Cabecera() {
     <header className="barra-fija fixed top-0 z-50 w-full border-b border-acento/15 bg-fondo/90 pt-safe shadow-[0_10px_30px_rgba(0,0,0,0.65)] backdrop-blur-2xl">
       <div className="mx-auto flex h-20 max-w-5xl flex-col justify-center gap-1.5 px-4">
         <div className="flex items-center justify-between gap-2">
-          {/* Logo-letrero (neón de noche, vinilo de día) + piloto de abiertos */}
+          {/* Logo-letrero de neón con dos tubos gastados + piloto de abiertos */}
           <div className="flex min-w-0 items-center gap-2.5">
             <div className="flex items-baseline gap-1.5">
-              <Link
-                href="/"
-                className="letrero text-[25px]"
-              >
-                KEBABSCORE
+              <Link href="/" aria-label="KebabScore, ir al inicio" className="letrero text-[23px]">
+                <span aria-hidden="true">
+                  {LETRAS_LOGO.map((letra, i) => (
+                    <span key={i} className={TUBOS_GASTADOS[i]}>
+                      {letra}
+                    </span>
+                  ))}
+                </span>
               </Link>
               <button
                 type="button"
@@ -128,7 +139,7 @@ export function Cabecera() {
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-lechuga-green shadow-[0_0_8px_#7ED957]" />
               </span>
               <span className="font-ticket text-[11px] font-bold tracking-tight text-texto">
-                <span className={modoCreadorActivo ? 'hidden sm:inline' : ''}>ABIERTOS </span>3 AM
+                <span className="hidden sm:inline">ABIERTOS </span>3 AM
               </span>
             </Link>
           </div>
