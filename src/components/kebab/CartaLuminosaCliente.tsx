@@ -74,30 +74,30 @@ export function CartaLuminosaCliente({
   return (
     <div className="mx-auto max-w-lg pb-12">
       {/* ============ 1. MARQUESINA SUPERIOR DE LA CARTA LUMINOSA ============ */}
-      <section className="relative overflow-hidden border-b border-white/10 bg-gradient-to-b from-[#241D18] to-[#120F0D] px-4 pb-4 pt-5">
+      <section className="relative overflow-hidden border-b border-linea/10 bg-gradient-to-b from-superficie to-fondo px-4 pb-4 pt-5">
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[#FF7A1F]/15 blur-3xl"
+          className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-primario/15 blur-3xl"
         />
 
         <div className="relative flex items-end justify-between gap-2">
           <div>
             <div className="mb-1 flex items-center gap-1.5">
-              <Icono nombre="bolt" className="h-4 w-4 text-[#FF7A1F]" />
-              <span className="font-ticket text-[10px] uppercase tracking-[0.2em] text-[#FF7A1F]">
+              <Icono nombre="bolt" className="h-4 w-4 text-acento" />
+              <span className="font-ticket text-[10px] uppercase tracking-[0.2em] text-acento">
                 TABLÓN EN VIVO · RANKING BAYESIANO
               </span>
             </div>
-            <h1 className="rotulo-neon font-rotulo text-3xl uppercase leading-none tracking-wide text-[#F5EFE6] sm:text-4xl">
+            <h1 className="rotulo-neon font-rotulo text-3xl uppercase leading-none tracking-wide text-texto sm:text-4xl">
               {tituloPersonalizado ?? 'CARTA LUMINOSA · TOP MÁLAGA'}
             </h1>
           </div>
 
           <div className="shrink-0 text-right font-ticket">
-            <span className="block text-[10px] text-[#C9B9A6]">
+            <span className="block text-[10px] text-texto-suave">
               {localesOrdenados.length} LOCALES AUDITADOS
             </span>
-            <span className="text-[11px] font-bold text-[#35C759]">
+            <span className="text-[11px] font-bold text-lechuga">
               ACTUALIZADO 04:12 AM
             </span>
           </div>
@@ -111,27 +111,27 @@ export function CartaLuminosaCliente({
             aria-pressed={soloAbiertos}
             className={`flex shrink-0 items-center gap-2 rounded-full border px-3.5 py-1.5 font-ticket text-xs font-bold transition-all active:scale-95 ${
               soloAbiertos
-                ? 'border-[#35C759] bg-[#35C759] text-[#120F0D]'
-                : 'border-[#35C759]/50 bg-[#35C759]/15 text-[#35C759] shadow-[0_0_12px_rgba(53,199,89,0.2)]'
+                ? 'border-lechuga bg-lechuga-green text-carbon'
+                : 'border-lechuga/50 bg-lechuga-green/15 text-lechuga shadow-[0_0_12px_rgba(53,199,89,0.2)]'
             }`}
           >
             <span
               className={`h-2 w-2 animate-pulse rounded-full ${
-                soloAbiertos ? 'bg-[#120F0D]' : 'bg-[#35C759]'
+                soloAbiertos ? 'bg-fondo' : 'bg-lechuga-green'
               }`}
             />
             Abierto Ahora (23)
           </button>
 
-          <div className="mx-0.5 h-5 w-px shrink-0 bg-white/10" />
+          <div className="mx-0.5 h-5 w-px shrink-0 bg-linea/10" />
 
           <button
             type="button"
             onClick={() => setBarrioActivo('todos')}
             className={`shrink-0 rounded-full px-3.5 py-1.5 font-ticket text-xs font-bold transition-colors ${
               barrioActivo === 'todos'
-                ? 'bg-[#FF7A1F] text-[#120F0D] shadow-[0_0_12px_rgba(255,122,31,0.35)]'
-                : 'border border-white/10 bg-[#1B1613] text-[#C9B9A6] hover:text-[#F5EFE6]'
+                ? 'bg-primario text-carbon shadow-[0_0_12px_rgba(255,122,31,0.35)]'
+                : 'border border-linea/10 bg-superficie-baja text-texto-suave hover:text-texto'
             }`}
           >
             Toda Málaga
@@ -146,8 +146,8 @@ export function CartaLuminosaCliente({
                 onClick={() => setBarrioActivo(b.slug)}
                 className={`shrink-0 rounded-full px-3.5 py-1.5 font-ticket text-xs font-medium transition-colors ${
                   activo
-                    ? 'bg-[#FF7A1F] font-bold text-[#120F0D] shadow-[0_0_12px_rgba(255,122,31,0.35)]'
-                    : 'border border-white/10 bg-[#1B1613] text-[#C9B9A6] hover:text-[#F5EFE6]'
+                    ? 'bg-primario font-bold text-carbon shadow-[0_0_12px_rgba(255,122,31,0.35)]'
+                    : 'border border-linea/10 bg-superficie-baja text-texto-suave hover:text-texto'
                 }`}
               >
                 {b.nombre}
@@ -157,8 +157,8 @@ export function CartaLuminosaCliente({
         </div>
 
         {/* Barra de ordenación por subnota */}
-        <div className="mt-3 flex items-center justify-between border-t border-white/5 pt-2.5">
-          <span className="font-ticket text-[10px] uppercase tracking-wider text-[#C9B9A6]">
+        <div className="mt-3 flex items-center justify-between border-t border-linea/5 pt-2.5">
+          <span className="font-ticket text-[10px] uppercase tracking-wider text-texto-suave">
             ORDENAR POR:
           </span>
           <div className="flex flex-wrap gap-1.5">
@@ -174,8 +174,8 @@ export function CartaLuminosaCliente({
                 onClick={() => setOrden(item.id)}
                 className={`rounded px-2 py-0.5 font-ticket text-[11px] transition-colors ${
                   orden === item.id
-                    ? 'border border-[#FF7A1F]/40 bg-[#FF7A1F]/20 font-bold text-[#FF7A1F]'
-                    : 'text-[#C9B9A6] hover:text-[#F5EFE6]'
+                    ? 'border border-acento/40 bg-primario/20 font-bold text-acento'
+                    : 'text-texto-suave hover:text-texto'
                 }`}
               >
                 {item.texto}
@@ -197,27 +197,27 @@ export function CartaLuminosaCliente({
 
           const estiloNumero =
             idx === 0
-              ? 'border-[#F2C14E] bg-[#120F0D]/90 text-[#F2C14E] shadow-[0_0_15px_rgba(242,193,78,0.4)]'
+              ? 'border-mostaza bg-fondo/90 text-mostaza shadow-[0_0_15px_rgba(242,193,78,0.4)]'
               : idx === 1
-                ? 'border-[#C9B9A6] bg-[#120F0D]/90 text-[#F5EFE6]'
-                : 'border-[#FF7A1F] bg-[#120F0D]/90 text-[#FF7A1F]';
+                ? 'border-texto-suave bg-fondo/90 text-texto'
+                : 'border-acento bg-fondo/90 text-acento';
 
           const estiloBorde =
             idx === 0
-              ? 'border-2 border-[#FF7A1F]/70 shadow-[0_0_25px_rgba(255,122,31,0.18),inset_0_0_20px_rgba(255,122,31,0.08)]'
-              : 'border border-white/15 shadow-[0_0_20px_rgba(0,0,0,0.5)]';
+              ? 'border-2 border-acento/70 shadow-[0_0_25px_rgba(255,122,31,0.18),inset_0_0_20px_rgba(255,122,31,0.08)]'
+              : 'border border-linea/15 shadow-[0_0_20px_rgba(0,0,0,0.5)]';
 
           return (
             <article
               key={local.id}
-              className={`relative overflow-hidden rounded-xl bg-[#1B1613] transition-all duration-300 ${estiloBorde}`}
+              className={`relative overflow-hidden rounded-xl bg-superficie-baja transition-all duration-300 ${estiloBorde}`}
             >
               {/* Barra fluorescente superior en el #01 */}
               {idx === 0 && (
-                <div className="h-1 w-full bg-gradient-to-r from-[#FF3B30] via-[#FF7A1F] to-[#F2C14E]" />
+                <div className="h-1 w-full bg-gradient-to-r from-guindilla-red via-primario to-mostaza-gold" />
               )}
 
-              <div className="relative h-44 w-full overflow-hidden bg-[#0E0B0A]">
+              <div className="relative h-44 w-full overflow-hidden bg-fondo">
                 <img
                   src={foto}
                   alt={local.nombre}
@@ -234,8 +234,8 @@ export function CartaLuminosaCliente({
                       {numeroPlato}
                     </span>
                   </div>
-                  <span className="flex items-center gap-1 rounded bg-[#120F0D]/85 px-2 py-1 font-ticket text-[10px] font-bold text-[#35C759] backdrop-blur-sm">
-                    <span className="h-1.5 w-1.5 rounded-full bg-[#35C759]" />
+                  <span className="flex items-center gap-1 rounded bg-fondo/85 px-2 py-1 font-ticket text-[10px] font-bold text-lechuga backdrop-blur-sm">
+                    <span className="h-1.5 w-1.5 rounded-full bg-lechuga-green" />
                     ABIERTO · HASTA {horaCierre}
                   </span>
                 </div>
@@ -243,10 +243,10 @@ export function CartaLuminosaCliente({
                 {/* Sello de nota */}
                 <div className="absolute right-3 top-3 flex flex-col items-end">
                   <div
-                    className={`flex items-center gap-1.5 rounded-lg border border-white/30 px-2.5 py-1 shadow-lg ${
+                    className={`flex items-center gap-1.5 rounded-lg border border-linea/30 px-2.5 py-1 shadow-lg ${
                       (local.nota ?? 0) >= 8.5
-                        ? 'bg-[#FF3B30] text-white'
-                        : 'bg-[#FF7A1F] text-[#120F0D]'
+                        ? 'bg-guindilla-red text-carbon'
+                        : 'bg-primario text-carbon'
                     }`}
                   >
                     <Icono nombre="local_fire_department" className="h-4 w-4" />
@@ -254,7 +254,7 @@ export function CartaLuminosaCliente({
                       {formatearNota(local.nota)}
                     </span>
                   </div>
-                  <span className="mt-1 rounded bg-[#120F0D]/90 px-1.5 py-0.5 font-ticket text-[9px] font-bold uppercase tracking-wider text-[#FF7A1F]">
+                  <span className="mt-1 rounded bg-fondo/90 px-1.5 py-0.5 font-ticket text-[9px] font-bold uppercase tracking-wider text-acento">
                     NIVEL: {infoPicante.etiqueta} ({local.numResenas} VOTOS)
                   </span>
                 </div>
@@ -262,19 +262,19 @@ export function CartaLuminosaCliente({
                 {/* Identidad + precio térmico inclinado */}
                 <div className="absolute bottom-2.5 left-3 right-3 flex items-end justify-between gap-2">
                   <div>
-                    <span className="inline-block rounded bg-[#FF7A1F] px-1.5 py-0.5 font-ticket text-[9px] font-bold uppercase tracking-wider text-[#120F0D]">
+                    <span className="inline-block rounded bg-primario px-1.5 py-0.5 font-ticket text-[9px] font-bold uppercase tracking-wider text-carbon">
                       {local.insignia ?? 'Especialidad Nocturna'}
                     </span>
-                    <h2 className="mt-0.5 font-rotulo text-2xl uppercase leading-none tracking-wide text-[#F5EFE6] drop-shadow">
+                    <h2 className="mt-0.5 font-rotulo text-2xl uppercase leading-none tracking-wide text-texto drop-shadow">
                       {local.nombre}
                     </h2>
-                    <p className="font-sans text-xs text-[#C9B9A6]">
+                    <p className="font-sans text-xs text-texto-suave">
                       {local.barrio.nombre} · {local.direccion}
                     </p>
                   </div>
 
-                  <div className="shrink-0 rotate-[-2deg] rounded-sm border border-[#181411]/20 bg-[#EFE6D5] px-2.5 py-1 text-[#181411] shadow-md">
-                    <span className="block font-ticket text-[8px] uppercase leading-none text-[#5C4E41]">
+                  <div className="shrink-0 rotate-[-2deg] rounded-sm border border-ticket-tinta/20 bg-ticket-papel px-2.5 py-1 text-ticket-tinta shadow-md">
+                    <span className="block font-ticket text-[8px] uppercase leading-none text-ticket-suave">
                       DÜRÜM MIXTO
                     </span>
                     <span className="font-ticket text-sm font-bold">
@@ -286,9 +286,9 @@ export function CartaLuminosaCliente({
 
               {/* Estratos de las 6 subnotas + botones */}
               <div className="p-3.5">
-                <div className="mb-1.5 flex items-center justify-between font-ticket text-[10px] text-[#C9B9A6]">
+                <div className="mb-1.5 flex items-center justify-between font-ticket text-[10px] text-texto-suave">
                   <span>DESGLOSE DE CAPAS (KEBABSCORE)</span>
-                  <span className="text-[#F5EFE6]">
+                  <span className="text-texto">
                     CARNE <strong>{formatearNota(sub.meat)}</strong> · SALSA{' '}
                     <strong>{formatearNota(sub.sauces)}</strong> · PAN{' '}
                     <strong>{formatearNota(sub.bread)}</strong>
@@ -296,53 +296,53 @@ export function CartaLuminosaCliente({
                 </div>
 
                 {/* Barra de 6 segmentos con brillo strata-shimmer */}
-                <div className="strata-shimmer flex h-3 w-full overflow-hidden rounded-full border border-white/10 bg-[#120F0D] p-0.5">
+                <div className="strata-shimmer flex h-3 w-full overflow-hidden rounded-full border border-linea/10 bg-fondo p-0.5">
                   <div
                     style={{ width: `${Math.round(sub.bread * 1.5)}%` }}
-                    className="h-full bg-[#F2C14E]"
+                    className="h-full bg-mostaza-gold"
                     title={`Pan: ${formatearNota(sub.bread)}`}
                   />
                   <div
                     style={{ width: `${Math.round(sub.sauces * 2)}%` }}
-                    className="h-full bg-[#FFF6E8]"
+                    className="h-full bg-crema"
                     title={`Salsas: ${formatearNota(sub.sauces)}`}
                   />
                   <div
                     style={{ width: `${Math.round(sub.meat * 3)}%` }}
-                    className="h-full bg-[#FF7A1F]"
+                    className="h-full bg-primario"
                     title={`Carne: ${formatearNota(sub.meat)}`}
                   />
                   <div
                     style={{ width: `${Math.round(sub.freshness)}%` }}
-                    className="h-full bg-[#35C759]"
+                    className="h-full bg-lechuga-green"
                     title={`Verdura: ${formatearNota(sub.freshness)}`}
                   />
                   <div
                     style={{ width: `${Math.round(sub.value * 1.5)}%` }}
-                    className="h-full bg-[#FF3B30]"
+                    className="h-full bg-guindilla-red"
                     title={`Tamaño/Precio: ${formatearNota(sub.value)}`}
                   />
                   <div
                     style={{ width: `${Math.round(sub.night)}%` }}
-                    className="h-full flex-1 bg-[#9E8C7A]"
+                    className="h-full flex-1 bg-superficie-alta"
                     title={`Horario 3 AM: ${formatearNota(sub.night)}`}
                   />
                 </div>
 
                 {/* Pie de tarjeta con acciones */}
-                <div className="mt-3 flex items-center justify-between gap-2 border-t border-white/10 pt-2.5">
+                <div className="mt-3 flex items-center justify-between gap-2 border-t border-linea/10 pt-2.5">
                   <button
                     type="button"
                     onClick={() => setLocalModal(local)}
-                    className="inline-flex items-center gap-1.5 rounded-lg border border-white/15 bg-[#241D18] px-3 py-1.5 font-ticket text-xs font-bold text-[#EFE6D5] transition-colors hover:border-[#FF7A1F]"
+                    className="inline-flex items-center gap-1.5 rounded-lg border border-linea/15 bg-superficie px-3 py-1.5 font-ticket text-xs font-bold text-texto transition-colors hover:border-acento"
                   >
-                    <Icono nombre="receipt_long" className="h-4 w-4 text-[#FF7A1F]" />
+                    <Icono nombre="receipt_long" className="h-4 w-4 text-acento" />
                     Ver Ticket Detalle
                   </button>
 
                   <Link
                     href={`/kebab/${local.slug}`}
-                    className="inline-flex items-center gap-1 rounded-lg bg-[#FF7A1F] px-3.5 py-1.5 font-rotulo text-sm uppercase tracking-wider text-[#120F0D] transition-colors hover:bg-[#FF3B30] hover:text-[#F5EFE6]"
+                    className="inline-flex items-center gap-1 rounded-lg bg-primario px-3.5 py-1.5 font-rotulo text-sm uppercase tracking-wider text-carbon transition-colors hover:bg-guindilla-red hover:text-texto"
                   >
                     Inspeccionar
                     <Icono nombre="arrow_forward" className="h-4 w-4" />
@@ -364,16 +364,16 @@ export function CartaLuminosaCliente({
               return (
                 <article
                   key={local.id}
-                  className="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-[#1B1613] p-3 transition-colors hover:border-[#FF7A1F]/50"
+                  className="flex items-center justify-between gap-3 rounded-xl border border-linea/10 bg-superficie-baja p-3 transition-colors hover:border-acento/50"
                 >
                   <div className="flex min-w-0 items-center gap-3">
-                    <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-lg border border-white/15">
+                    <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-lg border border-linea/15">
                       <img
                         src={foto}
                         alt={local.nombre}
                         className="h-full w-full object-cover"
                       />
-                      <span className="absolute left-1 top-1 rounded bg-[#120F0D]/90 px-1.5 py-0.5 font-rotulo text-xs text-[#F2C14E]">
+                      <span className="absolute left-1 top-1 rounded bg-fondo/90 px-1.5 py-0.5 font-rotulo text-xs text-mostaza">
                         {puesto}
                       </span>
                     </div>
@@ -381,24 +381,24 @@ export function CartaLuminosaCliente({
                     <div className="min-w-0">
                       <Link
                         href={`/kebab/${local.slug}`}
-                        className="block truncate font-rotulo text-lg uppercase tracking-wide text-[#F5EFE6] hover:text-[#FF7A1F]"
+                        className="block truncate font-rotulo text-lg uppercase tracking-wide text-texto hover:text-acento"
                       >
                         {local.nombre}
                       </Link>
-                      <p className="truncate text-xs text-[#C9B9A6]">
+                      <p className="truncate text-xs text-texto-suave">
                         {local.barrio.nombre} · {local.direccion}
                       </p>
                       <div className="mt-1 flex items-center gap-2 font-ticket text-[10px]">
-                        <span className="rounded bg-[#EFE6D5] px-1.5 py-0.5 font-bold text-[#181411]">
+                        <span className="rounded bg-ticket-papel px-1.5 py-0.5 font-bold text-ticket-tinta">
                           {formatearPrecio(local.precioDurumCentimos)}
                         </span>
-                        <span className="text-[#C9B9A6]">
+                        <span className="text-texto-suave">
                           {local.numResenas} tickets
                         </span>
                         <button
                           type="button"
                           onClick={() => setLocalModal(local)}
-                          className="text-[#FF7A1F] underline-offset-2 hover:underline"
+                          className="text-acento underline-offset-2 hover:underline"
                         >
                           Ticket
                         </button>
@@ -408,12 +408,12 @@ export function CartaLuminosaCliente({
 
                   <Link
                     href={`/kebab/${local.slug}`}
-                    className="shrink-0 rounded-lg border border-[#FF7A1F]/40 bg-[#120F0D] px-2.5 py-1.5 text-center"
+                    className="shrink-0 rounded-lg border border-acento/40 bg-fondo px-2.5 py-1.5 text-center"
                   >
-                    <span className="block font-ticket text-lg font-bold leading-none text-[#FF7A1F]">
+                    <span className="block font-ticket text-lg font-bold leading-none text-acento">
                       {formatearNota(local.nota)}
                     </span>
-                    <span className="font-ticket text-[9px] uppercase text-[#C9B9A6]">
+                    <span className="font-ticket text-[9px] uppercase text-texto-suave">
                       {infoNivelPicante(local.nota).etiqueta}
                     </span>
                   </Link>
@@ -426,26 +426,26 @@ export function CartaLuminosaCliente({
 
       {/* ============ 3. LEYENDA DE LA ESCALA DE PICANTE ============ */}
       <section aria-label="Guía de picante y temperatura" className="mt-6 px-3">
-        <div className="rounded-xl border border-white/10 bg-[#1B1613] p-4">
-          <h2 className="font-ticket text-[11px] font-bold uppercase tracking-widest text-[#C9B9A6]">
+        <div className="rounded-xl border border-linea/10 bg-superficie-baja p-4">
+          <h2 className="font-ticket text-[11px] font-bold uppercase tracking-widest text-texto-suave">
             GUÍA DE PICANTE & TEMPERATURA (ESCALA KEBABSCORE)
           </h2>
           <div className="mt-2.5 grid grid-cols-2 gap-2 font-ticket text-xs sm:grid-cols-4">
-            <div className="rounded-lg border border-[#FF3B30]/30 bg-[#120F0D] p-2">
-              <span className="block font-bold text-[#FF3B30]">8,5 – 10,0 · FUEGO</span>
-              <span className="text-[10px] text-[#C9B9A6]">Imprescindible</span>
+            <div className="rounded-lg border border-guindilla/30 bg-fondo p-2">
+              <span className="block font-bold text-guindilla">8,5 – 10,0 · FUEGO</span>
+              <span className="text-[10px] text-texto-suave">Imprescindible</span>
             </div>
-            <div className="rounded-lg border border-[#FF7A1F]/30 bg-[#120F0D] p-2">
-              <span className="block font-bold text-[#FF7A1F]">7,0 – 8,4 · PICANTE</span>
-              <span className="text-[10px] text-[#C9B9A6]">Acierto seguro</span>
+            <div className="rounded-lg border border-acento/30 bg-fondo p-2">
+              <span className="block font-bold text-acento">7,0 – 8,4 · PICANTE</span>
+              <span className="text-[10px] text-texto-suave">Acierto seguro</span>
             </div>
-            <div className="rounded-lg border border-[#F2C14E]/30 bg-[#120F0D] p-2">
-              <span className="block font-bold text-[#F2C14E]">5,0 – 6,9 · SUAVE</span>
-              <span className="text-[10px] text-[#C9B9A6]">Te salva la noche</span>
+            <div className="rounded-lg border border-mostaza/30 bg-fondo p-2">
+              <span className="block font-bold text-mostaza">5,0 – 6,9 · SUAVE</span>
+              <span className="text-[10px] text-texto-suave">Te salva la noche</span>
             </div>
-            <div className="rounded-lg border border-white/10 bg-[#120F0D] p-2">
-              <span className="block font-bold text-[#9E8C7A]">0,0 – 4,9 · DUDOSO</span>
-              <span className="text-[10px] text-[#C9B9A6]">Solo emergencias</span>
+            <div className="rounded-lg border border-linea/10 bg-fondo p-2">
+              <span className="block font-bold text-texto-apagado">0,0 – 4,9 · DUDOSO</span>
+              <span className="text-[10px] text-texto-suave">Solo emergencias</span>
             </div>
           </div>
         </div>
@@ -459,21 +459,21 @@ export function CartaLuminosaCliente({
           aria-label={`Ticket de auditoría de ${localModal.nombre}`}
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm"
         >
-          <div className="relative w-full max-w-sm rotate-[-0.5deg] rounded-sm bg-[#EFE6D5] p-5 font-ticket text-[#181411] shadow-2xl">
+          <div className="relative w-full max-w-sm rotate-[-0.5deg] rounded-sm bg-ticket-papel p-5 font-ticket text-ticket-tinta shadow-2xl">
             <div
               aria-hidden="true"
               className="serrated-edge absolute -top-2 left-0 right-0 h-2.5"
             />
 
-            <div className="flex items-start justify-between border-b border-dashed border-[#5C4E41]/50 pb-2.5">
+            <div className="flex items-start justify-between border-b border-dashed border-ticket-suave/50 pb-2.5">
               <div>
-                <span className="text-[10px] uppercase tracking-widest text-[#5C4E41]">
+                <span className="text-[10px] uppercase tracking-widest text-ticket-suave">
                   *** DESGLOSE CARTA LUMINOSA ***
                 </span>
-                <h3 className="font-rotulo text-2xl uppercase leading-none text-[#181411]">
+                <h3 className="font-rotulo text-2xl uppercase leading-none text-ticket-tinta">
                   {localModal.nombre}
                 </h3>
-                <p className="text-[10px] text-[#5C4E41]">
+                <p className="text-[10px] text-ticket-suave">
                   {localModal.barrio.nombre} · {localModal.direccion}
                 </p>
               </div>
@@ -481,13 +481,13 @@ export function CartaLuminosaCliente({
                 type="button"
                 onClick={() => setLocalModal(null)}
                 aria-label="Cerrar ticket"
-                className="rounded bg-[#181411] p-1 text-[#EFE6D5]"
+                className="rounded bg-ticket-tinta p-1 text-ticket-papel"
               >
                 <Icono nombre="close" className="h-4 w-4" />
               </button>
             </div>
 
-            <div className="my-3 space-y-1.5 border-b border-dashed border-[#5C4E41]/50 pb-3 text-xs">
+            <div className="my-3 space-y-1.5 border-b border-dashed border-ticket-suave/50 pb-3 text-xs">
               <div className="flex justify-between">
                 <span>01. CARNE & TUESTE (30%)</span>
                 <strong>{formatearNota(localModal.subnotas.meat)}</strong>
@@ -516,16 +516,16 @@ export function CartaLuminosaCliente({
 
             <div className="flex items-center justify-between">
               <div>
-                <span className="block text-[10px] text-[#5C4E41]">
+                <span className="block text-[10px] text-ticket-suave">
                   MEDIA PONDERADA ({localModal.numResenas} TICKETS)
                 </span>
-                <span className="text-lg font-bold text-[#181411]">
+                <span className="text-lg font-bold text-ticket-tinta">
                   TOTAL: {formatearNota(localModal.nota)} / 10
                 </span>
               </div>
               <Link
                 href={`/kebab/${localModal.slug}`}
-                className="rounded bg-[#FF3B30] px-3.5 py-2 font-rotulo text-sm uppercase tracking-wider text-white"
+                className="rounded bg-guindilla-red px-3.5 py-2 font-rotulo text-sm uppercase tracking-wider text-carbon"
               >
                 Abrir ficha →
               </Link>

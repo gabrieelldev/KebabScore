@@ -45,7 +45,7 @@ export function SelectorModo() {
     <div
       role="group"
       aria-label="Ambiente de la web"
-      className="flex items-center rounded-full border border-white/10 bg-carbon-800/90 p-0.5 backdrop-blur-md"
+      className="flex items-center rounded-full border border-linea/10 bg-superficie-baja/90 p-0.5 backdrop-blur-md"
     >
       {OPCIONES.map((op) => {
         const activo = modo === op.valor;
@@ -60,7 +60,7 @@ export function SelectorModo() {
             className={`rounded-full px-2.5 py-0.5 font-ticket text-[11px] transition-all ${
               activo
                 ? 'bg-gradient-to-r from-brasa-orange to-[#ff6014] font-bold text-carbon-900 shadow-[0_2px_8px_rgba(255,122,31,0.4)]'
-                : 'text-crema-500 hover:text-crema-100'
+                : 'text-texto-apagado hover:text-texto'
             }`}
           >
             {op.etiqueta}

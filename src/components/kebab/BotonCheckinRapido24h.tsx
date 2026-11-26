@@ -96,17 +96,17 @@ export function BotonCheckinRapido24h({
 
   return (
     <section aria-label="Check-in GPS rápido 24h" className="mt-3 px-4">
-      <div className="rounded-xl border border-[#2ECC71]/35 bg-[#1B1613] p-3.5 shadow-[0_10px_24px_rgba(0,0,0,0.5)]">
+      <div className="rounded-xl border border-lechuga/35 bg-superficie-baja p-3.5 shadow-[0_10px_24px_rgba(0,0,0,0.5)]">
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#2ECC71]/15 text-[#2ECC71]">
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-lechuga-green/15 text-lechuga">
               <Icono nombre="near_me" className="h-4 w-4" />
             </span>
             <div>
-              <p className="font-ticket text-[10px] font-bold uppercase tracking-wider text-[#2ECC71]">
+              <p className="font-ticket text-[10px] font-bold uppercase tracking-wider text-lechuga">
                 PASE GPS NOCTURNO 24H · ANTI-RESEÑAS FALSAS
               </p>
-              <p className="text-xs text-[#C9B9A6]">
+              <p className="text-xs text-texto-suave">
                 Ficha en 1 toque en el mostrador y escribe tu reseña mañana desde casa.
               </p>
             </div>
@@ -116,19 +116,19 @@ export function BotonCheckinRapido24h({
         {!usuarioActual ? (
           <Link
             href="/entrar"
-            className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-lg border border-[#FF7A1F]/40 bg-[#FF7A1F]/15 py-2 font-ticket text-[11px] font-bold uppercase text-[#FF7A1F] hover:bg-[#FF7A1F]/25"
+            className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-lg border border-acento/40 bg-primario/15 py-2 font-ticket text-[11px] font-bold uppercase text-acento hover:bg-primario/25"
           >
             <Icono nombre="person" className="h-3.5 w-3.5" />
             <span>Inicia sesión con tu correo para fichar GPS</span>
           </Link>
         ) : selloExistente ? (
-          <div className="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-lg border border-[#2ECC71]/40 bg-[#2ECC71]/15 px-3 py-2 font-ticket text-[11px] text-[#2ECC71]">
+          <div className="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-lg border border-lechuga/40 bg-lechuga-green/15 px-3 py-2 font-ticket text-[11px] text-lechuga">
             <span>
               ✓ PASE GPS 24H ACTIVO (A {selloExistente.distanciaMetros} m del local)
             </span>
             <Link
               href={`/kebab/${localSlug}/resenar`}
-              className="rounded bg-[#2ECC71] px-2.5 py-1 font-bold text-[#120F0D]"
+              className="rounded bg-lechuga-green px-2.5 py-1 font-bold text-carbon"
             >
               Auditar ahora →
             </Link>
@@ -140,7 +140,7 @@ export function BotonCheckinRapido24h({
                 type="button"
                 disabled={comprobando}
                 onClick={ficharPorGpsReal}
-                className="flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-[#2ECC71] px-3 py-2 font-ticket text-[11px] font-bold uppercase text-[#120F0D] transition-transform active:scale-95 disabled:opacity-50"
+                className="flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-lechuga-green px-3 py-2 font-ticket text-[11px] font-bold uppercase text-carbon transition-transform active:scale-95 disabled:opacity-50"
               >
                 <Icono nombre="near_me" className="h-3.5 w-3.5" />
                 <span>
@@ -152,13 +152,13 @@ export function BotonCheckinRapido24h({
               <button
                 type="button"
                 onClick={simularCheckinDaw}
-                className="rounded-lg border border-[#F2C14E]/40 bg-[#F2C14E]/15 px-2.5 py-2 font-ticket text-[10px] font-bold text-[#F2C14E] hover:bg-[#F2C14E]/25"
+                className="rounded-lg border border-mostaza/40 bg-mostaza-gold/15 px-2.5 py-2 font-ticket text-[10px] font-bold text-mostaza hover:bg-mostaza-gold/25"
               >
                 🧪 Simular (DAW)
               </button>
             </div>
             {mensajeError && (
-              <p className="font-ticket text-[10px] text-[#FF3B30]">
+              <p className="font-ticket text-[10px] text-guindilla">
                 {mensajeError}
               </p>
             )}

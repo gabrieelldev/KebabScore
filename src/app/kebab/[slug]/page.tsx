@@ -63,10 +63,10 @@ export default async function PaginaFichaLocal({ params }: { params: Params }) {
         ? 'Pan tandoor recién pegado al horno, sellado crujiente sin grietas'
         : 'Pan lavash tostado en plancha doble, sellado firme sin fugas',
       nota: sub.bread,
-      colorTexto: 'text-[#F2C14E]',
-      colorIcono: 'text-[#F2C14E] border-[#F2C14E]/30 bg-[#1B1613]',
-      colorBarra: 'from-[#F2C14E]/60 to-[#F2C14E]',
-      colorBorde: 'border-[#44372E]/50 bg-[#241D18]/90',
+      colorTexto: 'text-mostaza',
+      colorIcono: 'text-mostaza border-mostaza/30 bg-superficie-baja',
+      colorBarra: 'from-mostaza-gold/60 to-mostaza-gold',
+      colorBorde: 'border-borde/50 bg-superficie/90',
     },
     {
       numero: '2. Salsas',
@@ -74,10 +74,10 @@ export default async function PaginaFichaLocal({ params }: { params: Params }) {
       peso: '20%',
       descripcion: 'Yogur espeso con ajo real y salsa brava casera que pica de verdad',
       nota: sub.sauces,
-      colorTexto: 'text-[#FFF6E8]',
-      colorIcono: 'text-[#FFF6E8] border-[#FFF6E8]/30 bg-[#1B1613]',
-      colorBarra: 'from-[#FFF6E8]/60 to-[#FFF6E8]',
-      colorBorde: 'border-[#44372E]/50 bg-[#241D18]/90',
+      colorTexto: 'text-texto',
+      colorIcono: 'text-texto border-texto/30 bg-superficie-baja',
+      colorBarra: 'from-crema/60 to-crema',
+      colorBorde: 'border-borde/50 bg-superficie/90',
     },
     {
       numero: '3. Carne (El Trompo)',
@@ -85,10 +85,10 @@ export default async function PaginaFichaLocal({ params }: { params: Params }) {
       peso: '30%',
       descripcion: 'Láminas finas con borde tostado al carbón, jugosa y cero grasa blanda',
       nota: sub.meat,
-      colorTexto: 'text-[#FF7A1F]',
-      colorIcono: 'text-[#FF7A1F] border-[#FF7A1F]/40 bg-[#1B1613]',
-      colorBarra: 'from-[#FF7A1F] to-[#FF3B30] shadow-[0_0_8px_rgba(255,122,31,0.6)]',
-      colorBorde: 'border-[#FF7A1F]/40 bg-[#2E251F] shadow-[0_0_15px_rgba(255,122,31,0.08)]',
+      colorTexto: 'text-acento',
+      colorIcono: 'text-acento border-acento/40 bg-superficie-baja',
+      colorBarra: 'from-primario to-guindilla-red shadow-[0_0_8px_rgba(255,122,31,0.6)]',
+      colorBorde: 'border-acento/40 bg-superficie-alta shadow-[0_0_15px_rgba(255,122,31,0.08)]',
     },
     {
       numero: '4. Verdura y Frescura',
@@ -96,10 +96,10 @@ export default async function PaginaFichaLocal({ params }: { params: Params }) {
       peso: '10%',
       descripcion: 'Lombarda crujiente, tomate maduro y cebolla morada con zumaque',
       nota: sub.freshness,
-      colorTexto: 'text-[#35C759]',
-      colorIcono: 'text-[#35C759] border-[#35C759]/30 bg-[#1B1613]',
-      colorBarra: 'from-[#35C759]/60 to-[#35C759]',
-      colorBorde: 'border-[#44372E]/50 bg-[#241D18]/90',
+      colorTexto: 'text-lechuga',
+      colorIcono: 'text-lechuga border-lechuga/30 bg-superficie-baja',
+      colorBarra: 'from-lechuga-green/60 to-lechuga-green',
+      colorBorde: 'border-borde/50 bg-superficie/90',
     },
     {
       numero: '5. Tamaño / Precio',
@@ -107,10 +107,10 @@ export default async function PaginaFichaLocal({ params }: { params: Params }) {
       peso: '15%',
       descripcion: `Calibre ${local.pesoGramos ?? 620}g pesados en báscula por ${formatearPrecio(local.precioDurumCentimos)} · No te quedas con hambre`,
       nota: sub.value,
-      colorTexto: 'text-[#FF3B30]',
-      colorIcono: 'text-[#FF3B30] border-[#FF3B30]/30 bg-[#1B1613]',
-      colorBarra: 'from-[#FF3B30]/70 to-[#FF3B30]',
-      colorBorde: 'border-[#44372E]/50 bg-[#241D18]/90',
+      colorTexto: 'text-guindilla',
+      colorIcono: 'text-guindilla border-guindilla/30 bg-superficie-baja',
+      colorBarra: 'from-guindilla-red/70 to-guindilla-red',
+      colorBorde: 'border-borde/50 bg-superficie/90',
     },
     {
       numero: '6. Horario Nocturno Golfo',
@@ -118,10 +118,10 @@ export default async function PaginaFichaLocal({ params }: { params: Params }) {
       peso: '10%',
       descripcion: `A las 03:45 AM el trompo sigue encendido y cierra a las ${horaCierre}`,
       nota: sub.night,
-      colorTexto: 'text-[#C9B9A6]',
-      colorIcono: 'text-[#FF7A1F] border-[#C9B9A6]/30 bg-[#1B1613]',
-      colorBarra: 'from-[#C9B9A6]/50 to-[#F5EFE6]',
-      colorBorde: 'border-[#44372E]/50 bg-[#241D18]/90',
+      colorTexto: 'text-texto-suave',
+      colorIcono: 'text-acento border-texto-suave/30 bg-superficie-baja',
+      colorBarra: 'from-superficie-alta/50 to-crema',
+      colorBorde: 'border-borde/50 bg-superficie/90',
     },
   ];
 
@@ -189,16 +189,16 @@ export default async function PaginaFichaLocal({ params }: { params: Params }) {
         {/* Degradado oscuro de lectura */}
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-t from-[#120F0D] via-[#120F0D]/55 to-transparent"
+          className="absolute inset-0 bg-gradient-to-t from-fondo via-fondo/55 to-transparent"
         />
 
         {/* Placa colgante de precio del Dürüm en estilo ticket */}
-        <div className="absolute right-4 top-4 z-10 rotate-[2deg] rounded-sm bg-[#EFE6D5] px-3 py-1.5 text-[#181411] shadow-[0_8px_20px_rgba(0,0,0,0.65)] border-b-2 border-dashed border-[#181411]/30">
-          <div className="mx-auto mb-1 h-1.5 w-1.5 rounded-full bg-[#120F0D]" />
-          <span className="block text-center font-ticket text-[10px] uppercase tracking-widest text-[#5C4E41]">
+        <div className="absolute right-4 top-4 z-10 rotate-[2deg] rounded-sm bg-ticket-papel px-3 py-1.5 text-ticket-tinta shadow-[0_8px_20px_rgba(0,0,0,0.65)] border-b-2 border-dashed border-ticket-tinta/30">
+          <div className="mx-auto mb-1 h-1.5 w-1.5 rounded-full bg-fondo" />
+          <span className="block text-center font-ticket text-[10px] uppercase tracking-widest text-ticket-suave">
             Dürüm Mixto
           </span>
-          <span className="block font-ticket text-lg font-bold leading-none tracking-tight text-[#181411]">
+          <span className="block font-ticket text-lg font-bold leading-none tracking-tight text-ticket-tinta">
             {formatearPrecio(local.precioDurumCentimos)}
           </span>
         </div>
@@ -206,22 +206,22 @@ export default async function PaginaFichaLocal({ params }: { params: Params }) {
         {/* Identidad del local sobre la imagen */}
         <div className="absolute bottom-0 left-0 right-0 p-4">
           <div className="mb-2 flex flex-wrap items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-[#35C759]/40 bg-[#120F0D]/90 px-2.5 py-1 font-ticket text-[11px] font-bold tracking-wider text-[#35C759] shadow-[0_0_12px_rgba(53,199,89,0.25)] backdrop-blur-md">
-              <span className="h-2 w-2 animate-pulse rounded-full bg-[#35C759]" />
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-lechuga/40 bg-fondo/90 px-2.5 py-1 font-ticket text-[11px] font-bold tracking-wider text-lechuga shadow-[0_0_12px_rgba(53,199,89,0.25)] backdrop-blur-md">
+              <span className="h-2 w-2 animate-pulse rounded-full bg-lechuga-green" />
               ABIERTO AHORA · CIERRA A LAS {horaCierre}
             </span>
           </div>
 
-          <h1 className="rotulo-neon font-rotulo text-4xl uppercase leading-[0.95] tracking-wider text-[#F5EFE6]">
+          <h1 className="rotulo-neon font-rotulo text-4xl uppercase leading-[0.95] tracking-wider text-texto">
             {local.nombre}
           </h1>
 
-          <p className="mt-1 flex items-center gap-1 text-xs font-medium text-[#C9B9A6]">
-            <Icono nombre="location_on" className="h-4 w-4 text-[#FF7A1F]" />
+          <p className="mt-1 flex items-center gap-1 text-xs font-medium text-texto-suave">
+            <Icono nombre="location_on" className="h-4 w-4 text-acento" />
             {local.direccion} ·{' '}
             <Link
               href={`/barrio/${local.barrio.slug}`}
-              className="underline decoration-[#FF7A1F]/60 underline-offset-2 hover:text-[#FF7A1F]"
+              className="underline decoration-acento/60 underline-offset-2 hover:text-acento"
             >
               {local.barrio.nombre}
             </Link>
@@ -231,23 +231,23 @@ export default async function PaginaFichaLocal({ params }: { params: Params }) {
           {/* 3 chapas metálicas de escaparate */}
           <div className="mt-3 flex flex-wrap gap-1.5">
             {local.halal && (
-              <span className="inline-flex items-center gap-1 rounded border border-[#44372E] bg-[#241D18]/90 px-2 py-0.5 font-ticket text-[10px] uppercase tracking-wider text-[#F5EFE6]">
-                <Icono nombre="verified" className="h-3.5 w-3.5 text-[#35C759]" />
+              <span className="inline-flex items-center gap-1 rounded border border-borde bg-superficie/90 px-2 py-0.5 font-ticket text-[10px] uppercase tracking-wider text-texto">
+                <Icono nombre="verified" className="h-3.5 w-3.5 text-lechuga" />
                 HALAL CERTIFICADO
               </span>
             )}
             {local.panCasero && (
-              <span className="inline-flex items-center gap-1 rounded border border-[#44372E] bg-[#241D18]/90 px-2 py-0.5 font-ticket text-[10px] uppercase tracking-wider text-[#F5EFE6]">
+              <span className="inline-flex items-center gap-1 rounded border border-borde bg-superficie/90 px-2 py-0.5 font-ticket text-[10px] uppercase tracking-wider text-texto">
                 <Icono
                   nombre="local_fire_department"
-                  className="h-3.5 w-3.5 text-[#FF7A1F]"
+                  className="h-3.5 w-3.5 text-acento"
                 />
                 PAN CASERO AL MOMENTO
               </span>
             )}
             {local.vegetariano && (
-              <span className="inline-flex items-center gap-1 rounded border border-[#44372E] bg-[#241D18]/90 px-2 py-0.5 font-ticket text-[10px] uppercase tracking-wider text-[#F5EFE6]">
-                <Icono nombre="eco" className="h-3.5 w-3.5 text-[#F2C14E]" />
+              <span className="inline-flex items-center gap-1 rounded border border-borde bg-superficie/90 px-2 py-0.5 font-ticket text-[10px] uppercase tracking-wider text-texto">
+                <Icono nombre="eco" className="h-3.5 w-3.5 text-mostaza" />
                 OPCIÓN FALAFEL
               </span>
             )}
@@ -265,82 +265,82 @@ export default async function PaginaFichaLocal({ params }: { params: Params }) {
 
       {/* ============ 2. KEBABSCORE EN CAPAS (CORTE ANATÓMICO) ============ */}
       <section aria-label="KebabScore en capas" className="mt-2 px-4">
-        <div className="relative overflow-hidden rounded-xl border border-[#44372E]/60 bg-[#1B1613] p-4 shadow-[0_12px_32px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,246,232,0.08)]">
+        <div className="relative overflow-hidden rounded-xl border border-borde/60 bg-superficie-baja p-4 shadow-[0_12px_32px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,246,232,0.08)]">
           {/* Resplandor superior tipo carta luminosa */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute -top-12 left-1/2 h-24 w-3/4 -translate-x-1/2 rounded-full bg-[#FF7A1F]/15 blur-2xl"
+            className="pointer-events-none absolute -top-12 left-1/2 h-24 w-3/4 -translate-x-1/2 rounded-full bg-primario/15 blur-2xl"
           />
 
           {/* Cabecera del KebabScore */}
-          <div className="flex items-center justify-between border-b border-[#44372E]/40 pb-3">
+          <div className="flex items-center justify-between border-b border-borde/40 pb-3">
             <div>
               <div className="flex items-center gap-1.5">
-                <span className="font-rotulo text-xl uppercase tracking-wider text-[#F5EFE6]">
+                <span className="font-rotulo text-xl uppercase tracking-wider text-texto">
                   KEBABSCORE
                 </span>
-                <span className="inline-flex items-center gap-0.5 rounded border border-[#FF3B30]/40 bg-[#FF3B30]/20 px-1.5 py-0.5 font-ticket text-[10px] font-bold uppercase text-[#FF3B30]">
+                <span className="inline-flex items-center gap-0.5 rounded border border-guindilla/40 bg-guindilla-red/10 px-1.5 py-0.5 font-ticket text-[10px] font-bold uppercase text-guindilla">
                   <Icono nombre="local_fire_department" className="h-3 w-3" />
                   {infoPicante.etiqueta.toUpperCase()}
                 </span>
               </div>
-              <p className="mt-0.5 font-ticket text-[11px] text-[#C9B9A6]">
+              <p className="mt-0.5 font-ticket text-[11px] text-texto-suave">
                 Basado en {local.numResenas} tickets auditados
               </p>
             </div>
 
             {/* Nota gigante en neón */}
-            <div className="flex items-baseline gap-1 rounded-lg border border-[#FF3B30]/50 bg-[#120F0D] px-3.5 py-2 shadow-[0_0_20px_rgba(255,59,48,0.25)]">
-              <span className="font-ticket text-3xl font-bold tracking-tighter text-[#FF3B30]">
+            <div className="flex items-baseline gap-1 rounded-lg border border-guindilla/50 bg-fondo px-3.5 py-2 shadow-[0_0_20px_rgba(255,59,48,0.25)]">
+              <span className="font-ticket text-3xl font-bold tracking-tighter text-guindilla">
                 {formatearNota(local.nota)}
               </span>
-              <span className="font-ticket text-xs text-[#C9B9A6]">/10</span>
+              <span className="font-ticket text-xs text-texto-suave">/10</span>
             </div>
           </div>
 
           {/* Barra horizontal de estratos del dürüm */}
           <div className="mt-4">
             <div className="mb-2 flex items-center justify-between">
-              <span className="font-ticket text-[10px] uppercase tracking-widest text-[#C9B9A6]">
+              <span className="font-ticket text-[10px] uppercase tracking-widest text-texto-suave">
                 CORTE ANATÓMICO DEL DÜRÜM · 6 CAPAS REGISTRADAS
               </span>
-              <span className="font-ticket text-[10px] text-[#FF7A1F]">100% PONDERADO</span>
+              <span className="font-ticket text-[10px] text-acento">100% PONDERADO</span>
             </div>
 
-            <div className="mb-4 flex h-5 w-full overflow-hidden rounded-full border border-[#44372E] bg-[#120F0D] p-0.5 shadow-inner">
+            <div className="mb-4 flex h-5 w-full overflow-hidden rounded-full border border-borde bg-fondo p-0.5 shadow-inner">
               <div
                 style={{ width: '15%' }}
-                className="flex h-full items-center justify-center rounded-l-full bg-[#F2C14E] font-ticket text-[8px] font-bold text-[#120F0D]"
+                className="flex h-full items-center justify-center rounded-l-full bg-mostaza-gold font-ticket text-[8px] font-bold text-carbon"
               >
                 PAN
               </div>
               <div
                 style={{ width: '20%' }}
-                className="flex h-full items-center justify-center bg-[#FFF6E8] font-ticket text-[8px] font-bold text-[#120F0D]"
+                className="flex h-full items-center justify-center bg-crema font-ticket text-[8px] font-bold text-carbon"
               >
                 SALSA
               </div>
               <div
                 style={{ width: '30%' }}
-                className="flex h-full items-center justify-center bg-[#FF7A1F] font-ticket text-[8px] font-bold text-[#120F0D]"
+                className="flex h-full items-center justify-center bg-primario font-ticket text-[8px] font-bold text-carbon"
               >
                 CARNE
               </div>
               <div
                 style={{ width: '10%' }}
-                className="flex h-full items-center justify-center bg-[#35C759] font-ticket text-[8px] font-bold text-[#120F0D]"
+                className="flex h-full items-center justify-center bg-lechuga-green font-ticket text-[8px] font-bold text-carbon"
               >
                 VERD.
               </div>
               <div
                 style={{ width: '15%' }}
-                className="flex h-full items-center justify-center bg-[#FF3B30] font-ticket text-[8px] font-bold text-[#F5EFE6]"
+                className="flex h-full items-center justify-center bg-guindilla-red font-ticket text-[8px] font-bold text-carbon"
               >
                 PRECIO
               </div>
               <div
                 style={{ width: '10%' }}
-                className="flex h-full items-center justify-center rounded-r-full bg-[#5C4E41] font-ticket text-[8px] font-bold text-[#F5EFE6]"
+                className="flex h-full items-center justify-center rounded-r-full bg-ticket-suave font-ticket text-[8px] font-bold text-ticket-papel"
               >
                 3AM
               </div>
@@ -362,14 +362,14 @@ export default async function PaginaFichaLocal({ params }: { params: Params }) {
                       </span>
                       <div className="min-w-0">
                         <div className="flex items-center gap-1.5">
-                          <span className="font-rotulo text-sm uppercase tracking-wider text-[#F5EFE6]">
+                          <span className="font-rotulo text-sm uppercase tracking-wider text-texto">
                             {capa.numero}
                           </span>
-                          <span className="rounded bg-[#120F0D] px-1.5 py-0.2 font-ticket text-[9px] text-[#C9B9A6]">
+                          <span className="rounded bg-fondo px-1.5 py-0.2 font-ticket text-[9px] text-texto-suave">
                             {capa.peso}
                           </span>
                         </div>
-                        <p className="truncate text-[11px] text-[#C9B9A6]">
+                        <p className="truncate text-[11px] text-texto-suave">
                           {capa.descripcion}
                         </p>
                       </div>
@@ -380,7 +380,7 @@ export default async function PaginaFichaLocal({ params }: { params: Params }) {
                       {formatearNota(capa.nota)}
                     </span>
                   </div>
-                  <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-[#120F0D]">
+                  <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-fondo">
                     <div
                       style={{ width: `${Math.round(capa.nota * 10)}%` }}
                       className={`h-full rounded-full bg-gradient-to-r ${capa.colorBarra}`}
@@ -402,10 +402,10 @@ export default async function PaginaFichaLocal({ params }: { params: Params }) {
       />
 
       {/* ============ 4. BOTÓN FIJO AL ALCANCE DEL PULGAR ============ */}
-      <div className="fixed bottom-16 left-0 right-0 z-40 mx-auto max-w-md bg-gradient-to-t from-[#120F0D] via-[#120F0D]/95 to-transparent px-4 pb-3 pt-4">
+      <div className="fixed bottom-16 left-0 right-0 z-40 mx-auto max-w-md bg-gradient-to-t from-fondo via-fondo/95 to-transparent px-4 pb-3 pt-4">
         <Link
           href={`/kebab/${local.slug}/resenar`}
-          className="flex w-full items-center justify-between rounded-xl border border-[#FF7A1F]/40 bg-[#FF3B30] px-5 py-3.5 text-[#F5EFE6] shadow-[0_8px_28px_rgba(255,59,48,0.45)] transition-all hover:bg-[#FF4A3D] active:scale-[0.98]"
+          className="flex w-full items-center justify-between rounded-xl border border-acento/40 bg-guindilla-red px-5 py-3.5 text-carbon shadow-[0_8px_28px_rgba(255,59,48,0.45)] transition-all hover:bg-guindilla-red active:scale-[0.98]"
         >
           <span className="flex items-center gap-2.5">
             <Icono nombre="receipt_long" className="h-5 w-5" />
@@ -413,7 +413,7 @@ export default async function PaginaFichaLocal({ params }: { params: Params }) {
               DEJAR MI TICKET (VALORAR)
             </span>
           </span>
-          <span className="flex items-center gap-1 rounded bg-[#120F0D]/30 px-2 py-1 font-ticket text-xs font-bold">
+          <span className="flex items-center gap-1 rounded bg-ticket-tinta/15 px-2 py-1 font-ticket text-xs font-bold">
             +150 XP
             <Icono nombre="arrow_forward" className="h-3.5 w-3.5" />
           </span>

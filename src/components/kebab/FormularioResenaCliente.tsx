@@ -88,7 +88,7 @@ const CONFIG_SLIDERS: ConfigSlider[] = [
     pesoTexto: 'PESO 30%',
     etiquetaTicket: '01 CARNE & TUESTE (30%)',
     icono: 'local_fire_department',
-    colorTexto: 'text-[#FF7A1F]',
+    colorTexto: 'text-acento',
     gradiente: 'linear-gradient(90deg, #44372E 0%, #FF7A1F 60%, #FF3B30 100%)',
     describirValor: (v) =>
       v >= 9
@@ -106,7 +106,7 @@ const CONFIG_SLIDERS: ConfigSlider[] = [
     pesoTexto: 'PESO 20%',
     etiquetaTicket: '02 SALSAS CASERAS (20%)',
     icono: 'water_drop',
-    colorTexto: 'text-[#FFF6E8]',
+    colorTexto: 'text-texto',
     gradiente: 'linear-gradient(90deg, #44372E 0%, #C9B9A6 40%, #FFF6E8 100%)',
     describirValor: (v) =>
       v >= 9
@@ -124,7 +124,7 @@ const CONFIG_SLIDERS: ConfigSlider[] = [
     pesoTexto: 'PESO 15%',
     etiquetaTicket: '03 PAN / LAVASH (15%)',
     icono: 'bakery_dining',
-    colorTexto: 'text-[#F2C14E]',
+    colorTexto: 'text-mostaza',
     gradiente: 'linear-gradient(90deg, #44372E 0%, #D99B26 50%, #F2C14E 100%)',
     describirValor: (v) =>
       v >= 8.5
@@ -142,7 +142,7 @@ const CONFIG_SLIDERS: ConfigSlider[] = [
     pesoTexto: 'PESO 15%',
     etiquetaTicket: '04 TAMAÑO / PRECIO (15%)',
     icono: 'scale',
-    colorTexto: 'text-[#FF3B30]',
+    colorTexto: 'text-guindilla',
     gradiente: 'linear-gradient(90deg, #44372E 0%, #FF7A1F 50%, #FF3B30 100%)',
     describirValor: (v) =>
       v >= 8.5
@@ -160,7 +160,7 @@ const CONFIG_SLIDERS: ConfigSlider[] = [
     pesoTexto: 'PESO 10%',
     etiquetaTicket: '05 VERDURA FRESCA (10%)',
     icono: 'eco',
-    colorTexto: 'text-[#35C759]',
+    colorTexto: 'text-lechuga',
     gradiente: 'linear-gradient(90deg, #44372E 0%, #248A3D 50%, #35C759 100%)',
     describirValor: (v) =>
       v >= 8.5
@@ -178,7 +178,7 @@ const CONFIG_SLIDERS: ConfigSlider[] = [
     pesoTexto: 'PESO 10%',
     etiquetaTicket: '06 HORARIO GOLFO (10%)',
     icono: 'dark_mode',
-    colorTexto: 'text-[#FF7A1F]',
+    colorTexto: 'text-acento',
     gradiente: 'linear-gradient(90deg, #44372E 0%, #FF7A1F 60%, #F2C14E 100%)',
     describirValor: (v) =>
       v >= 9
@@ -424,7 +424,7 @@ export function FormularioResenaCliente({ local }: Props) {
 
   if (!authHidratado) {
     return (
-      <div className="mx-auto max-w-lg px-4 py-12 text-center font-ticket text-xs text-[#C9B9A6]">
+      <div className="mx-auto max-w-lg px-4 py-12 text-center font-ticket text-xs text-texto-suave">
         Preparando impresora térmica…
       </div>
     );
@@ -434,8 +434,8 @@ export function FormularioResenaCliente({ local }: Props) {
   if (!usuarioActual) {
     return (
       <div className="mx-auto max-w-lg pb-16 pt-3">
-        <div className="mx-4 mb-2 rounded-xl border border-[#FF7A1F]/40 bg-[#241D18] p-3.5 font-ticket text-xs text-[#F5EFE6]">
-          <span className="font-bold text-[#FF7A1F]">
+        <div className="mx-4 mb-2 rounded-xl border border-acento/40 bg-superficie p-3.5 font-ticket text-xs text-texto">
+          <span className="font-bold text-acento">
             PASO 1 DE 2 · IDENTIFICACIÓN OBLIGATORIA:
           </span>{' '}
           Para auditar <strong>{local.nombre}</strong> y evitar reseñas falsas, primero
@@ -455,16 +455,16 @@ export function FormularioResenaCliente({ local }: Props) {
       {publicado && (
         <div
           role="status"
-          className="mb-6 rounded-xl border-2 border-[#35C759] bg-[#1B1613] p-4 shadow-[0_0_30px_rgba(53,199,89,0.25)]"
+          className="mb-6 rounded-xl border-2 border-lechuga bg-superficie-baja p-4 shadow-[0_0_30px_rgba(53,199,89,0.25)]"
         >
-          <span className="inline-flex items-center gap-1.5 font-ticket text-xs font-bold uppercase text-[#35C759]">
+          <span className="inline-flex items-center gap-1.5 font-ticket text-xs font-bold uppercase text-lechuga">
             <Icono nombre="check_circle" className="h-4 w-4" />
             ¡TICKET AUTÉNTICO AUDITADO Y PUBLICADO!
           </span>
-          <h2 className="mt-1 font-rotulo text-2xl uppercase tracking-wide text-[#F5EFE6]">
+          <h2 className="mt-1 font-rotulo text-2xl uppercase tracking-wide text-texto">
             Has sumado +{xpRecompensa} XP a tu perfil ({usuarioActual.nombre})
           </h2>
-          <p className="mt-1 text-xs text-[#C9B9A6]">
+          <p className="mt-1 text-xs text-texto-suave">
             Tu reseña verificada de <strong>{formatearNota(notaTotal)}/10</strong> ya
             aparece en la ficha de <strong>{local.nombre}</strong> y en tu vitrina de
             crítico.
@@ -472,13 +472,13 @@ export function FormularioResenaCliente({ local }: Props) {
           <div className="mt-3 flex flex-wrap gap-2">
             <Link
               href={`/kebab/${local.slug}`}
-              className="rounded-lg bg-[#35C759] px-3.5 py-2 font-rotulo text-xs uppercase tracking-wider text-[#120F0D]"
+              className="rounded-lg bg-lechuga-green px-3.5 py-2 font-rotulo text-xs uppercase tracking-wider text-carbon"
             >
               Ver mi ticket en el local →
             </Link>
             <Link
               href="/perfil/marcos-padrino"
-              className="rounded-lg border border-white/15 bg-[#241D18] px-3.5 py-2 font-ticket text-xs font-bold text-[#F5EFE6]"
+              className="rounded-lg border border-linea/15 bg-superficie px-3.5 py-2 font-ticket text-xs font-bold text-texto"
             >
               Ir a mi perfil ({usuarioActual.xp} XP)
             </Link>
@@ -488,34 +488,34 @@ export function FormularioResenaCliente({ local }: Props) {
 
       {/* ============ 1. CONTEXTO DEL LOCAL + CRÍTICO IDENTIFICADO ============ */}
       <section className="mb-6">
-        <div className="relative overflow-hidden rounded-xl border border-[#44372E]/50 bg-[#1B1613] p-4">
+        <div className="relative overflow-hidden rounded-xl border border-borde/50 bg-superficie-baja p-4">
           <div className="flex items-start justify-between gap-3">
             <div>
               <div className="mb-1 flex items-center gap-2">
-                <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-[#35C759]" />
-                <span className="font-ticket text-[11px] uppercase tracking-widest text-[#35C759]">
+                <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-lechuga-green" />
+                <span className="font-ticket text-[11px] uppercase tracking-widest text-lechuga">
                   Auditando como {usuarioActual.nombre}
                 </span>
               </div>
-              <h1 className="font-rotulo text-2xl uppercase leading-tight tracking-wide text-[#F5EFE6]">
+              <h1 className="font-rotulo text-2xl uppercase leading-tight tracking-wide text-texto">
                 {local.nombre}
               </h1>
-              <p className="mt-0.5 text-xs text-[#C9B9A6]">
+              <p className="mt-0.5 text-xs text-texto-suave">
                 {local.direccion} · Dürüm {formatearPrecio(local.precioDurumCentimos)}
               </p>
             </div>
-            <div className="shrink-0 rounded-lg border border-[#35C759]/40 bg-[#35C759]/10 px-2.5 py-1.5 text-right">
-              <span className="block font-ticket text-[9px] uppercase text-[#35C759]">
+            <div className="shrink-0 rounded-lg border border-lechuga/40 bg-lechuga-green/10 px-2.5 py-1.5 text-right">
+              <span className="block font-ticket text-[9px] uppercase text-lechuga">
                 Cuenta Activa
               </span>
-              <span className="font-ticket text-[11px] font-bold text-[#F5EFE6]">
+              <span className="font-ticket text-[11px] font-bold text-texto">
                 {usuarioActual.metodoAuth.toUpperCase()} ✓
               </span>
             </div>
           </div>
 
-          <div className="mt-4 border-t border-[#44372E]/40 pt-3">
-            <span className="mb-2 block font-ticket text-[11px] uppercase tracking-wider text-[#C9B9A6]">
+          <div className="mt-4 border-t border-borde/40 pt-3">
+            <span className="mb-2 block font-ticket text-[11px] uppercase tracking-wider text-texto-suave">
               ¿Qué pediste en barra?
             </span>
             <div className="no-scrollbar flex gap-2 overflow-x-auto pb-1">
@@ -528,8 +528,8 @@ export function FormularioResenaCliente({ local }: Props) {
                     onClick={() => setPlatoActivo(plato)}
                     className={`shrink-0 rounded-full px-3.5 py-1.5 font-ticket text-xs transition-colors ${
                       activo
-                        ? 'bg-[#FF7A1F] font-bold text-[#120F0D] shadow-[0_0_12px_rgba(255,122,31,0.4)]'
-                        : 'border border-[#44372E]/60 bg-[#241D18] text-[#C9B9A6] hover:text-[#F5EFE6]'
+                        ? 'bg-primario font-bold text-carbon shadow-[0_0_12px_rgba(255,122,31,0.4)]'
+                        : 'border border-borde/60 bg-superficie text-texto-suave hover:text-texto'
                     }`}
                   >
                     {plato}
@@ -544,18 +544,18 @@ export function FormularioResenaCliente({ local }: Props) {
       {/* ============ 2. LOS 6 SLIDERS DE SALSA ============ */}
       <div className="mb-4 flex items-end justify-between">
         <div>
-          <h2 className="rotulo-neon font-rotulo text-3xl uppercase leading-none tracking-wide text-[#F5EFE6]">
+          <h2 className="rotulo-neon font-rotulo text-3xl uppercase leading-none tracking-wide text-texto">
             AUDITAR DÜRÜM · DEJAR TICKET
           </h2>
-          <p className="mt-1 text-xs text-[#C9B9A6]">
+          <p className="mt-1 text-xs text-texto-suave">
             Desliza los chorros de salsa para puntuar las 6 capas oficiales.
           </p>
         </div>
         <div className="text-right font-ticket">
-          <span className="text-[10px] uppercase tracking-widest text-[#C9B9A6]">
+          <span className="text-[10px] uppercase tracking-widest text-texto-suave">
             Nota actual
           </span>
-          <div className="text-lg font-bold text-[#FF7A1F]">
+          <div className="text-lg font-bold text-acento">
             {formatearNota(notaTotal)} / 10
           </div>
         </div>
@@ -567,26 +567,26 @@ export function FormularioResenaCliente({ local }: Props) {
           return (
             <div
               key={cfg.clave}
-              className="rounded-xl border border-[#44372E]/40 bg-[#1B1613] p-4 transition-colors focus-within:border-[#FF7A1F]"
+              className="rounded-xl border border-borde/40 bg-superficie-baja p-4 transition-colors focus-within:border-acento"
             >
               <div className="mb-2 flex items-start justify-between gap-2">
                 <div className="flex items-center gap-2.5">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-[#241D18]">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-linea/10 bg-superficie">
                     <Icono nombre={cfg.icono} className={`h-5 w-5 ${cfg.colorTexto}`} />
                   </div>
                   <div>
                     <div className="flex flex-wrap items-center gap-2">
                       <label
                         htmlFor={`slider-${cfg.clave}`}
-                        className="font-rotulo text-lg uppercase tracking-wide text-[#F5EFE6]"
+                        className="font-rotulo text-lg uppercase tracking-wide text-texto"
                       >
                         {cfg.titulo}
                       </label>
-                      <span className="rounded border border-white/15 bg-white/5 px-1.5 py-0.5 font-ticket text-[10px] font-bold text-[#FF7A1F]">
+                      <span className="rounded border border-linea/15 bg-linea/5 px-1.5 py-0.5 font-ticket text-[10px] font-bold text-acento">
                         {cfg.pesoTexto}
                       </span>
                     </div>
-                    <p className="text-[11px] text-[#C9B9A6]">{cfg.subtitulo}</p>
+                    <p className="text-[11px] text-texto-suave">{cfg.subtitulo}</p>
                   </div>
                 </div>
 
@@ -597,7 +597,7 @@ export function FormularioResenaCliente({ local }: Props) {
                   >
                     {formatearNota(valor)}
                   </output>
-                  <span className="mt-0.5 block font-ticket text-[10px] text-[#35C759]">
+                  <span className="mt-0.5 block font-ticket text-[10px] text-lechuga">
                     {cfg.describirValor(valor)}
                   </span>
                 </div>
@@ -626,29 +626,29 @@ export function FormularioResenaCliente({ local }: Props) {
       {/* ============ 3. SISTEMA OBLIGATORIO ANTI-FRAUDE ("PROOF OF KEBAB") ============ */}
       <section
         aria-label="Verificación obligatoria de consumo real"
-        className="mb-8 rounded-2xl border-2 border-[#FF7A1F]/60 bg-gradient-to-b from-[#241D18] to-[#1B1613] p-4 shadow-[0_12px_30px_rgba(0,0,0,0.65)]"
+        className="mb-8 rounded-2xl border-2 border-acento/60 bg-gradient-to-b from-superficie to-superficie-baja p-4 shadow-[0_12px_30px_rgba(0,0,0,0.65)]"
       >
-        <div className="flex items-start justify-between gap-2 border-b border-white/10 pb-3">
+        <div className="flex items-start justify-between gap-2 border-b border-linea/10 pb-3">
           <div>
-            <span className="inline-flex items-center gap-1 font-ticket text-[10px] font-bold uppercase tracking-widest text-[#FF7A1F]">
+            <span className="inline-flex items-center gap-1 font-ticket text-[10px] font-bold uppercase tracking-widest text-acento">
               <Icono nombre="shield" className="h-3.5 w-3.5" />
               SISTEMA ANTI-TROLLS · OBLIGATORIO PARA PUBLICAR
             </span>
-            <h3 className="mt-0.5 font-rotulo text-2xl uppercase tracking-wide text-[#F5EFE6]">
+            <h3 className="mt-0.5 font-rotulo text-2xl uppercase tracking-wide text-texto">
               DEMUESTRA QUE HAS COMIDO AQUÍ
             </h3>
-            <p className="text-xs text-[#C9B9A6]">
+            <p className="text-xs text-texto-suave">
               Completa <strong>al menos 1 de las 2 pruebas</strong> (o las 2 para ganar{' '}
-              <strong className="text-[#F2C14E]">+200 XP Doble Verificación</strong>).
+              <strong className="text-mostaza">+200 XP Doble Verificación</strong>).
             </p>
           </div>
           <span
             className={`shrink-0 rounded-lg px-2.5 py-1 font-ticket text-[10px] font-bold uppercase ${
               dobleVerificacion
-                ? 'bg-[#F2C14E] text-[#120F0D]'
+                ? 'bg-mostaza-gold text-carbon'
                 : visitaVerificada
-                  ? 'bg-[#35C759] text-[#120F0D]'
-                  : 'border border-[#FF3B30]/50 bg-[#FF3B30]/15 text-[#FF3B30]'
+                  ? 'bg-lechuga-green text-carbon'
+                  : 'border border-guindilla/50 bg-guindilla-red/15 text-guindilla'
             }`}
           >
             {dobleVerificacion
@@ -660,22 +660,22 @@ export function FormularioResenaCliente({ local }: Props) {
         </div>
 
         {/* PRUEBA A: CHECK-IN POR GPS EN EL LOCAL (< 150m) */}
-        <div className="mt-4 rounded-xl border border-white/10 bg-[#120F0D] p-3.5">
+        <div className="mt-4 rounded-xl border border-linea/10 bg-fondo p-3.5">
           <div className="flex items-start justify-between gap-2">
             <div>
-              <span className="font-ticket text-[10px] font-bold uppercase text-[#35C759]">
+              <span className="font-ticket text-[10px] font-bold uppercase text-lechuga">
                 OPCIÓN A · GEOLOCALIZACIÓN EN EL LOCAL (RADIO ≤ 150 M)
               </span>
-              <h4 className="font-rotulo text-lg uppercase text-[#F5EFE6]">
+              <h4 className="font-rotulo text-lg uppercase text-texto">
                 1. Check-in GPS en {local.nombre}
               </h4>
-              <p className="text-[11px] text-[#C9B9A6]">
+              <p className="text-[11px] text-texto-suave">
                 Comprobamos con el GPS de tu móvil que estás en{' '}
                 <strong>{local.direccion}</strong>.
               </p>
             </div>
             {gpsVerificado && (
-              <span className="shrink-0 rounded bg-[#35C759]/20 px-2 py-1 font-ticket text-[10px] font-bold text-[#35C759]">
+              <span className="shrink-0 rounded bg-lechuga-green/20 px-2 py-1 font-ticket text-[10px] font-bold text-lechuga">
                 ✓ A {distanciaMostrada}m {selloGps24h ? '(PASE 24H)' : ''}
               </span>
             )}
@@ -687,8 +687,8 @@ export function FormularioResenaCliente({ local }: Props) {
               onClick={comprobarGpsReal}
               className={`inline-flex items-center gap-1.5 rounded-lg px-3.5 py-2 font-ticket text-xs font-bold transition-all ${
                 gpsVerificado
-                  ? 'bg-[#35C759] text-[#120F0D]'
-                  : 'border border-[#35C759]/50 bg-[#35C759]/15 text-[#35C759] hover:bg-[#35C759]/25'
+                  ? 'bg-lechuga-green text-carbon'
+                  : 'border border-lechuga/50 bg-lechuga-green/15 text-lechuga hover:bg-lechuga-green/25'
               }`}
             >
               <Icono nombre="near_me" className="h-4 w-4" />
@@ -703,7 +703,7 @@ export function FormularioResenaCliente({ local }: Props) {
               <button
                 type="button"
                 onClick={simularCheckinPuertaDaw}
-                className="inline-flex items-center gap-1 rounded-lg border border-[#F2C14E]/40 bg-[#F2C14E]/10 px-3 py-2 font-ticket text-[11px] text-[#F2C14E] hover:bg-[#F2C14E]/20"
+                className="inline-flex items-center gap-1 rounded-lg border border-mostaza/40 bg-mostaza-gold/10 px-3 py-2 font-ticket text-[11px] text-mostaza hover:bg-mostaza-gold/20"
               >
                 🧪 Simular estar en la puerta (Modo Pruebas DAW)
               </button>
@@ -711,13 +711,13 @@ export function FormularioResenaCliente({ local }: Props) {
           </div>
 
           {estadoGps === 'lejos' && distanciaGps !== null && (
-            <p className="mt-2 font-ticket text-[11px] text-[#FF7A1F]">
+            <p className="mt-2 font-ticket text-[11px] text-acento">
               Estás a <strong>{distanciaGps} metros</strong> de {local.nombre} (máximo
               permitido: 150m). Si ya estás en casa, usa la <strong>Opción B (Foto + Código del ticket)</strong> o el botón de simulación DAW.
             </p>
           )}
           {estadoGps === 'error' && (
-            <p className="mt-2 font-ticket text-[11px] text-[#FF3B30]">
+            <p className="mt-2 font-ticket text-[11px] text-guindilla">
               No se pudo leer el GPS del navegador. Puedes usar la Opción B (Foto del
               ticket) o el botón de simulación DAW.
             </p>
@@ -725,22 +725,22 @@ export function FormularioResenaCliente({ local }: Props) {
         </div>
 
         {/* PRUEBA B: FOTO REAL DESDE CÁMARA/MÓVIL + CÓDIGO DEL TICKET DE CAJA */}
-        <div className="mt-3 rounded-xl border border-white/10 bg-[#120F0D] p-3.5">
+        <div className="mt-3 rounded-xl border border-linea/10 bg-fondo p-3.5">
           <div className="flex items-start justify-between gap-2">
             <div>
-              <span className="font-ticket text-[10px] font-bold uppercase text-[#FF7A1F]">
+              <span className="font-ticket text-[10px] font-bold uppercase text-acento">
                 OPCIÓN B · PRUEBA DOCUMENTAL (FOTO REAL + CÓDIGO DEL TICKET)
               </span>
-              <h4 className="font-rotulo text-lg uppercase text-[#F5EFE6]">
+              <h4 className="font-rotulo text-lg uppercase text-texto">
                 2. Foto de tu Ticket o Dürüm + Nº de Recibo
               </h4>
-              <p className="text-[11px] text-[#C9B9A6]">
+              <p className="text-[11px] text-texto-suave">
                 Sube una foto tomada con tu móvil y escribe el número de pedido o la hora
                 impresa en el papel térmico.
               </p>
             </div>
             {ticketFotoVerificado && (
-              <span className="shrink-0 rounded bg-[#35C759]/20 px-2 py-1 font-ticket text-[10px] font-bold text-[#35C759]">
+              <span className="shrink-0 rounded bg-lechuga-green/20 px-2 py-1 font-ticket text-[10px] font-bold text-lechuga">
                 ✓ EVIDENCIA OK
               </span>
             )}
@@ -759,21 +759,21 @@ export function FormularioResenaCliente({ local }: Props) {
             {fotosSubidas.map((f, idx) => (
               <div
                 key={`${f.nombreArchivo}-${idx}`}
-                className="relative aspect-square overflow-hidden rounded-lg border border-[#35C759] bg-[#241D18]"
+                className="relative aspect-square overflow-hidden rounded-lg border border-lechuga bg-superficie"
               >
                 <img
                   src={f.url}
                   alt={`Evidencia subida ${idx + 1}`}
                   className="h-full w-full object-cover"
                 />
-                <span className="absolute bottom-1 left-1 rounded bg-black/80 px-1.5 py-0.5 font-ticket text-[9px] text-[#35C759]">
+                <span className="absolute bottom-1 left-1 rounded bg-black/80 px-1.5 py-0.5 font-ticket text-[9px] text-lechuga">
                   ✓ {f.fechaArchivo}
                 </span>
                 <button
                   type="button"
                   onClick={() => quitarFoto(idx)}
                   aria-label="Quitar foto"
-                  className="absolute right-1 top-1 flex h-5 w-5 items-center justify-center rounded-full bg-black/80 text-white hover:bg-[#FF3B30]"
+                  className="absolute right-1 top-1 flex h-5 w-5 items-center justify-center rounded-full bg-black/80 text-texto hover:bg-guindilla-red"
                 >
                   <Icono nombre="close" className="h-3 w-3" />
                 </button>
@@ -784,7 +784,7 @@ export function FormularioResenaCliente({ local }: Props) {
               <button
                 type="button"
                 onClick={() => inputArchivoRef.current?.click()}
-                className="flex aspect-square flex-col items-center justify-center gap-1 rounded-lg border border-dashed border-[#FF7A1F]/60 bg-[#241D18]/70 p-2 text-center text-[#FF7A1F] transition-colors hover:bg-[#FF7A1F]/15"
+                className="flex aspect-square flex-col items-center justify-center gap-1 rounded-lg border border-dashed border-acento/60 bg-superficie/70 p-2 text-center text-acento transition-colors hover:bg-primario/15"
               >
                 <Icono nombre="add_a_photo" className="h-6 w-6" />
                 <span className="font-ticket text-[10px] font-bold uppercase">
@@ -795,13 +795,13 @@ export function FormularioResenaCliente({ local }: Props) {
           </div>
 
           {escaneandoOcr && (
-            <div className="mt-3 rounded-lg border border-[#F2C14E]/40 bg-[#F2C14E]/10 px-3 py-2 font-ticket text-[11px] text-[#F2C14E]">
+            <div className="mt-3 rounded-lg border border-mostaza/40 bg-mostaza-gold/10 px-3 py-2 font-ticket text-[11px] text-mostaza">
               🔍 Escaneando ticket térmico con OCR (detectando fecha, importe y nº de pedido)...
             </div>
           )}
 
           {lecturaOcrDetectada && !escaneandoOcr && (
-            <div className="mt-3 rounded-lg border border-[#35C759]/40 bg-[#35C759]/10 px-3 py-2 font-ticket text-[10px] text-[#35C759]">
+            <div className="mt-3 rounded-lg border border-lechuga/40 bg-lechuga-green/10 px-3 py-2 font-ticket text-[10px] text-lechuga">
               ✓ OCR TICKET DETECTADO: {lecturaOcrDetectada}
             </div>
           )}
@@ -809,7 +809,7 @@ export function FormularioResenaCliente({ local }: Props) {
           <div className="mt-3">
             <label
               htmlFor="codigo-ticket-caja"
-              className="block font-ticket text-[10px] uppercase text-[#C9B9A6]"
+              className="block font-ticket text-[10px] uppercase text-texto-suave"
             >
               Nº de Pedido o Hora impresa en el ticket de caja (mín. 3 caracteres)
             </label>
@@ -822,7 +822,7 @@ export function FormularioResenaCliente({ local }: Props) {
                 setMensajeErrorVerificacion(null);
               }}
               placeholder="Ej. 0418 o 03:45 AM"
-              className="mt-1 w-full rounded-lg border border-white/15 bg-[#1B1613] px-3 py-2 font-ticket text-xs text-[#F5EFE6] placeholder:text-[#C9B9A6]/40 focus:border-[#FF7A1F] focus:outline-none"
+              className="mt-1 w-full rounded-lg border border-linea/15 bg-superficie-baja px-3 py-2 font-ticket text-xs text-texto placeholder:text-texto-suave/40 focus:border-acento focus:outline-none"
             />
           </div>
         </div>
@@ -830,15 +830,15 @@ export function FormularioResenaCliente({ local }: Props) {
 
       {/* ============ 4. COMENTARIO / VEREDICTO ESCRITO ============ */}
       <section aria-label="Veredicto escrito" className="mb-8">
-        <div className="rounded-xl border border-[#44372E]/40 bg-[#1B1613] p-4">
+        <div className="rounded-xl border border-borde/40 bg-superficie-baja p-4">
           <div className="mb-2 flex items-center justify-between">
             <label
               htmlFor="comentario-barra"
-              className="font-rotulo text-lg uppercase tracking-wide text-[#F5EFE6]"
+              className="font-rotulo text-lg uppercase tracking-wide text-texto"
             >
               Veredicto a pie de calle (Obligatorio)
             </label>
-            <span className="font-ticket text-[10px] text-[#C9B9A6]">
+            <span className="font-ticket text-[10px] text-texto-suave">
               {comentario.length} / 280
             </span>
           </div>
@@ -853,7 +853,7 @@ export function FormularioResenaCliente({ local }: Props) {
               setMensajeErrorVerificacion(null);
             }}
             placeholder="Cuenta tu experiencia real: ¿estaba crujiente la carne? ¿Pica de verdad la salsa roja? ¿Cómo te atendieron?"
-            className="w-full rounded-lg border border-[#44372E]/70 bg-[#120F0D] p-3 text-sm leading-relaxed text-[#F5EFE6] placeholder:text-[#C9B9A6]/40 focus:border-[#FF7A1F] focus:outline-none"
+            className="w-full rounded-lg border border-borde/70 bg-fondo p-3 text-sm leading-relaxed text-texto placeholder:text-texto-suave/40 focus:border-acento focus:outline-none"
           />
 
           <div className="mt-3 flex flex-wrap gap-1.5">
@@ -870,8 +870,8 @@ export function FormularioResenaCliente({ local }: Props) {
                   onClick={() => alternarEtiqueta(tag.nombre)}
                   className={`inline-flex items-center gap-1 rounded-md border px-2.5 py-1 font-ticket text-[11px] transition-colors ${
                     activa
-                      ? 'border-[#FF7A1F]/60 bg-[#FF7A1F]/15 font-bold text-[#FF7A1F]'
-                      : 'border-[#44372E]/60 bg-[#241D18] text-[#C9B9A6] hover:text-[#F5EFE6]'
+                      ? 'border-acento/60 bg-primario/15 font-bold text-acento'
+                      : 'border-borde/60 bg-superficie text-texto-suave hover:text-texto'
                   }`}
                 >
                   <Icono nombre={tag.icono} className="h-3.5 w-3.5" />
@@ -887,33 +887,33 @@ export function FormularioResenaCliente({ local }: Props) {
       <section aria-label="Previsualización en vivo del ticket" className="mb-8">
         <div className="mb-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Icono nombre="receipt_long" className="h-5 w-5 text-[#FF7A1F]" />
-            <h3 className="font-rotulo text-xl uppercase tracking-wide text-[#F5EFE6]">
+            <Icono nombre="receipt_long" className="h-5 w-5 text-acento" />
+            <h3 className="font-rotulo text-xl uppercase tracking-wide text-texto">
               Previsualización en Vivo
             </h3>
           </div>
           <span
             className={`font-ticket text-[11px] font-bold ${
-              visitaVerificada ? 'text-[#35C759]' : 'text-[#FF3B30]'
+              visitaVerificada ? 'text-lechuga' : 'text-guindilla'
             }`}
           >
             {visitaVerificada ? '● Sello Anti-Fraude Listo' : '○ Falta Verificar Visita'}
           </span>
         </div>
 
-        <div className="mx-auto h-3 w-[96%] rounded-t-full border-x border-t border-[#44372E] bg-[#090706] shadow-inner" />
+        <div className="mx-auto h-3 w-[96%] rounded-t-full border-x border-t border-borde bg-fondo shadow-inner" />
 
         <div className="px-2">
           <div
-            className={`relative mx-auto -rotate-[0.8deg] bg-[#EFE6D5] px-5 py-5 font-ticket text-[#181411] shadow-[0_18px_40px_rgba(0,0,0,0.65)] transition-transform duration-300 ${
+            className={`relative mx-auto -rotate-[0.8deg] bg-ticket-papel px-5 py-5 font-ticket text-ticket-tinta shadow-[0_18px_40px_rgba(0,0,0,0.65)] transition-transform duration-300 ${
               animarTicket ? 'receipt-feed-anim' : ''
             }`}
           >
             <div
               className={`pointer-events-none absolute right-4 top-14 rotate-12 select-none border-2 px-2 py-0.5 font-rotulo text-xs uppercase tracking-widest ${
                 visitaVerificada
-                  ? 'border-[#248A3D]/40 text-[#248A3D]/50'
-                  : 'border-[#FF3B30]/30 text-[#FF3B30]/35'
+                  ? 'border-lechuga/70 text-lechuga'
+                  : 'border-guindilla/70 text-guindilla'
               }`}
             >
               {dobleVerificacion
@@ -923,52 +923,52 @@ export function FormularioResenaCliente({ local }: Props) {
                   : 'SIN VERIFICAR'}
             </div>
 
-            <div className="border-b border-dashed border-[#5C4E41]/60 pb-3 text-center">
+            <div className="border-b border-dashed border-ticket-suave/60 pb-3 text-center">
               <p className="text-[11px] font-bold tracking-widest">
                 *** KEBABSCORE AUDITORIA TICKET ***
               </p>
               <p className="mt-0.5 text-sm font-bold uppercase">{local.nombre}</p>
-              <p className="text-[10px] text-[#5C4E41]">
+              <p className="text-[10px] text-ticket-suave">
                 CRÍTICO: {usuarioActual.nombre.toUpperCase()} ({usuarioActual.metodoAuth.toUpperCase()})
               </p>
-              <div className="mt-2 flex justify-between text-[10px] text-[#5C4E41]">
+              <div className="mt-2 flex justify-between text-[10px] text-ticket-suave">
                 <span>REF: {codigoTicketCaja || '#PENDIENTE'}</span>
                 <span>PLATO: {platoActivo.toUpperCase()}</span>
               </div>
             </div>
 
-            <div className="space-y-1.5 border-b border-dashed border-[#5C4E41]/60 py-3 text-xs">
+            <div className="space-y-1.5 border-b border-dashed border-ticket-suave/60 py-3 text-xs">
               {CONFIG_SLIDERS.map((cfg) => (
                 <div key={cfg.clave} className="flex items-baseline justify-between">
                   <span className="font-semibold">{cfg.etiquetaTicket}</span>
-                  <span className="mx-1.5 flex-1 border-b border-dotted border-[#5C4E41]/50" />
+                  <span className="mx-1.5 flex-1 border-b border-dotted border-ticket-suave/50" />
                   <span className="font-bold">{formatearNota(subnotas[cfg.clave])}</span>
                 </div>
               ))}
             </div>
 
-            <div className="flex items-center justify-between border-b-2 border-[#181411] py-3">
+            <div className="flex items-center justify-between border-b-2 border-ticket-tinta py-3">
               <div>
                 <span className="block text-xs font-bold uppercase">
                   TOTAL AUDITADO (PONDERADO)
                 </span>
-                <span className="text-[10px] text-[#5C4E41]">
+                <span className="text-[10px] text-ticket-suave">
                   Escala de Picante:{' '}
-                  <strong className="uppercase text-[#FF3B30]">
+                  <strong className="uppercase text-guindilla">
                     {infoPicante.etiqueta}
                   </strong>
                 </span>
               </div>
-              <div className="flex items-center gap-1.5 rounded bg-[#181411] px-2.5 py-1 text-[#EFE6D5]">
-                <span className="text-xl font-bold tracking-tight text-[#FF7A1F]">
+              <div className="flex items-center gap-1.5 rounded bg-ticket-tinta px-2.5 py-1 text-ticket-papel">
+                <span className="text-xl font-bold tracking-tight text-brasa">
                   {formatearNota(notaTotal)}
                 </span>
-                <span className="text-[10px] text-[#C9B9A6]">/ 10</span>
+                <span className="text-[10px] text-ticket-papel/75">/ 10</span>
               </div>
             </div>
 
-            <div className="pt-2.5 text-[11px] leading-snug text-[#5C4E41]">
-              <span className="font-bold uppercase text-[#181411]">NOTA DE BARRA: </span>
+            <div className="pt-2.5 text-[11px] leading-snug text-ticket-suave">
+              <span className="font-bold uppercase text-ticket-tinta">NOTA DE BARRA: </span>
               <span className="italic">
                 &ldquo;{comentario || 'Escribe arriba tu veredicto a pie de calle...'}&rdquo;
               </span>
@@ -985,21 +985,21 @@ export function FormularioResenaCliente({ local }: Props) {
       {mensajeErrorVerificacion && (
         <div
           role="alert"
-          className="mb-4 rounded-xl border border-[#FF3B30] bg-[#FF3B30]/15 p-3.5 font-ticket text-xs text-[#FF3B30]"
+          className="mb-4 rounded-xl border border-guindilla bg-guindilla-red/15 p-3.5 font-ticket text-xs text-guindilla"
         >
           {mensajeErrorVerificacion}
         </div>
       )}
 
       {/* ============ 6. BARRA FIJA INFERIOR PARA PUBLICAR ============ */}
-      <div className="fixed bottom-16 left-0 right-0 z-40 border-t border-[#44372E]/40 bg-[#120F0D]/95 px-4 py-3 backdrop-blur-xl">
+      <div className="fixed bottom-16 left-0 right-0 z-40 border-t border-borde/40 bg-fondo/95 px-4 py-3 backdrop-blur-xl">
         <div className="mx-auto flex max-w-lg items-center gap-3">
           <button
             type="submit"
             className={`flex flex-1 items-center justify-center gap-2.5 rounded-xl px-5 py-3.5 font-rotulo text-xl uppercase tracking-wider transition-all active:scale-[0.98] ${
               visitaVerificada
-                ? 'bg-gradient-to-r from-[#FF3B30] via-[#FF5126] to-[#FF7A1F] text-[#F5EFE6] shadow-[0_0_24px_rgba(255,59,48,0.45)]'
-                : 'border border-white/15 bg-[#241D18] text-[#C9B9A6]'
+                ? 'bg-gradient-to-r from-guindilla-red via-[#FF5126] to-primario text-texto shadow-[0_0_24px_rgba(255,59,48,0.45)]'
+                : 'border border-linea/15 bg-superficie text-texto-suave'
             }`}
           >
             <Icono

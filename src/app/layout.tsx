@@ -46,7 +46,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <script dangerouslySetInnerHTML={{ __html: SCRIPT_TEMA_INICIAL }} />
       </head>
-      <body className="flex min-h-screen flex-col overflow-x-hidden bg-surface font-body-md text-crema-100 selection:bg-brasa-orange selection:text-carbon-900">
+      <body className="flex min-h-screen flex-col overflow-x-hidden bg-fondo font-body-md text-texto selection:bg-brasa-orange selection:text-carbon-900">
         <ProveedorAuth>
           <ProveedorCreador>
           {/* ASCUAS DECORATIVAS DEL ASADOR (partículas suaves de Stitch) */}

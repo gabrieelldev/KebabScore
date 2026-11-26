@@ -188,7 +188,7 @@ export function PanelCreadorCliente() {
 
   if (!hidratado) {
     return (
-      <div className="mx-auto max-w-lg px-4 py-12 text-center font-ticket text-xs text-[#C9B9A6]">
+      <div className="mx-auto max-w-lg px-4 py-12 text-center font-ticket text-xs text-texto-suave">
         Cargando consola del creador…
       </div>
     );
@@ -200,16 +200,16 @@ export function PanelCreadorCliente() {
   if (!modoCreadorActivo) {
     return (
       <div className="mx-auto max-w-md px-4 py-10">
-        <div className="relative overflow-hidden rounded-2xl border-2 border-[#FF7A1F]/50 bg-[#1B1613] p-6 shadow-[0_0_40px_rgba(255,122,31,0.2)]">
-          <div className="mb-3 inline-flex items-center gap-1.5 rounded border border-[#FF3B30]/40 bg-[#FF3B30]/15 px-2.5 py-1 font-ticket text-[10px] font-bold uppercase tracking-widest text-[#FF3B30]">
+        <div className="relative overflow-hidden rounded-2xl border-2 border-acento/50 bg-superficie-baja p-6 shadow-[0_0_40px_rgba(255,122,31,0.2)]">
+          <div className="mb-3 inline-flex items-center gap-1.5 rounded border border-guindilla/40 bg-guindilla-red/15 px-2.5 py-1 font-ticket text-[10px] font-bold uppercase tracking-widest text-guindilla">
             <Icono nombre="lock" className="h-3.5 w-3.5" />
             ZONA RESTRINGIDA · SOLO CREADOR
           </div>
 
-          <h1 className="rotulo-neon font-rotulo text-3xl uppercase tracking-wide text-[#F5EFE6]">
+          <h1 className="rotulo-neon font-rotulo text-3xl uppercase tracking-wide text-texto">
             CABINA DEL MAESTRO ASADOR
           </h1>
-          <p className="mt-1.5 text-xs leading-relaxed text-[#C9B9A6]">
+          <p className="mt-1.5 text-xs leading-relaxed text-texto-suave">
             Este panel está oculto para el resto de usuarios. Introduce tu llave maestra de
             creador para editar locales, crear misiones nocturnas y lanzar eventos
             especiales en tiempo real.
@@ -231,7 +231,7 @@ export function PanelCreadorCliente() {
             <div>
               <label
                 htmlFor="pin-creador"
-                className="block font-ticket text-xs uppercase text-[#F5EFE6]"
+                className="block font-ticket text-xs uppercase text-texto"
               >
                 PIN / Llave de Creador
               </label>
@@ -244,10 +244,10 @@ export function PanelCreadorCliente() {
                   setErrorPin(false);
                 }}
                 placeholder="Introduce tu PIN (ej. 3000)"
-                className="mt-1.5 w-full rounded-xl border border-white/15 bg-[#120F0D] px-4 py-3 font-ticket text-base tracking-widest text-[#F5EFE6] focus:border-[#FF7A1F] focus:outline-none"
+                className="mt-1.5 w-full rounded-xl border border-linea/15 bg-fondo px-4 py-3 font-ticket text-base tracking-widest text-texto focus:border-acento focus:outline-none"
               />
               {errorPin && (
-                <p className="mt-1.5 font-ticket text-xs text-[#FF3B30]">
+                <p className="mt-1.5 font-ticket text-xs text-guindilla">
                   PIN incorrecto. Prueba con 3000 (o el valor de NEXT_PUBLIC_CREATOR_PIN).
                 </p>
               )}
@@ -255,7 +255,7 @@ export function PanelCreadorCliente() {
 
             <button
               type="submit"
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#FF3B30] to-[#FF7A1F] py-3.5 font-rotulo text-xl uppercase tracking-wider text-[#F5EFE6] shadow-[0_0_24px_rgba(255,59,48,0.4)]"
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-guindilla-red to-primario py-3.5 font-rotulo text-xl uppercase tracking-wider text-texto shadow-[0_0_24px_rgba(255,59,48,0.4)]"
             >
               <Icono nombre="shield" className="h-5 w-5" />
               DESBLOQUEAR PANEL DE CREADOR
@@ -263,8 +263,8 @@ export function PanelCreadorCliente() {
           </form>
 
           {/* Nota didáctica para 1.º de DAW */}
-          <div className="mt-5 rounded-xl border border-white/10 bg-[#120F0D] p-3.5 font-ticket text-[11px] leading-relaxed text-[#C9B9A6]">
-            <p className="font-bold text-[#F2C14E]">
+          <div className="mt-5 rounded-xl border border-linea/10 bg-fondo p-3.5 font-ticket text-[11px] leading-relaxed text-texto-suave">
+            <p className="font-bold text-mostaza">
               💡 Apunte DAW (Doble capa de seguridad):
             </p>
             <p className="mt-1">
@@ -292,7 +292,7 @@ export function PanelCreadorCliente() {
       {avisoGuardado && (
         <div
           role="status"
-          className="fixed right-4 top-24 z-50 flex items-center gap-2 rounded-xl border border-[#35C759] bg-[#120F0D]/95 px-4 py-2.5 font-ticket text-xs font-bold text-[#35C759] shadow-[0_0_25px_rgba(53,199,89,0.4)]"
+          className="fixed right-4 top-24 z-50 flex items-center gap-2 rounded-xl border border-lechuga bg-fondo/95 px-4 py-2.5 font-ticket text-xs font-bold text-lechuga shadow-[0_0_25px_rgba(53,199,89,0.4)]"
         >
           <Icono nombre="check_circle" className="h-4 w-4" />
           {avisoGuardado}
@@ -300,17 +300,17 @@ export function PanelCreadorCliente() {
       )}
 
       {/* Cabecera del Panel de Creador */}
-      <section className="rounded-2xl border border-[#FF7A1F]/50 bg-gradient-to-br from-[#241D18] via-[#1B1613] to-[#120F0D] p-4 shadow-2xl">
+      <section className="rounded-2xl border border-acento/50 bg-gradient-to-br from-superficie via-superficie-baja to-fondo p-4 shadow-2xl">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
-            <div className="inline-flex items-center gap-1.5 rounded border border-[#35C759]/40 bg-[#35C759]/15 px-2 py-0.5 font-ticket text-[10px] font-bold uppercase tracking-wider text-[#35C759]">
-              <span className="h-2 w-2 animate-pulse rounded-full bg-[#35C759]" />
+            <div className="inline-flex items-center gap-1.5 rounded border border-lechuga/40 bg-lechuga-green/15 px-2 py-0.5 font-ticket text-[10px] font-bold uppercase tracking-wider text-lechuga">
+              <span className="h-2 w-2 animate-pulse rounded-full bg-lechuga-green" />
               MODO CREADOR ACTIVO · SOLO VISIBLE PARA TI
             </div>
-            <h1 className="mt-1 font-rotulo text-3xl uppercase leading-none tracking-wide text-[#F5EFE6]">
+            <h1 className="mt-1 font-rotulo text-3xl uppercase leading-none tracking-wide text-texto">
               CONSOLA DEL MAESTRO ASADOR
             </h1>
-            <p className="mt-1 text-xs text-[#C9B9A6]">
+            <p className="mt-1 text-xs text-texto-suave">
               Todos los cambios que hagas aquí se aplican al instante en Inicio, Carta
               Luminosa, Fichas y Misiones.
             </p>
@@ -322,7 +322,7 @@ export function PanelCreadorCliente() {
               onClick={() => {
                 cerrarSesionCreador();
               }}
-              className="rounded-lg border border-white/15 bg-[#120F0D] px-3 py-1.5 font-ticket text-[11px] font-bold text-[#C9B9A6] hover:border-[#FF3B30] hover:text-[#FF3B30]"
+              className="rounded-lg border border-linea/15 bg-fondo px-3 py-1.5 font-ticket text-[11px] font-bold text-texto-suave hover:border-guindilla hover:text-guindilla"
             >
               Ocultar Modo Creador
             </button>
@@ -332,7 +332,7 @@ export function PanelCreadorCliente() {
                 restaurarValoresDeFabrica();
                 mostrarToast('Valores originales de Stitch restaurados');
               }}
-              className="rounded-lg border border-[#F2C14E]/40 bg-[#F2C14E]/10 px-3 py-1.5 font-ticket text-[11px] font-bold text-[#F2C14E] hover:bg-[#F2C14E]/20"
+              className="rounded-lg border border-mostaza/40 bg-mostaza-gold/10 px-3 py-1.5 font-ticket text-[11px] font-bold text-mostaza hover:bg-mostaza-gold/20"
             >
               Restaurar Stitch
             </button>
@@ -340,30 +340,30 @@ export function PanelCreadorCliente() {
         </div>
 
         {/* Resumen rápido */}
-        <div className="mt-4 grid grid-cols-4 gap-2 border-t border-white/10 pt-3 text-center font-ticket">
-          <div className="rounded-lg bg-[#120F0D]/70 p-2">
-            <span className="block text-base font-bold text-[#FF3B30]">
+        <div className="mt-4 grid grid-cols-4 gap-2 border-t border-linea/10 pt-3 text-center font-ticket">
+          <div className="rounded-lg bg-fondo/70 p-2">
+            <span className="block text-base font-bold text-guindilla">
               {eventos.filter((e) => e.activo).length}/{eventos.length}
             </span>
-            <span className="text-[10px] text-[#C9B9A6]">Eventos</span>
+            <span className="text-[10px] text-texto-suave">Eventos</span>
           </div>
-          <div className="rounded-lg bg-[#120F0D]/70 p-2">
-            <span className="block text-base font-bold text-[#FF7A1F]">
+          <div className="rounded-lg bg-fondo/70 p-2">
+            <span className="block text-base font-bold text-acento">
               {misiones.filter((m) => m.activa).length}/{misiones.length}
             </span>
-            <span className="text-[10px] text-[#C9B9A6]">Misiones</span>
+            <span className="text-[10px] text-texto-suave">Misiones</span>
           </div>
-          <div className="rounded-lg bg-[#120F0D]/70 p-2">
-            <span className="block text-base font-bold text-[#35C759]">
+          <div className="rounded-lg bg-fondo/70 p-2">
+            <span className="block text-base font-bold text-lechuga">
               {locales.length}
             </span>
-            <span className="text-[10px] text-[#C9B9A6]">Locales</span>
+            <span className="text-[10px] text-texto-suave">Locales</span>
           </div>
-          <div className="rounded-lg bg-[#120F0D]/70 p-2">
-            <span className="block text-base font-bold text-[#F2C14E]">
+          <div className="rounded-lg bg-fondo/70 p-2">
+            <span className="block text-base font-bold text-mostaza">
               {pegatinas.length}
             </span>
-            <span className="text-[10px] text-[#C9B9A6]">Pegatinas</span>
+            <span className="text-[10px] text-texto-suave">Pegatinas</span>
           </div>
         </div>
       </section>
@@ -388,8 +388,8 @@ export function PanelCreadorCliente() {
               onClick={() => setPestana(tab.id)}
               className={`flex shrink-0 items-center gap-1.5 rounded-xl px-3.5 py-2.5 font-ticket text-xs font-bold transition-all ${
                 activa
-                  ? 'bg-[#FF7A1F] text-[#120F0D] shadow-[0_0_15px_rgba(255,122,31,0.4)]'
-                  : 'border border-white/10 bg-[#1B1613] text-[#C9B9A6] hover:text-[#F5EFE6]'
+                  ? 'bg-primario text-carbon shadow-[0_0_15px_rgba(255,122,31,0.4)]'
+                  : 'border border-linea/10 bg-superficie-baja text-texto-suave hover:text-texto'
               }`}
             >
               <Icono nombre={tab.icono} className="h-4 w-4" />
@@ -428,10 +428,10 @@ export function PanelCreadorCliente() {
               });
               mostrarToast('Evento especial guardado y publicado');
             }}
-            className="rounded-xl border border-white/15 bg-[#1B1613] p-4 space-y-3"
+            className="rounded-xl border border-linea/15 bg-superficie-baja p-4 space-y-3"
           >
             <div className="flex items-center justify-between">
-              <h2 className="font-rotulo text-xl uppercase tracking-wide text-[#F5EFE6]">
+              <h2 className="font-rotulo text-xl uppercase tracking-wide text-texto">
                 {eventoForm.id
                   ? 'Editar Evento Especial'
                   : 'Crear Nuevo Evento Especial'}
@@ -453,7 +453,7 @@ export function PanelCreadorCliente() {
                       activo: true,
                     })
                   }
-                  className="font-ticket text-xs text-[#C9B9A6] hover:text-[#F5EFE6]"
+                  className="font-ticket text-xs text-texto-suave hover:text-texto"
                 >
                   Cancelar edición
                 </button>
@@ -462,7 +462,7 @@ export function PanelCreadorCliente() {
 
             <div className="grid gap-3 sm:grid-cols-2">
               <div className="sm:col-span-2">
-                <label className="block font-ticket text-[11px] uppercase text-[#C9B9A6]">
+                <label className="block font-ticket text-[11px] uppercase text-texto-suave">
                   Título del Evento
                 </label>
                 <input
@@ -473,12 +473,12 @@ export function PanelCreadorCliente() {
                     setEventoForm((prev) => ({ ...prev, titulo: e.target.value }))
                   }
                   placeholder="Ej. Noche de la Guindilla Roja · x3 XP en Centro"
-                  className="mt-1 w-full rounded-lg border border-white/15 bg-[#120F0D] px-3 py-2 text-sm text-[#F5EFE6]"
+                  className="mt-1 w-full rounded-lg border border-linea/15 bg-fondo px-3 py-2 text-sm text-texto"
                 />
               </div>
 
               <div className="sm:col-span-2">
-                <label className="block font-ticket text-[11px] uppercase text-[#C9B9A6]">
+                <label className="block font-ticket text-[11px] uppercase text-texto-suave">
                   Descripción / Reglas del Evento
                 </label>
                 <textarea
@@ -489,12 +489,12 @@ export function PanelCreadorCliente() {
                     setEventoForm((prev) => ({ ...prev, subtitulo: e.target.value }))
                   }
                   placeholder="Explica qué ganan los usuarios durante el evento..."
-                  className="mt-1 w-full rounded-lg border border-white/15 bg-[#120F0D] px-3 py-2 text-sm text-[#F5EFE6]"
+                  className="mt-1 w-full rounded-lg border border-linea/15 bg-fondo px-3 py-2 text-sm text-texto"
                 />
               </div>
 
               <div>
-                <label className="block font-ticket text-[11px] uppercase text-[#C9B9A6]">
+                <label className="block font-ticket text-[11px] uppercase text-texto-suave">
                   Etiqueta Superior
                 </label>
                 <input
@@ -503,12 +503,12 @@ export function PanelCreadorCliente() {
                   onChange={(e) =>
                     setEventoForm((prev) => ({ ...prev, etiqueta: e.target.value }))
                   }
-                  className="mt-1 w-full rounded-lg border border-white/15 bg-[#120F0D] px-3 py-2 font-ticket text-xs text-[#F5EFE6]"
+                  className="mt-1 w-full rounded-lg border border-linea/15 bg-fondo px-3 py-2 font-ticket text-xs text-texto"
                 />
               </div>
 
               <div>
-                <label className="block font-ticket text-[11px] uppercase text-[#C9B9A6]">
+                <label className="block font-ticket text-[11px] uppercase text-texto-suave">
                   Multiplicador XP (ej. 2 = Doble XP)
                 </label>
                 <input
@@ -523,12 +523,12 @@ export function PanelCreadorCliente() {
                       multiplicadorXp: Number.parseFloat(e.target.value) || 1,
                     }))
                   }
-                  className="mt-1 w-full rounded-lg border border-white/15 bg-[#120F0D] px-3 py-2 font-ticket text-xs text-[#F5EFE6]"
+                  className="mt-1 w-full rounded-lg border border-linea/15 bg-fondo px-3 py-2 font-ticket text-xs text-texto"
                 />
               </div>
 
               <div>
-                <label className="block font-ticket text-[11px] uppercase text-[#C9B9A6]">
+                <label className="block font-ticket text-[11px] uppercase text-texto-suave">
                   Texto de Cuenta Atrás / Estado
                 </label>
                 <input
@@ -537,12 +537,12 @@ export function PanelCreadorCliente() {
                   onChange={(e) =>
                     setEventoForm((prev) => ({ ...prev, terminaTexto: e.target.value }))
                   }
-                  className="mt-1 w-full rounded-lg border border-white/15 bg-[#120F0D] px-3 py-2 font-ticket text-xs text-[#F5EFE6]"
+                  className="mt-1 w-full rounded-lg border border-linea/15 bg-fondo px-3 py-2 font-ticket text-xs text-texto"
                 />
               </div>
 
               <div>
-                <label className="block font-ticket text-[11px] uppercase text-[#C9B9A6]">
+                <label className="block font-ticket text-[11px] uppercase text-texto-suave">
                   Color de Neón
                 </label>
                 <div className="mt-1.5 flex gap-2">
@@ -561,10 +561,10 @@ export function PanelCreadorCliente() {
                         setEventoForm((prev) => ({ ...prev, colorAcento: c.hex }))
                       }
                       style={{ backgroundColor: c.hex }}
-                      className={`h-8 flex-1 rounded-lg font-ticket text-[10px] font-bold text-[#120F0D] ${
+                      className={`h-8 flex-1 rounded-lg font-ticket text-[10px] font-bold text-carbon ${
                         eventoForm.colorAcento === c.hex
-                          ? 'ring-2 ring-white'
-                          : 'opacity-70'
+                          ? 'ring-2 ring-texto'
+                          : 'opacity-85'
                       }`}
                     >
                       {c.nombre}
@@ -574,7 +574,7 @@ export function PanelCreadorCliente() {
               </div>
 
               <div>
-                <label className="block font-ticket text-[11px] uppercase text-[#C9B9A6]">
+                <label className="block font-ticket text-[11px] uppercase text-texto-suave">
                   Texto del Botón CTA
                 </label>
                 <input
@@ -583,12 +583,12 @@ export function PanelCreadorCliente() {
                   onChange={(e) =>
                     setEventoForm((prev) => ({ ...prev, textoBoton: e.target.value }))
                   }
-                  className="mt-1 w-full rounded-lg border border-white/15 bg-[#120F0D] px-3 py-2 font-ticket text-xs text-[#F5EFE6]"
+                  className="mt-1 w-full rounded-lg border border-linea/15 bg-fondo px-3 py-2 font-ticket text-xs text-texto"
                 />
               </div>
 
               <div>
-                <label className="block font-ticket text-[11px] uppercase text-[#C9B9A6]">
+                <label className="block font-ticket text-[11px] uppercase text-texto-suave">
                   Ruta de Destino
                 </label>
                 <input
@@ -597,14 +597,14 @@ export function PanelCreadorCliente() {
                   onChange={(e) =>
                     setEventoForm((prev) => ({ ...prev, enlaceBoton: e.target.value }))
                   }
-                  className="mt-1 w-full rounded-lg border border-white/15 bg-[#120F0D] px-3 py-2 font-ticket text-xs text-[#F5EFE6]"
+                  className="mt-1 w-full rounded-lg border border-linea/15 bg-fondo px-3 py-2 font-ticket text-xs text-texto"
                 />
               </div>
             </div>
 
             <button
               type="submit"
-              className="w-full rounded-xl bg-[#FF3B30] py-3 font-rotulo text-lg uppercase tracking-wider text-white shadow-[0_0_20px_rgba(255,59,48,0.35)]"
+              className="w-full rounded-xl bg-guindilla-red py-3 font-rotulo text-lg uppercase tracking-wider text-carbon shadow-[0_0_20px_rgba(255,59,48,0.35)]"
             >
               {eventoForm.id
                 ? 'GUARDAR CAMBIOS DEL EVENTO'
@@ -614,18 +614,18 @@ export function PanelCreadorCliente() {
 
           {/* Lista de eventos creados */}
           <div className="space-y-3">
-            <h3 className="font-rotulo text-lg uppercase tracking-wide text-[#F5EFE6]">
+            <h3 className="font-rotulo text-lg uppercase tracking-wide text-texto">
               Eventos configurados ({eventos.length})
             </h3>
             {eventos.map((evt) => (
               <div
                 key={evt.id}
-                className="flex flex-col justify-between gap-3 rounded-xl border border-white/10 bg-[#1B1613] p-4 sm:flex-row sm:items-center"
+                className="flex flex-col justify-between gap-3 rounded-xl border border-linea/10 bg-superficie-baja p-4 sm:flex-row sm:items-center"
               >
                 <div>
                   <div className="flex items-center gap-2">
                     <span
-                      style={{ color: evt.colorAcento }}
+                      style={{ color: `color-mix(in srgb, ${evt.colorAcento} 60%, var(--texto))` }}
                       className="font-ticket text-[10px] font-bold uppercase"
                     >
                       {evt.etiqueta} · x{evt.multiplicadorXp} XP
@@ -633,17 +633,17 @@ export function PanelCreadorCliente() {
                     <span
                       className={`rounded px-1.5 py-0.5 font-ticket text-[9px] font-bold ${
                         evt.activo
-                          ? 'bg-[#35C759]/20 text-[#35C759]'
-                          : 'bg-white/10 text-[#C9B9A6]'
+                          ? 'bg-lechuga-green/20 text-lechuga'
+                          : 'bg-linea/10 text-texto-suave'
                       }`}
                     >
                       {evt.activo ? 'EN VIVO EN PORTADA' : 'PAUSADO'}
                     </span>
                   </div>
-                  <h4 className="mt-0.5 font-rotulo text-lg uppercase text-[#F5EFE6]">
+                  <h4 className="mt-0.5 font-rotulo text-lg uppercase text-texto">
                     {evt.titulo}
                   </h4>
-                  <p className="text-xs text-[#C9B9A6]">{evt.subtitulo}</p>
+                  <p className="text-xs text-texto-suave">{evt.subtitulo}</p>
                 </div>
 
                 <div className="flex shrink-0 flex-wrap gap-2">
@@ -657,8 +657,8 @@ export function PanelCreadorCliente() {
                     }}
                     className={`rounded-lg px-3 py-1.5 font-ticket text-xs font-bold ${
                       evt.activo
-                        ? 'border border-[#35C759] bg-[#35C759] text-[#120F0D]'
-                        : 'border border-white/15 bg-[#120F0D] text-[#C9B9A6]'
+                        ? 'border border-lechuga bg-lechuga-green text-carbon'
+                        : 'border border-linea/15 bg-fondo text-texto-suave'
                     }`}
                   >
                     {evt.activo ? 'Activo ✓' : 'Activar'}
@@ -666,7 +666,7 @@ export function PanelCreadorCliente() {
                   <button
                     type="button"
                     onClick={() => setEventoForm(evt)}
-                    className="rounded-lg border border-white/15 bg-[#241D18] px-3 py-1.5 font-ticket text-xs text-[#F5EFE6]"
+                    className="rounded-lg border border-linea/15 bg-superficie px-3 py-1.5 font-ticket text-xs text-texto"
                   >
                     Editar
                   </button>
@@ -676,7 +676,7 @@ export function PanelCreadorCliente() {
                       eliminarEvento(evt.id);
                       mostrarToast('Evento eliminado');
                     }}
-                    className="rounded-lg border border-[#FF3B30]/40 bg-[#FF3B30]/10 px-2.5 py-1.5 font-ticket text-xs text-[#FF3B30]"
+                    className="rounded-lg border border-guindilla/40 bg-guindilla-red/10 px-2.5 py-1.5 font-ticket text-xs text-guindilla"
                   >
                     Borrar
                   </button>
@@ -717,15 +717,15 @@ export function PanelCreadorCliente() {
               });
               mostrarToast('Misión guardada en /misiones');
             }}
-            className="rounded-xl border border-white/15 bg-[#1B1613] p-4 space-y-3"
+            className="rounded-xl border border-linea/15 bg-superficie-baja p-4 space-y-3"
           >
-            <h2 className="font-rotulo text-xl uppercase tracking-wide text-[#F5EFE6]">
+            <h2 className="font-rotulo text-xl uppercase tracking-wide text-texto">
               {misionForm.id ? 'Editar Misión Nocturna' : 'Crear Nueva Misión Nocturna'}
             </h2>
 
             <div className="grid gap-3 sm:grid-cols-2">
               <div className="sm:col-span-2">
-                <label className="block font-ticket text-[11px] uppercase text-[#C9B9A6]">
+                <label className="block font-ticket text-[11px] uppercase text-texto-suave">
                   Nombre de la Misión
                 </label>
                 <input
@@ -736,12 +736,12 @@ export function PanelCreadorCliente() {
                     setMisionForm((prev) => ({ ...prev, titulo: e.target.value }))
                   }
                   placeholder="Ej. El Guardián de Cruz de Humilladero"
-                  className="mt-1 w-full rounded-lg border border-white/15 bg-[#120F0D] px-3 py-2 text-sm text-[#F5EFE6]"
+                  className="mt-1 w-full rounded-lg border border-linea/15 bg-fondo px-3 py-2 text-sm text-texto"
                 />
               </div>
 
               <div className="sm:col-span-2">
-                <label className="block font-ticket text-[11px] uppercase text-[#C9B9A6]">
+                <label className="block font-ticket text-[11px] uppercase text-texto-suave">
                   Objetivo / Descripción
                 </label>
                 <textarea
@@ -752,12 +752,12 @@ export function PanelCreadorCliente() {
                     setMisionForm((prev) => ({ ...prev, descripcion: e.target.value }))
                   }
                   placeholder="Describe qué debe hacer el crítico para completarla..."
-                  className="mt-1 w-full rounded-lg border border-white/15 bg-[#120F0D] px-3 py-2 text-sm text-[#F5EFE6]"
+                  className="mt-1 w-full rounded-lg border border-linea/15 bg-fondo px-3 py-2 text-sm text-texto"
                 />
               </div>
 
               <div>
-                <label className="block font-ticket text-[11px] uppercase text-[#C9B9A6]">
+                <label className="block font-ticket text-[11px] uppercase text-texto-suave">
                   Categoría
                 </label>
                 <select
@@ -768,7 +768,7 @@ export function PanelCreadorCliente() {
                       categoria: e.target.value as CategoriaMision,
                     }))
                   }
-                  className="mt-1 w-full rounded-lg border border-white/15 bg-[#120F0D] px-3 py-2 font-ticket text-xs text-[#F5EFE6]"
+                  className="mt-1 w-full rounded-lg border border-linea/15 bg-fondo px-3 py-2 font-ticket text-xs text-texto"
                 >
                   <option value="horario">03:00 - 05:00 AM (Horario)</option>
                   <option value="barrio">Barrios de Málaga</option>
@@ -778,7 +778,7 @@ export function PanelCreadorCliente() {
               </div>
 
               <div>
-                <label className="block font-ticket text-[11px] uppercase text-[#C9B9A6]">
+                <label className="block font-ticket text-[11px] uppercase text-texto-suave">
                   Dificultad
                 </label>
                 <select
@@ -789,7 +789,7 @@ export function PanelCreadorCliente() {
                       dificultad: e.target.value as DificultadMision,
                     }))
                   }
-                  className="mt-1 w-full rounded-lg border border-white/15 bg-[#120F0D] px-3 py-2 font-ticket text-xs text-[#F5EFE6]"
+                  className="mt-1 w-full rounded-lg border border-linea/15 bg-fondo px-3 py-2 font-ticket text-xs text-texto"
                 >
                   <option value="facil">Fácil</option>
                   <option value="media">Media</option>
@@ -798,7 +798,7 @@ export function PanelCreadorCliente() {
               </div>
 
               <div>
-                <label className="block font-ticket text-[11px] uppercase text-[#C9B9A6]">
+                <label className="block font-ticket text-[11px] uppercase text-texto-suave">
                   Recompensa XP
                 </label>
                 <input
@@ -812,12 +812,12 @@ export function PanelCreadorCliente() {
                       xp: Number.parseInt(e.target.value, 10) || 100,
                     }))
                   }
-                  className="mt-1 w-full rounded-lg border border-white/15 bg-[#120F0D] px-3 py-2 font-ticket text-xs text-[#F5EFE6]"
+                  className="mt-1 w-full rounded-lg border border-linea/15 bg-fondo px-3 py-2 font-ticket text-xs text-texto"
                 />
               </div>
 
               <div>
-                <label className="block font-ticket text-[11px] uppercase text-[#C9B9A6]">
+                <label className="block font-ticket text-[11px] uppercase text-texto-suave">
                   Pegatina / Insignia que desbloquea
                 </label>
                 <input
@@ -826,12 +826,12 @@ export function PanelCreadorCliente() {
                   onChange={(e) =>
                     setMisionForm((prev) => ({ ...prev, recompensa: e.target.value }))
                   }
-                  className="mt-1 w-full rounded-lg border border-white/15 bg-[#120F0D] px-3 py-2 font-ticket text-xs text-[#F5EFE6]"
+                  className="mt-1 w-full rounded-lg border border-linea/15 bg-fondo px-3 py-2 font-ticket text-xs text-texto"
                 />
               </div>
 
               <div>
-                <label className="block font-ticket text-[11px] uppercase text-[#C9B9A6]">
+                <label className="block font-ticket text-[11px] uppercase text-texto-suave">
                   Progreso Actual
                 </label>
                 <input
@@ -844,12 +844,12 @@ export function PanelCreadorCliente() {
                       progresoActual: Number.parseInt(e.target.value, 10) || 0,
                     }))
                   }
-                  className="mt-1 w-full rounded-lg border border-white/15 bg-[#120F0D] px-3 py-2 font-ticket text-xs text-[#F5EFE6]"
+                  className="mt-1 w-full rounded-lg border border-linea/15 bg-fondo px-3 py-2 font-ticket text-xs text-texto"
                 />
               </div>
 
               <div>
-                <label className="block font-ticket text-[11px] uppercase text-[#C9B9A6]">
+                <label className="block font-ticket text-[11px] uppercase text-texto-suave">
                   Meta de Tickets / Locales
                 </label>
                 <input
@@ -862,42 +862,42 @@ export function PanelCreadorCliente() {
                       progresoMeta: Number.parseInt(e.target.value, 10) || 1,
                     }))
                   }
-                  className="mt-1 w-full rounded-lg border border-white/15 bg-[#120F0D] px-3 py-2 font-ticket text-xs text-[#F5EFE6]"
+                  className="mt-1 w-full rounded-lg border border-linea/15 bg-fondo px-3 py-2 font-ticket text-xs text-texto"
                 />
               </div>
             </div>
 
             <button
               type="submit"
-              className="w-full rounded-xl bg-[#FF7A1F] py-3 font-rotulo text-lg uppercase tracking-wider text-[#120F0D]"
+              className="w-full rounded-xl bg-primario py-3 font-rotulo text-lg uppercase tracking-wider text-carbon"
             >
               {misionForm.id ? 'ACTUALIZAR MISIÓN' : '+ PUBLICAR NUEVA MISIÓN'}
             </button>
           </form>
 
           <div className="space-y-3">
-            <h3 className="font-rotulo text-lg uppercase tracking-wide text-[#F5EFE6]">
+            <h3 className="font-rotulo text-lg uppercase tracking-wide text-texto">
               Misiones en el tablón ({misiones.length})
             </h3>
             {misiones.map((m) => (
               <div
                 key={m.id}
-                className="flex flex-col justify-between gap-3 rounded-xl border border-white/10 bg-[#1B1613] p-4 sm:flex-row sm:items-center"
+                className="flex flex-col justify-between gap-3 rounded-xl border border-linea/10 bg-superficie-baja p-4 sm:flex-row sm:items-center"
               >
                 <div>
                   <div className="flex items-center gap-2 font-ticket text-[10px]">
-                    <span className="text-[#FF7A1F] font-bold uppercase">
+                    <span className="text-acento font-bold uppercase">
                       {m.categoria} · {m.dificultad}
                     </span>
-                    <span className="text-[#35C759] font-bold">+{m.xp} XP</span>
-                    <span className="text-[#C9B9A6]">
+                    <span className="text-lechuga font-bold">+{m.xp} XP</span>
+                    <span className="text-texto-suave">
                       ({m.progresoActual}/{m.progresoMeta})
                     </span>
                   </div>
-                  <h4 className="font-rotulo text-lg uppercase text-[#F5EFE6]">
+                  <h4 className="font-rotulo text-lg uppercase text-texto">
                     {m.titulo}
                   </h4>
-                  <p className="text-xs text-[#C9B9A6]">{m.descripcion}</p>
+                  <p className="text-xs text-texto-suave">{m.descripcion}</p>
                 </div>
 
                 <div className="flex shrink-0 gap-2">
@@ -906,8 +906,8 @@ export function PanelCreadorCliente() {
                     onClick={() => alternarMisionActiva(m.id)}
                     className={`rounded-lg px-3 py-1.5 font-ticket text-xs font-bold ${
                       m.activa
-                        ? 'bg-[#35C759] text-[#120F0D]'
-                        : 'border border-white/15 bg-[#120F0D] text-[#C9B9A6]'
+                        ? 'bg-lechuga-green text-carbon'
+                        : 'border border-linea/15 bg-fondo text-texto-suave'
                     }`}
                   >
                     {m.activa ? 'Activa ✓' : 'Pausada'}
@@ -915,7 +915,7 @@ export function PanelCreadorCliente() {
                   <button
                     type="button"
                     onClick={() => setMisionForm(m)}
-                    className="rounded-lg border border-white/15 bg-[#241D18] px-3 py-1.5 font-ticket text-xs text-[#F5EFE6]"
+                    className="rounded-lg border border-linea/15 bg-superficie px-3 py-1.5 font-ticket text-xs text-texto"
                   >
                     Editar
                   </button>
@@ -925,7 +925,7 @@ export function PanelCreadorCliente() {
                       eliminarMision(m.id);
                       mostrarToast('Misión eliminada');
                     }}
-                    className="rounded-lg border border-[#FF3B30]/40 bg-[#FF3B30]/10 px-2.5 py-1.5 font-ticket text-xs text-[#FF3B30]"
+                    className="rounded-lg border border-guindilla/40 bg-guindilla-red/10 px-2.5 py-1.5 font-ticket text-xs text-guindilla"
                   >
                     Borrar
                   </button>
@@ -942,15 +942,15 @@ export function PanelCreadorCliente() {
       {pestana === 'locales' && (
         <section className="mt-5 space-y-5">
           {/* Selector rápido de local + botón Nuevo Local */}
-          <div className="rounded-xl border border-white/15 bg-[#1B1613] p-4">
+          <div className="rounded-xl border border-linea/15 bg-superficie-baja p-4">
             <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-              <h2 className="font-rotulo text-xl uppercase tracking-wide text-[#F5EFE6]">
+              <h2 className="font-rotulo text-xl uppercase tracking-wide text-texto">
                 Seleccionar Asador a Editar ({locales.length})
               </h2>
               <button
                 type="button"
                 onClick={prepararNuevoLocal}
-                className="rounded-lg bg-[#35C759] px-3 py-1.5 font-ticket text-xs font-bold uppercase text-[#120F0D]"
+                className="rounded-lg bg-lechuga-green px-3 py-1.5 font-ticket text-xs font-bold uppercase text-carbon"
               >
                 + Crear Nuevo Local
               </button>
@@ -966,12 +966,12 @@ export function PanelCreadorCliente() {
                     onClick={() => seleccionarLocalParaEditar(l)}
                     className={`shrink-0 rounded-lg border px-3 py-2 text-left font-ticket text-xs transition-colors ${
                       activo
-                        ? 'border-[#FF7A1F] bg-[#FF7A1F]/20 font-bold text-[#F5EFE6]'
-                        : 'border-white/10 bg-[#120F0D] text-[#C9B9A6] hover:text-[#F5EFE6]'
+                        ? 'border-acento bg-primario/20 font-bold text-texto'
+                        : 'border-linea/10 bg-fondo text-texto-suave hover:text-texto'
                     }`}
                   >
                     <span className="block">{l.nombre}</span>
-                    <span className="text-[10px] text-[#FF7A1F]">
+                    <span className="text-[10px] text-acento">
                       Nota {formatearNota(l.nota)} ·{' '}
                       {formatearPrecio(l.precioDurumCentimos)}
                     </span>
@@ -988,21 +988,21 @@ export function PanelCreadorCliente() {
                 guardarLocal(localForm);
                 mostrarToast(`Local "${localForm.nombre}" actualizado en toda la web`);
               }}
-              className="rounded-xl border border-white/15 bg-[#1B1613] p-4 space-y-4"
+              className="rounded-xl border border-linea/15 bg-superficie-baja p-4 space-y-4"
             >
-              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-3">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-linea/10 pb-3">
                 <div>
-                  <span className="font-ticket text-[10px] uppercase text-[#FF7A1F]">
+                  <span className="font-ticket text-[10px] uppercase text-acento">
                     EDITANDO FICHA Y NOTAS EN VIVO
                   </span>
-                  <h3 className="font-rotulo text-2xl uppercase text-[#F5EFE6]">
+                  <h3 className="font-rotulo text-2xl uppercase text-texto">
                     {localForm.nombre}
                   </h3>
                 </div>
                 <div className="flex items-center gap-2">
                   <Link
                     href={`/kebab/${localForm.slug}`}
-                    className="rounded-lg border border-white/15 bg-[#241D18] px-3 py-1.5 font-ticket text-xs text-[#F5EFE6]"
+                    className="rounded-lg border border-linea/15 bg-superficie px-3 py-1.5 font-ticket text-xs text-texto"
                   >
                     Ver ficha pública →
                   </Link>
@@ -1015,7 +1015,7 @@ export function PanelCreadorCliente() {
                         if (siguiente) seleccionarLocalParaEditar(siguiente);
                         mostrarToast('Local eliminado del catálogo');
                       }}
-                      className="rounded-lg border border-[#FF3B30]/40 bg-[#FF3B30]/10 px-3 py-1.5 font-ticket text-xs text-[#FF3B30]"
+                      className="rounded-lg border border-guindilla/40 bg-guindilla-red/10 px-3 py-1.5 font-ticket text-xs text-guindilla"
                     >
                       Borrar local
                     </button>
@@ -1025,7 +1025,7 @@ export function PanelCreadorCliente() {
 
               <div className="grid gap-3 sm:grid-cols-2">
                 <div>
-                  <label className="block font-ticket text-[11px] uppercase text-[#C9B9A6]">
+                  <label className="block font-ticket text-[11px] uppercase text-texto-suave">
                     Nombre del Local
                   </label>
                   <input
@@ -1037,12 +1037,12 @@ export function PanelCreadorCliente() {
                         prev ? { ...prev, nombre: e.target.value } : prev,
                       )
                     }
-                    className="mt-1 w-full rounded-lg border border-white/15 bg-[#120F0D] px-3 py-2 text-sm text-[#F5EFE6]"
+                    className="mt-1 w-full rounded-lg border border-linea/15 bg-fondo px-3 py-2 text-sm text-texto"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-ticket text-[11px] uppercase text-[#C9B9A6]">
+                  <label className="block font-ticket text-[11px] uppercase text-texto-suave">
                     Barrio de Málaga
                   </label>
                   <select
@@ -1056,7 +1056,7 @@ export function PanelCreadorCliente() {
                           : prev,
                       );
                     }}
-                    className="mt-1 w-full rounded-lg border border-white/15 bg-[#120F0D] px-3 py-2 font-ticket text-xs text-[#F5EFE6]"
+                    className="mt-1 w-full rounded-lg border border-linea/15 bg-fondo px-3 py-2 font-ticket text-xs text-texto"
                   >
                     {barrios.map((b) => (
                       <option key={b.slug} value={b.slug}>
@@ -1067,7 +1067,7 @@ export function PanelCreadorCliente() {
                 </div>
 
                 <div>
-                  <label className="block font-ticket text-[11px] uppercase text-[#C9B9A6]">
+                  <label className="block font-ticket text-[11px] uppercase text-texto-suave">
                     Dirección
                   </label>
                   <input
@@ -1078,12 +1078,12 @@ export function PanelCreadorCliente() {
                         prev ? { ...prev, direccion: e.target.value } : prev,
                       )
                     }
-                    className="mt-1 w-full rounded-lg border border-white/15 bg-[#120F0D] px-3 py-2 text-xs text-[#F5EFE6]"
+                    className="mt-1 w-full rounded-lg border border-linea/15 bg-fondo px-3 py-2 text-xs text-texto"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-ticket text-[11px] uppercase text-[#C9B9A6]">
+                  <label className="block font-ticket text-[11px] uppercase text-texto-suave">
                     Insignia / Especialidad
                   </label>
                   <input
@@ -1095,12 +1095,12 @@ export function PanelCreadorCliente() {
                       )
                     }
                     placeholder="Ej. Rey del Pan Casero"
-                    className="mt-1 w-full rounded-lg border border-white/15 bg-[#120F0D] px-3 py-2 font-ticket text-xs text-[#F5EFE6]"
+                    className="mt-1 w-full rounded-lg border border-linea/15 bg-fondo px-3 py-2 font-ticket text-xs text-texto"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-ticket text-[11px] uppercase text-[#C9B9A6]">
+                  <label className="block font-ticket text-[11px] uppercase text-texto-suave">
                     Precio Dürüm (en céntimos, 650 = 6,50 €)
                   </label>
                   <input
@@ -1118,12 +1118,12 @@ export function PanelCreadorCliente() {
                           : prev,
                       )
                     }
-                    className="mt-1 w-full rounded-lg border border-white/15 bg-[#120F0D] px-3 py-2 font-ticket text-xs text-[#F5EFE6]"
+                    className="mt-1 w-full rounded-lg border border-linea/15 bg-fondo px-3 py-2 font-ticket text-xs text-texto"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-ticket text-[11px] uppercase text-[#C9B9A6]">
+                  <label className="block font-ticket text-[11px] uppercase text-texto-suave">
                     Peso medio del Dürüm (gramos)
                   </label>
                   <input
@@ -1140,12 +1140,12 @@ export function PanelCreadorCliente() {
                           : prev,
                       )
                     }
-                    className="mt-1 w-full rounded-lg border border-white/15 bg-[#120F0D] px-3 py-2 font-ticket text-xs text-[#F5EFE6]"
+                    className="mt-1 w-full rounded-lg border border-linea/15 bg-fondo px-3 py-2 font-ticket text-xs text-texto"
                   />
                 </div>
 
                 <div className="sm:col-span-2">
-                  <label className="block font-ticket text-[11px] uppercase text-[#C9B9A6]">
+                  <label className="block font-ticket text-[11px] uppercase text-texto-suave">
                     URL de Foto de Portada (o elige una foto de Stitch abajo)
                   </label>
                   <input
@@ -1156,7 +1156,7 @@ export function PanelCreadorCliente() {
                         prev ? { ...prev, fotoPortada: e.target.value } : prev,
                       )
                     }
-                    className="mt-1 w-full rounded-lg border border-white/15 bg-[#120F0D] px-3 py-2 font-ticket text-xs text-[#F5EFE6]"
+                    className="mt-1 w-full rounded-lg border border-linea/15 bg-fondo px-3 py-2 font-ticket text-xs text-texto"
                   />
                   <div className="mt-2 flex flex-wrap gap-1.5">
                     {FOTOS_RAPIDAS.map((f) => (
@@ -1168,7 +1168,7 @@ export function PanelCreadorCliente() {
                             prev ? { ...prev, fotoPortada: f.url } : prev,
                           )
                         }
-                        className="rounded border border-white/10 bg-[#241D18] px-2 py-1 font-ticket text-[10px] text-[#C9B9A6] hover:border-[#FF7A1F] hover:text-[#F5EFE6]"
+                        className="rounded border border-linea/10 bg-superficie px-2 py-1 font-ticket text-[10px] text-texto-suave hover:border-acento hover:text-texto"
                       >
                         {f.nombre}
                       </button>
@@ -1178,7 +1178,7 @@ export function PanelCreadorCliente() {
               </div>
 
               {/* Chapas booleanas */}
-              <div className="flex flex-wrap gap-3 border-y border-white/10 py-3 font-ticket text-xs">
+              <div className="flex flex-wrap gap-3 border-y border-linea/10 py-3 font-ticket text-xs">
                 {[
                   { clave: 'halal' as const, texto: 'Halal Certificado' },
                   { clave: 'panCasero' as const, texto: 'Pan Casero Tandoor' },
@@ -1187,7 +1187,7 @@ export function PanelCreadorCliente() {
                 ].map((chapa) => (
                   <label
                     key={chapa.clave}
-                    className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-white/10 bg-[#120F0D] px-3 py-2"
+                    className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-linea/10 bg-fondo px-3 py-2"
                   >
                     <input
                       type="checkbox"
@@ -1197,7 +1197,7 @@ export function PanelCreadorCliente() {
                           prev ? { ...prev, [chapa.clave]: e.target.checked } : prev,
                         )
                       }
-                      className="accent-[#FF7A1F]"
+                      className="accent-acento"
                     />
                     <span>{chapa.texto}</span>
                   </label>
@@ -1207,9 +1207,9 @@ export function PanelCreadorCliente() {
               {/* Calibrador de las 6 subnotas del local */}
               <div>
                 <div className="mb-2 flex items-center justify-between">
-                  <span className="font-rotulo text-lg uppercase text-[#F5EFE6]">
+                  <span className="font-rotulo text-lg uppercase text-texto">
                     Calibrar las 6 Capas (KebabScore resultante:{' '}
-                    <strong className="text-[#FF7A1F]">
+                    <strong className="text-acento">
                       {formatearNota(calcularKebabScore(localForm.subnotas))}
                     </strong>
                     )
@@ -1228,11 +1228,11 @@ export function PanelCreadorCliente() {
                   ).map((item) => (
                     <div
                       key={item.k}
-                      className="rounded-lg border border-white/10 bg-[#120F0D] p-2.5"
+                      className="rounded-lg border border-linea/10 bg-fondo p-2.5"
                     >
                       <div className="flex justify-between font-ticket text-xs">
                         <span>{item.nombre}</span>
-                        <strong className="text-[#FF7A1F]">
+                        <strong className="text-acento">
                           {formatearNota(localForm.subnotas[item.k])}
                         </strong>
                       </div>
@@ -1253,7 +1253,7 @@ export function PanelCreadorCliente() {
                               : prev,
                           );
                         }}
-                        className="mt-1.5 w-full accent-[#FF7A1F]"
+                        className="mt-1.5 w-full accent-acento"
                       />
                     </div>
                   ))}
@@ -1262,29 +1262,29 @@ export function PanelCreadorCliente() {
 
               <button
                 type="submit"
-                className="w-full rounded-xl bg-[#FF7A1F] py-3 font-rotulo text-xl uppercase tracking-wider text-[#120F0D]"
+                className="w-full rounded-xl bg-primario py-3 font-rotulo text-xl uppercase tracking-wider text-carbon"
               >
                 GUARDAR CAMBIOS EN {localForm.nombre.toUpperCase()}
               </button>
 
               {/* Moderación de tickets térmicos de este local */}
               {localForm.tickets.length > 0 && (
-                <div className="border-t border-white/10 pt-4">
-                  <h4 className="font-rotulo text-base uppercase text-[#F5EFE6]">
+                <div className="border-t border-linea/10 pt-4">
+                  <h4 className="font-rotulo text-base uppercase text-texto">
                     Moderar Tickets Térmicos de este Local ({localForm.tickets.length})
                   </h4>
                   <div className="mt-2 space-y-2">
                     {localForm.tickets.map((t) => (
                       <div
                         key={t.id}
-                        className="flex items-center justify-between gap-2 rounded-lg border border-white/10 bg-[#120F0D] p-2.5 font-ticket text-xs"
+                        className="flex items-center justify-between gap-2 rounded-lg border border-linea/10 bg-fondo p-2.5 font-ticket text-xs"
                       >
                         <div className="min-w-0">
-                          <span className="font-bold text-[#F5EFE6]">
+                          <span className="font-bold text-texto">
                             {t.codigoTicket} · {t.autorNombre} (Nota{' '}
                             {formatearNota(t.notaTotal)})
                           </span>
-                          <p className="truncate text-[11px] text-[#C9B9A6]">
+                          <p className="truncate text-[11px] text-texto-suave">
                             {t.comentario}
                           </p>
                         </div>
@@ -1302,7 +1302,7 @@ export function PanelCreadorCliente() {
                             );
                             mostrarToast(`Ticket ${t.codigoTicket} eliminado`);
                           }}
-                          className="shrink-0 rounded border border-[#FF3B30]/40 bg-[#FF3B30]/10 px-2.5 py-1 text-[10px] text-[#FF3B30]"
+                          className="shrink-0 rounded border border-guindilla/40 bg-guindilla-red/10 px-2.5 py-1 text-[10px] text-guindilla"
                         >
                           Anular Ticket
                         </button>
@@ -1339,15 +1339,15 @@ export function PanelCreadorCliente() {
               });
               mostrarToast('Pegatina añadida a la vitrina');
             }}
-            className="rounded-xl border border-white/15 bg-[#1B1613] p-4 space-y-3"
+            className="rounded-xl border border-linea/15 bg-superficie-baja p-4 space-y-3"
           >
-            <h2 className="font-rotulo text-xl uppercase tracking-wide text-[#F5EFE6]">
+            <h2 className="font-rotulo text-xl uppercase tracking-wide text-texto">
               Diseñar Nueva Pegatina de Escaparate
             </h2>
 
             <div className="grid gap-3 sm:grid-cols-2">
               <div>
-                <label className="block font-ticket text-[11px] uppercase text-[#C9B9A6]">
+                <label className="block font-ticket text-[11px] uppercase text-texto-suave">
                   Nombre de la Pegatina
                 </label>
                 <input
@@ -1358,12 +1358,12 @@ export function PanelCreadorCliente() {
                     setPegatinaForm((prev) => ({ ...prev, titulo: e.target.value }))
                   }
                   placeholder="Ej. Terror del Lavash"
-                  className="mt-1 w-full rounded-lg border border-white/15 bg-[#120F0D] px-3 py-2 text-sm text-[#F5EFE6]"
+                  className="mt-1 w-full rounded-lg border border-linea/15 bg-fondo px-3 py-2 text-sm text-texto"
                 />
               </div>
 
               <div>
-                <label className="block font-ticket text-[11px] uppercase text-[#C9B9A6]">
+                <label className="block font-ticket text-[11px] uppercase text-texto-suave">
                   Requisito / Subtítulo
                 </label>
                 <input
@@ -1374,12 +1374,12 @@ export function PanelCreadorCliente() {
                     setPegatinaForm((prev) => ({ ...prev, subtitulo: e.target.value }))
                   }
                   placeholder="Ej. 5 dürüms seguidos sin servilleta"
-                  className="mt-1 w-full rounded-lg border border-white/15 bg-[#120F0D] px-3 py-2 text-sm text-[#F5EFE6]"
+                  className="mt-1 w-full rounded-lg border border-linea/15 bg-fondo px-3 py-2 text-sm text-texto"
                 />
               </div>
 
               <div>
-                <label className="block font-ticket text-[11px] uppercase text-[#C9B9A6]">
+                <label className="block font-ticket text-[11px] uppercase text-texto-suave">
                   Icono de la Pegatina
                 </label>
                 <select
@@ -1390,7 +1390,7 @@ export function PanelCreadorCliente() {
                       icono: e.target.value as NombreIcono,
                     }))
                   }
-                  className="mt-1 w-full rounded-lg border border-white/15 bg-[#120F0D] px-3 py-2 font-ticket text-xs text-[#F5EFE6]"
+                  className="mt-1 w-full rounded-lg border border-linea/15 bg-fondo px-3 py-2 font-ticket text-xs text-texto"
                 >
                   {ICONOS_PEGATINA.map((ic) => (
                     <option key={ic.id} value={ic.id}>
@@ -1401,7 +1401,7 @@ export function PanelCreadorCliente() {
               </div>
 
               <div>
-                <label className="block font-ticket text-[11px] uppercase text-[#C9B9A6]">
+                <label className="block font-ticket text-[11px] uppercase text-texto-suave">
                   Color de Borde Neón
                 </label>
                 <div className="mt-1.5 flex gap-2">
@@ -1414,7 +1414,7 @@ export function PanelCreadorCliente() {
                       }
                       style={{ backgroundColor: hex }}
                       className={`h-8 flex-1 rounded-lg ${
-                        pegatinaForm.colorHex === hex ? 'ring-2 ring-white' : 'opacity-70'
+                        pegatinaForm.colorHex === hex ? 'ring-2 ring-texto' : 'opacity-70'
                       }`}
                     />
                   ))}
@@ -1424,7 +1424,7 @@ export function PanelCreadorCliente() {
 
             <button
               type="submit"
-              className="w-full rounded-xl bg-[#F2C14E] py-3 font-rotulo text-lg uppercase tracking-wider text-[#120F0D]"
+              className="w-full rounded-xl bg-mostaza-gold py-3 font-rotulo text-lg uppercase tracking-wider text-carbon"
             >
               + CREAR PEGATINA DE ESCAPARATE
             </button>
@@ -1434,7 +1434,7 @@ export function PanelCreadorCliente() {
             {pegatinas.map((peg) => (
               <div
                 key={peg.id}
-                className="flex items-center justify-between gap-2 rounded-xl border border-white/10 bg-[#1B1613] p-3"
+                className="flex items-center justify-between gap-2 rounded-xl border border-linea/10 bg-superficie-baja p-3"
               >
                 <div className="flex items-center gap-2.5 min-w-0">
                   <div
@@ -1442,15 +1442,15 @@ export function PanelCreadorCliente() {
                       borderColor: peg.colorHex,
                       color: peg.colorHex,
                     }}
-                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 bg-[#120F0D]"
+                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 bg-fondo"
                   >
                     <Icono nombre={peg.icono} className="h-5 w-5" />
                   </div>
                   <div className="min-w-0">
-                    <p className="truncate font-rotulo text-sm uppercase text-[#F5EFE6]">
+                    <p className="truncate font-rotulo text-sm uppercase text-texto">
                       {peg.titulo}
                     </p>
-                    <p className="truncate font-ticket text-[10px] text-[#C9B9A6]">
+                    <p className="truncate font-ticket text-[10px] text-texto-suave">
                       {peg.subtitulo}
                     </p>
                   </div>
@@ -1461,8 +1461,8 @@ export function PanelCreadorCliente() {
                     onClick={() => alternarPegatinaDesbloqueada(peg.id)}
                     className={`rounded px-2 py-1 font-ticket text-[10px] font-bold ${
                       peg.desbloqueada
-                        ? 'bg-[#35C759] text-[#120F0D]'
-                        : 'border border-white/15 text-[#C9B9A6]'
+                        ? 'bg-lechuga-green text-carbon'
+                        : 'border border-linea/15 text-texto-suave'
                     }`}
                   >
                     {peg.desbloqueada ? 'Tuya ✓' : 'Bloq.'}
@@ -1470,7 +1470,7 @@ export function PanelCreadorCliente() {
                   <button
                     type="button"
                     onClick={() => eliminarPegatina(peg.id)}
-                    className="rounded border border-[#FF3B30]/40 px-2 py-1 font-ticket text-[10px] text-[#FF3B30]"
+                    className="rounded border border-guindilla/40 px-2 py-1 font-ticket text-[10px] text-guindilla"
                   >
                     ×
                   </button>
@@ -1486,98 +1486,98 @@ export function PanelCreadorCliente() {
          ================================================================= */}
       {pestana === 'ajustes' && (
         <section className="mt-5 space-y-5">
-          <div className="rounded-xl border border-white/15 bg-[#1B1613] p-4 space-y-3">
-            <h2 className="font-rotulo text-xl uppercase tracking-wide text-[#F5EFE6]">
+          <div className="rounded-xl border border-linea/15 bg-superficie-baja p-4 space-y-3">
+            <h2 className="font-rotulo text-xl uppercase tracking-wide text-texto">
               Textos Globales de Portada y Perfil Crítico
             </h2>
 
             <div className="grid gap-3 sm:grid-cols-2">
               <div className="sm:col-span-2">
-                <label className="block font-ticket text-[11px] uppercase text-[#C9B9A6]">
+                <label className="block font-ticket text-[11px] uppercase text-texto-suave">
                   Pastilla Superior del Hero
                 </label>
                 <input
                   type="text"
                   value={ajustes.heroPastilla}
                   onChange={(e) => actualizarAjustes({ heroPastilla: e.target.value })}
-                  className="mt-1 w-full rounded-lg border border-white/15 bg-[#120F0D] px-3 py-2 font-ticket text-xs text-[#F5EFE6]"
+                  className="mt-1 w-full rounded-lg border border-linea/15 bg-fondo px-3 py-2 font-ticket text-xs text-texto"
                 />
               </div>
 
               <div>
-                <label className="block font-ticket text-[11px] uppercase text-[#C9B9A6]">
+                <label className="block font-ticket text-[11px] uppercase text-texto-suave">
                   Titular Línea 1 (Blanco)
                 </label>
                 <input
                   type="text"
                   value={ajustes.heroLinea1}
                   onChange={(e) => actualizarAjustes({ heroLinea1: e.target.value })}
-                  className="mt-1 w-full rounded-lg border border-white/15 bg-[#120F0D] px-3 py-2 text-sm text-[#F5EFE6]"
+                  className="mt-1 w-full rounded-lg border border-linea/15 bg-fondo px-3 py-2 text-sm text-texto"
                 />
               </div>
 
               <div>
-                <label className="block font-ticket text-[11px] uppercase text-[#C9B9A6]">
+                <label className="block font-ticket text-[11px] uppercase text-texto-suave">
                   Titular Línea 2 (Naranja Brasa)
                 </label>
                 <input
                   type="text"
                   value={ajustes.heroLineaAcento}
                   onChange={(e) => actualizarAjustes({ heroLineaAcento: e.target.value })}
-                  className="mt-1 w-full rounded-lg border border-white/15 bg-[#120F0D] px-3 py-2 text-sm text-[#FF7A1F]"
+                  className="mt-1 w-full rounded-lg border border-linea/15 bg-fondo px-3 py-2 text-sm text-acento"
                 />
               </div>
 
               <div className="sm:col-span-2">
-                <label className="block font-ticket text-[11px] uppercase text-[#C9B9A6]">
+                <label className="block font-ticket text-[11px] uppercase text-texto-suave">
                   Subtítulo de Portada
                 </label>
                 <textarea
                   rows={2}
                   value={ajustes.heroSubtitulo}
                   onChange={(e) => actualizarAjustes({ heroSubtitulo: e.target.value })}
-                  className="mt-1 w-full rounded-lg border border-white/15 bg-[#120F0D] px-3 py-2 text-xs text-[#F5EFE6]"
+                  className="mt-1 w-full rounded-lg border border-linea/15 bg-fondo px-3 py-2 text-xs text-texto"
                 />
               </div>
 
               <div className="sm:col-span-2">
-                <label className="block font-ticket text-[11px] uppercase text-[#C9B9A6]">
+                <label className="block font-ticket text-[11px] uppercase text-texto-suave">
                   Cita de la Regla de Oro (Ticket #TKT-29001)
                 </label>
                 <input
                   type="text"
                   value={ajustes.reglaDeOroCita}
                   onChange={(e) => actualizarAjustes({ reglaDeOroCita: e.target.value })}
-                  className="mt-1 w-full rounded-lg border border-white/15 bg-[#120F0D] px-3 py-2 font-ticket text-xs text-[#F5EFE6]"
+                  className="mt-1 w-full rounded-lg border border-linea/15 bg-fondo px-3 py-2 font-ticket text-xs text-texto"
                 />
               </div>
 
               <div>
-                <label className="block font-ticket text-[11px] uppercase text-[#C9B9A6]">
+                <label className="block font-ticket text-[11px] uppercase text-texto-suave">
                   Tu Nombre en el HUD
                 </label>
                 <input
                   type="text"
                   value={ajustes.nombreCritico}
                   onChange={(e) => actualizarAjustes({ nombreCritico: e.target.value })}
-                  className="mt-1 w-full rounded-lg border border-white/15 bg-[#120F0D] px-3 py-2 font-ticket text-xs text-[#F5EFE6]"
+                  className="mt-1 w-full rounded-lg border border-linea/15 bg-fondo px-3 py-2 font-ticket text-xs text-texto"
                 />
               </div>
 
               <div>
-                <label className="block font-ticket text-[11px] uppercase text-[#C9B9A6]">
+                <label className="block font-ticket text-[11px] uppercase text-texto-suave">
                   Tu Rango Nocturno
                 </label>
                 <input
                   type="text"
                   value={ajustes.rangoCritico}
                   onChange={(e) => actualizarAjustes({ rangoCritico: e.target.value })}
-                  className="mt-1 w-full rounded-lg border border-white/15 bg-[#120F0D] px-3 py-2 font-ticket text-xs text-[#F5EFE6]"
+                  className="mt-1 w-full rounded-lg border border-linea/15 bg-fondo px-3 py-2 font-ticket text-xs text-texto"
                 />
               </div>
 
               <div>
-                <label className="block font-ticket text-[11px] uppercase text-[#C9B9A6]">
+                <label className="block font-ticket text-[11px] uppercase text-texto-suave">
                   Tu Nivel (LVL)
                 </label>
                 <input
@@ -1589,12 +1589,12 @@ export function PanelCreadorCliente() {
                       nivelCritico: Number.parseInt(e.target.value, 10) || 1,
                     })
                   }
-                  className="mt-1 w-full rounded-lg border border-white/15 bg-[#120F0D] px-3 py-2 font-ticket text-xs text-[#F5EFE6]"
+                  className="mt-1 w-full rounded-lg border border-linea/15 bg-fondo px-3 py-2 font-ticket text-xs text-texto"
                 />
               </div>
 
               <div>
-                <label className="block font-ticket text-[11px] uppercase text-[#C9B9A6]">
+                <label className="block font-ticket text-[11px] uppercase text-texto-suave">
                   Tu XP Base
                 </label>
                 <input
@@ -1606,7 +1606,7 @@ export function PanelCreadorCliente() {
                       xpBaseCritico: Number.parseInt(e.target.value, 10) || 0,
                     })
                   }
-                  className="mt-1 w-full rounded-lg border border-white/15 bg-[#120F0D] px-3 py-2 font-ticket text-xs text-[#F5EFE6]"
+                  className="mt-1 w-full rounded-lg border border-linea/15 bg-fondo px-3 py-2 font-ticket text-xs text-texto"
                 />
               </div>
             </div>
@@ -1614,15 +1614,15 @@ export function PanelCreadorCliente() {
             <button
               type="button"
               onClick={() => mostrarToast('Ajustes globales actualizados en vivo')}
-              className="w-full rounded-xl bg-[#35C759] py-2.5 font-rotulo text-base uppercase tracking-wider text-[#120F0D]"
+              className="w-full rounded-xl bg-lechuga-green py-2.5 font-rotulo text-base uppercase tracking-wider text-carbon"
             >
               ✓ CAMBIOS APLICADOS AUTOMÁTICAMENTE
             </button>
           </div>
 
           {/* Exportar / Importar JSON */}
-          <div className="rounded-xl border border-white/15 bg-[#1B1613] p-4 space-y-3">
-            <h3 className="font-rotulo text-lg uppercase text-[#F5EFE6]">
+          <div className="rounded-xl border border-linea/15 bg-superficie-baja p-4 space-y-3">
+            <h3 className="font-rotulo text-lg uppercase text-texto">
               Copia de Seguridad (Exportar / Importar JSON)
             </h3>
             <div className="flex flex-wrap gap-2">
@@ -1637,7 +1637,7 @@ export function PanelCreadorCliente() {
                   setJsonBackup(data);
                   mostrarToast('Configuración volcada en el cuadro inferior');
                 }}
-                className="rounded-lg bg-[#FF7A1F] px-3.5 py-2 font-ticket text-xs font-bold text-[#120F0D]"
+                className="rounded-lg bg-primario px-3.5 py-2 font-ticket text-xs font-bold text-carbon"
               >
                 Generar JSON actual
               </button>
@@ -1650,7 +1650,7 @@ export function PanelCreadorCliente() {
                     ok ? 'Configuración JSON importada' : 'Error: JSON no válido',
                   );
                 }}
-                className="rounded-lg border border-white/15 bg-[#241D18] px-3.5 py-2 font-ticket text-xs text-[#F5EFE6]"
+                className="rounded-lg border border-linea/15 bg-superficie px-3.5 py-2 font-ticket text-xs text-texto"
               >
                 Importar desde el cuadro
               </button>
@@ -1660,7 +1660,7 @@ export function PanelCreadorCliente() {
               value={jsonBackup}
               onChange={(e) => setJsonBackup(e.target.value)}
               placeholder="Pulsa 'Generar JSON actual' para copiar tu configuración o pega aquí un backup..."
-              className="w-full rounded-lg border border-white/15 bg-[#120F0D] p-3 font-ticket text-[11px] text-[#C9B9A6]"
+              className="w-full rounded-lg border border-linea/15 bg-fondo p-3 font-ticket text-[11px] text-texto-suave"
             />
           </div>
         </section>

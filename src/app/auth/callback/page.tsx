@@ -113,17 +113,17 @@ function ProcesadorCallbackOAuth() {
 
   return (
     <div className="mx-auto flex min-h-[70vh] max-w-md flex-col items-center justify-center px-4 text-center">
-      <div className="rounded-2xl border border-[#2ECC71]/40 bg-[#1B1613] p-6 shadow-[0_16px_40px_rgba(0,0,0,0.75)]">
-        <div className="mx-auto mb-3 flex h-12 w-12 animate-pulse items-center justify-center rounded-full bg-[#2ECC71]/20 text-2xl text-[#2ECC71]">
+      <div className="rounded-2xl border border-lechuga/40 bg-superficie-baja p-6 shadow-[0_16px_40px_rgba(0,0,0,0.75)]">
+        <div className="mx-auto mb-3 flex h-12 w-12 animate-pulse items-center justify-center rounded-full bg-lechuga-green/20 text-2xl text-lechuga">
           ✓
         </div>
-        <p className="font-ticket text-[10px] font-bold uppercase tracking-widest text-[#2ECC71]">
+        <p className="font-ticket text-[10px] font-bold uppercase tracking-widest text-lechuga">
           TOKEN OAUTH 2.0 VERIFICADO
         </p>
-        <h1 className="mt-1 font-rotulo text-2xl uppercase tracking-wide text-[#F5EFE6]">
+        <h1 className="mt-1 font-rotulo text-2xl uppercase tracking-wide text-texto">
           CREANDO TU PASAPORTE DE CRÍTICO...
         </h1>
-        <p className="mt-2 font-ticket text-xs text-[#C9B9A6]">
+        <p className="mt-2 font-ticket text-xs text-texto-suave">
           Sincronizando cuenta y sumando +100 XP de bienvenida.
         </p>
       </div>
@@ -135,7 +135,7 @@ export default function PaginaAuthCallback() {
   return (
     <Suspense
       fallback={
-        <div className="mx-auto max-w-md px-4 py-16 text-center font-ticket text-xs text-[#C9B9A6]">
+        <div className="mx-auto max-w-md px-4 py-16 text-center font-ticket text-xs text-texto-suave">
           Verificando sesión OAuth...
         </div>
       }

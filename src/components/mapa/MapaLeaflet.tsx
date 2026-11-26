@@ -22,7 +22,7 @@ import { formatearNota, formatearPrecio, nivelDeNota, type Nivel } from '@/lib/p
 const CENTRO_MALAGA: [number, number] = [36.7213, -4.4214];
 
 const COLOR_PIN: Record<Nivel | 'sinNota', { fondo: string; texto: string; borde: string }> = {
-  fuego:   { fondo: '#FF4A3D', texto: '#FFF8EB', borde: '#FFF8EB' },
+  fuego:   { fondo: '#FF4A3D', texto: '#1A1411', borde: '#FFF8EB' },
   picante: { fondo: '#FF7A1F', texto: '#1A1411', borde: '#FFF8EB' },
   suave:   { fondo: '#F2C14E', texto: '#1A1411', borde: '#1A1411' },
   sosa:    { fondo: '#352922', texto: '#F7EEDB', borde: '#C9B9A0' },

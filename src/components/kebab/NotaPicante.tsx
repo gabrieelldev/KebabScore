@@ -16,9 +16,9 @@ import {
 import { TEXTOS } from '@/lib/textos';
 
 const ESTILO_NIVEL: Record<Nivel, string> = {
-  fuego: 'bg-guindilla text-crema border-guindilla',
+  fuego: 'bg-guindilla-red text-carbon border-guindilla-red',
   picante: 'bg-primario text-primario-texto border-primario',
-  suave: 'bg-mostaza text-carbon border-mostaza',
+  suave: 'bg-mostaza-gold text-carbon border-mostaza-gold',
   sosa: 'bg-superficie-alta text-texto-suave border-borde',
 };
 

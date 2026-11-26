@@ -54,9 +54,10 @@
   --mostaza-700:   #7A5E00;
 
   --salsa-yogur:   #FFFDF7;
-  --ticket-papel:  #FAF4E6;
-  --ticket-tinta:  #2B2420;
-  --ticket-suave:  #6B5E54;
+  /* Papel térmico: igual en los dos temas (es un objeto físico, no la interfaz) */
+  --ticket-papel:  #EFE6D5;
+  --ticket-tinta:  #181411;
+  --ticket-suave:  #5C4E41;
 }
 
 /* ---------- 2. TOKENS SEMÁNTICOS · Modo Noche (3 AM, por defecto) ---------- */
@@ -76,9 +77,12 @@
   --primario-texto:   var(--carbon-900);
   --acento:           var(--brasa-500);
 
-  --guindilla:        var(--guindilla-500);
+  --guindilla:        #FF5A4E; /* un punto más claro que el neón para texto pequeño */
   --lechuga:          var(--lechuga-400);
   --mostaza:          var(--mostaza-400);
+
+  /* Línea fina: blanco translúcido de noche, tinta translúcida de día */
+  --linea:            #FFFFFF;
 
   --neon: 1;
   color-scheme: dark;
@@ -98,14 +102,43 @@
 
   --primario:         var(--brasa-500);
   --primario-texto:   var(--carbon-900);
-  --acento:           var(--brasa-700);
+  --acento:           #9A3C08; /* brasa tostada: ≥5:1 sobre crema */
 
   --guindilla:        var(--guindilla-700);
-  --lechuga:          var(--lechuga-700);
+  --lechuga:          #1F5C0E;
   --mostaza:          var(--mostaza-700);
+
+  --linea:            #1A1411;
 
   --neon: 0;
   color-scheme: light;
+}
+
+/* ---------- 2c. PAPEL TÉRMICO ----------
+ * Un ticket es papel físico: mismo aspecto de día y de noche. Dentro de él
+ * los tokens apuntan siempre a tinta oscura para que el texto no desaparezca. */
+.bg-ticket-papel,
+.ticket-termico {
+  --texto:         var(--ticket-tinta);
+  --texto-suave:   var(--ticket-suave);
+  --texto-apagado: var(--ticket-suave);
+  --acento:        #9A3C08;
+  --guindilla:     var(--guindilla-700);
+  --lechuga:       #1F5C0E;
+  --mostaza:       var(--mostaza-700);
+  --linea:         var(--ticket-tinta);
+  --borde:         color-mix(in srgb, var(--ticket-tinta) 25%, transparent);
+}
+
+/* Sellos de tinta negra dentro del ticket: vuelven a los colores de neón */
+.bg-ticket-tinta {
+  --texto:         var(--ticket-papel);
+  --texto-suave:   color-mix(in srgb, var(--ticket-papel) 75%, transparent);
+  --acento:        var(--brasa-500);
+  --guindilla:     #FF5A4E;
+  --lechuga:       var(--lechuga-400);
+  --mostaza:       var(--mostaza-400);
+  --linea:         var(--ticket-papel);
 }
 
 /* ---------- 3. PUENTE CON TAILWIND v4 (incluye nombres de Stitch) ---------- */
@@ -115,6 +148,7 @@
   --color-superficie-baja:             var(--superficie-baja);
   --color-superficie-alta:             var(--superficie-alta);
   --color-borde:                       var(--borde);
+  --color-linea:                       var(--linea);
 
   --color-texto:                       var(--texto);
   --color-texto-suave:                 var(--texto-suave);
@@ -153,6 +187,7 @@
   --color-on-primary:                  var(--on-primary);
 
   --color-brasa:                       var(--brasa-500);
+  --color-brasa-700:                   var(--brasa-700);
   --color-brasa-orange:                var(--brasa-500);
   --color-guindilla-red:               var(--guindilla-500);
   --color-lechuga-green:               var(--lechuga-400);
@@ -362,9 +397,9 @@ body {
 }
 
 .panel-luminoso {
-  background: linear-gradient(180deg, #251E1B 0%, #1D1612 100%);
-  color: var(--crema-100);
-  border: 1px solid rgba(255, 122, 31, 0.28);
+  background: linear-gradient(180deg, var(--superficie) 0%, var(--superficie-baja) 100%);
+  color: var(--texto);
+  border: 1px solid color-mix(in srgb, var(--acento) 28%, transparent);
   box-shadow: 0 6px 24px -4px rgba(255, 122, 31, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 

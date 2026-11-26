@@ -86,14 +86,14 @@ export function TicketsLocalCliente({
     <section aria-label="Últimos tickets auditados" className="mt-8 px-4">
       <div className="mb-4 flex items-end justify-between">
         <div>
-          <span className="block font-ticket text-[10px] uppercase tracking-[0.2em] text-[#FF7A1F]">
+          <span className="block font-ticket text-[10px] uppercase tracking-[0.2em] text-acento">
             PAPEL TÉRMICO · CAJA ABIERTA
           </span>
-          <h2 className="font-rotulo text-2xl uppercase tracking-wide text-[#F5EFE6]">
+          <h2 className="font-rotulo text-2xl uppercase tracking-wide text-texto">
             ÚLTIMOS TICKETS AUDITADOS
           </h2>
         </div>
-        <span className="rounded border border-[#44372E]/50 bg-[#1B1613] px-2 py-1 font-ticket text-xs text-[#C9B9A6]">
+        <span className="rounded border border-borde/50 bg-superficie-baja px-2 py-1 font-ticket text-xs text-texto-suave">
           MOSTRANDO {ticketsFiltrados.length}/{totalResenas}
         </span>
       </div>
@@ -105,8 +105,8 @@ export function TicketsLocalCliente({
           onClick={() => setFiltro('todos')}
           className={`shrink-0 rounded-full px-3 py-1 font-ticket text-xs font-bold transition-colors ${
             filtro === 'todos'
-              ? 'bg-[#FF7A1F] text-[#120F0D]'
-              : 'border border-[#44372E]/60 bg-[#1B1613] text-[#C9B9A6] hover:text-[#F5EFE6]'
+              ? 'bg-primario text-carbon'
+              : 'border border-borde/60 bg-superficie-baja text-texto-suave hover:text-texto'
           }`}
         >
           Todos ({totalResenas})
@@ -116,8 +116,8 @@ export function TicketsLocalCliente({
           onClick={() => setFiltro('foto')}
           className={`shrink-0 rounded-full px-3 py-1 font-ticket text-xs font-medium transition-colors ${
             filtro === 'foto'
-              ? 'bg-[#FF7A1F] font-bold text-[#120F0D]'
-              : 'border border-[#44372E]/60 bg-[#1B1613] text-[#C9B9A6] hover:text-[#F5EFE6]'
+              ? 'bg-primario font-bold text-carbon'
+              : 'border border-borde/60 bg-superficie-baja text-texto-suave hover:text-texto'
           }`}
         >
           Con Foto (42)
@@ -127,8 +127,8 @@ export function TicketsLocalCliente({
           onClick={() => setFiltro('noche')}
           className={`shrink-0 rounded-full px-3 py-1 font-ticket text-xs font-medium transition-colors ${
             filtro === 'noche'
-              ? 'bg-[#FF7A1F] font-bold text-[#120F0D]'
-              : 'border border-[#44372E]/60 bg-[#1B1613] text-[#C9B9A6] hover:text-[#F5EFE6]'
+              ? 'bg-primario font-bold text-carbon'
+              : 'border border-borde/60 bg-superficie-baja text-texto-suave hover:text-texto'
           }`}
         >
           &gt; 3:00 AM (64)
@@ -140,17 +140,17 @@ export function TicketsLocalCliente({
         {ticketsFiltrados.map((ticket, index) => {
           const rotacion = index % 2 === 0 ? '-rotate-[0.8deg]' : 'rotate-[0.9deg]';
           const colorSello =
-            ticket.notaTotal >= 8.5 ? 'border-[#FF3B30]' : 'border-[#FF7A1F]';
+            ticket.notaTotal >= 8.5 ? 'border-guindilla' : 'border-acento';
 
           return (
             <article
               key={ticket.id}
-              className={`relative transform bg-[#EFE6D5] text-[#181411] shadow-[0_12px_28px_rgba(0,0,0,0.65)] transition-transform duration-200 hover:rotate-0 ${rotacion}`}
+              className={`relative transform bg-ticket-papel text-ticket-tinta shadow-[0_12px_28px_rgba(0,0,0,0.65)] transition-transform duration-200 hover:rotate-0 ${rotacion}`}
             >
               {/* Dientes superiores */}
               <svg
                 aria-hidden="true"
-                className="block h-2.5 w-full -translate-y-full text-[#EFE6D5]"
+                className="block h-2.5 w-full -translate-y-full text-ticket-papel"
                 preserveAspectRatio="none"
                 viewBox="0 0 400 10"
               >
@@ -159,81 +159,81 @@ export function TicketsLocalCliente({
 
               <div className="px-5 pb-4 pt-2 font-ticket">
                 {/* Cabecera del ticket */}
-                <div className="border-b border-dashed border-[#5C4E41]/50 pb-2.5 text-center">
-                  <p className="text-[10px] font-bold tracking-[0.25em] text-[#5C4E41]">
+                <div className="border-b border-dashed border-ticket-suave/50 pb-2.5 text-center">
+                  <p className="text-[10px] font-bold tracking-[0.25em] text-ticket-suave">
                     *** KEBABSCORE AUDIT ***
                   </p>
                   <p className="mt-0.5 text-xs font-bold uppercase">
                     {nombreLocal} · {barrioNombre.toUpperCase()}
                   </p>
-                  <p className="text-[10px] text-[#5C4E41]">
+                  <p className="text-[10px] text-ticket-suave">
                     TICKET {ticket.codigoTicket} · {ticket.horaTexto}
                   </p>
                 </div>
 
                 {/* Crítico */}
-                <div className="flex items-center justify-between border-b border-dashed border-[#5C4E41]/40 py-2 text-xs">
+                <div className="flex items-center justify-between border-b border-dashed border-ticket-suave/40 py-2 text-xs">
                   <div className="flex items-center gap-2">
-                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#181411] text-[10px] font-bold text-[#EFE6D5]">
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-ticket-tinta text-[10px] font-bold text-ticket-papel">
                       {ticket.autorIniciales}
                     </span>
                     <div>
-                      <span className="font-bold text-[#181411]">{ticket.autorNombre}</span>
-                      <span className="block text-[10px] text-[#5C4E41]">
+                      <span className="font-bold text-ticket-tinta">{ticket.autorNombre}</span>
+                      <span className="block text-[10px] text-ticket-suave">
                         {ticket.autorRol ?? 'Crítico Nocturno'}
                       </span>
                     </div>
                   </div>
-                  <span className="border border-[#181411]/30 bg-[#181411]/10 px-1.5 py-0.5 text-[10px] font-bold uppercase">
+                  <span className="border border-ticket-tinta/30 bg-ticket-tinta/10 px-1.5 py-0.5 text-[10px] font-bold uppercase">
                     {ticket.plato}
                   </span>
                 </div>
 
                 {/* Desglose punteado de las 6 subnotas */}
-                <div className="grid grid-cols-2 gap-x-4 gap-y-1 border-b border-dashed border-[#5C4E41]/40 py-2.5 text-[11px]">
+                <div className="grid grid-cols-2 gap-x-4 gap-y-1 border-b border-dashed border-ticket-suave/40 py-2.5 text-[11px]">
                   <div className="flex justify-between">
-                    <span className="text-[#5C4E41]">CARNE.......</span>
+                    <span className="text-ticket-suave">CARNE.......</span>
                     <span className="font-bold">{formatearNota(ticket.notas.meat)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-[#5C4E41]">SALSAS......</span>
+                    <span className="text-ticket-suave">SALSAS......</span>
                     <span className="font-bold">{formatearNota(ticket.notas.sauces)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-[#5C4E41]">PAN.........</span>
+                    <span className="text-ticket-suave">PAN.........</span>
                     <span className="font-bold">{formatearNota(ticket.notas.bread)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-[#5C4E41]">VERDURA.....</span>
+                    <span className="text-ticket-suave">VERDURA.....</span>
                     <span className="font-bold">
                       {formatearNota(ticket.notas.freshness)}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-[#5C4E41]">TAMAÑO/€....</span>
+                    <span className="text-ticket-suave">TAMAÑO/€....</span>
                     <span className="font-bold">{formatearNota(ticket.notas.value)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-[#5C4E41]">NOCTURNO....</span>
+                    <span className="text-ticket-suave">NOCTURNO....</span>
                     <span className="font-bold">{formatearNota(ticket.notas.night)}</span>
                   </div>
                 </div>
 
                 {/* Comentario */}
-                <p className="py-3 font-sans text-xs italic leading-relaxed text-[#181411]">
+                <p className="py-3 font-sans text-xs italic leading-relaxed text-ticket-tinta">
                   &ldquo;{ticket.comentario}&rdquo;
                 </p>
 
                 {/* Foto verificada si existe */}
                 {ticket.fotoUrl && (
-                  <div className="mb-3 overflow-hidden rounded border border-[#5C4E41]/30 bg-[#181411]/5 p-1">
+                  <div className="mb-3 overflow-hidden rounded border border-ticket-suave/30 bg-ticket-tinta/5 p-1">
                     <div className="relative h-28 w-full overflow-hidden rounded-sm">
                       <img
                         src={ticket.fotoUrl}
                         alt={`Foto subida por ${ticket.autorNombre}`}
                         className="h-full w-full object-cover contrast-105"
                       />
-                      <span className="absolute bottom-1.5 left-1.5 rounded-sm bg-[#120F0D]/85 px-1.5 py-0.5 text-[9px] text-[#F5EFE6]">
+                      <span className="absolute bottom-1.5 left-1.5 rounded-sm bg-ticket-tinta/85 px-1.5 py-0.5 text-[9px] text-ticket-papel">
                         EVIDENCIA VERIFICADA 03:42 AM
                       </span>
                     </div>
@@ -241,9 +241,9 @@ export function TicketsLocalCliente({
                 )}
 
                 {/* Total + Sello + Botón Story 9:16 */}
-                <div className="mt-1 flex items-center justify-between border-t-2 border-[#181411] pt-2.5">
+                <div className="mt-1 flex items-center justify-between border-t-2 border-ticket-tinta pt-2.5">
                   <div>
-                    <span className="block text-[10px] uppercase tracking-wider text-[#5C4E41]">
+                    <span className="block text-[10px] uppercase tracking-wider text-ticket-suave">
                       VEREDICTO PONDERADO
                     </span>
                     <div className="mt-1 flex items-center gap-2">
@@ -251,7 +251,7 @@ export function TicketsLocalCliente({
                       <button
                         type="button"
                         onClick={() => setTicketStory(ticket)}
-                        className="inline-flex items-center gap-1 rounded bg-[#181411] px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-[#EFE6D5] hover:bg-[#FF3B30]"
+                        className="inline-flex items-center gap-1 rounded bg-ticket-tinta px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-ticket-papel hover:bg-guindilla-red"
                       >
                         <Icono nombre="share" className="h-3 w-3" />
                         Story 9:16
@@ -259,7 +259,7 @@ export function TicketsLocalCliente({
                     </div>
                   </div>
                   <div
-                    className={`rotate-[-2deg] border-2 ${colorSello} bg-[#181411] px-3 py-1 text-[#EFE6D5]`}
+                    className={`rotate-[-2deg] border-2 ${colorSello} bg-ticket-tinta px-3 py-1 text-ticket-papel`}
                   >
                     <span className="text-base font-bold tracking-tight">
                       TOTAL: {formatearNota(ticket.notaTotal)}
@@ -268,7 +268,7 @@ export function TicketsLocalCliente({
                 </div>
 
                 {/* Código de barras inferior */}
-                <div className="mt-3 pt-2 text-center opacity-70">
+                <div className="mt-3 pt-2 text-center opacity-85">
                   <div
                     aria-hidden="true"
                     className="mx-auto h-5 w-48"
@@ -277,7 +277,7 @@ export function TicketsLocalCliente({
                         'repeating-linear-gradient(to right, #181411 0px, #181411 2px, transparent 2px, transparent 4px, #181411 4px, #181411 5px, transparent 5px, transparent 8px, #181411 8px, #181411 11px, transparent 11px, transparent 13px)',
                     }}
                   />
-                  <span className="mt-0.5 block text-[9px] tracking-[0.3em] text-[#5C4E41]">
+                  <span className="mt-0.5 block text-[9px] tracking-[0.3em] text-ticket-tinta">
                     AUTH: 8A99-FF-0430-MALAGA
                   </span>
                 </div>
@@ -286,7 +286,7 @@ export function TicketsLocalCliente({
               {/* Dientes inferiores */}
               <svg
                 aria-hidden="true"
-                className="block h-2.5 w-full translate-y-full rotate-180 text-[#EFE6D5]"
+                className="block h-2.5 w-full translate-y-full rotate-180 text-ticket-papel"
                 preserveAspectRatio="none"
                 viewBox="0 0 400 10"
               >
@@ -307,40 +307,40 @@ export function TicketsLocalCliente({
         >
           <div className="flex w-full max-w-xs flex-col items-center">
             {/* Lienzo vertical 9:16 */}
-            <div className="relative flex aspect-[9/16] w-full flex-col justify-between overflow-hidden rounded-2xl border-2 border-[#FF7A1F]/50 bg-[#120F0D] p-5 shadow-[0_0_40px_rgba(255,122,31,0.35)]">
+            <div className="relative flex aspect-[9/16] w-full flex-col justify-between overflow-hidden rounded-2xl border-2 border-acento/50 bg-fondo p-5 shadow-[0_0_40px_rgba(255,122,31,0.35)]">
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute -right-12 -top-12 h-44 w-44 rounded-full bg-[#FF7A1F]/20 blur-2xl"
+                className="pointer-events-none absolute -right-12 -top-12 h-44 w-44 rounded-full bg-primario/20 blur-2xl"
               />
 
               {/* Cabecera Story */}
               <div className="relative z-10 flex items-center justify-between">
                 <div className="flex items-center gap-1.5">
-                  <span className="font-rotulo text-xl tracking-wider text-[#FF7A1F]">
+                  <span className="font-rotulo text-xl tracking-wider text-acento">
                     KEBABSCORE
                   </span>
-                  <span className="rounded border border-[#FF3B30]/50 bg-[#FF3B30]/20 px-1.5 py-0.5 font-ticket text-[9px] font-bold text-[#FF3B30]">
+                  <span className="rounded border border-guindilla/50 bg-guindilla-red/20 px-1.5 py-0.5 font-ticket text-[9px] font-bold text-guindilla">
                     MLG 3AM
                   </span>
                 </div>
-                <span className="font-ticket text-[10px] text-[#C9B9A6]">
+                <span className="font-ticket text-[10px] text-texto-suave">
                   {ticketStory.codigoTicket}
                 </span>
               </div>
 
               {/* Ticket central dentro del formato 9:16 */}
-              <div className="relative z-10 my-auto rotate-[-1deg] rounded-sm bg-[#EFE6D5] p-4 font-ticket text-[#181411] shadow-2xl">
-                <p className="border-b border-dashed border-[#5C4E41]/50 pb-1.5 text-center text-[9px] font-bold tracking-widest text-[#5C4E41]">
+              <div className="relative z-10 my-auto rotate-[-1deg] rounded-sm bg-ticket-papel p-4 font-ticket text-ticket-tinta shadow-2xl">
+                <p className="border-b border-dashed border-ticket-suave/50 pb-1.5 text-center text-[9px] font-bold tracking-widest text-ticket-suave">
                   *** AUDITORÍA NOCTURNA ***
                 </p>
-                <h3 className="mt-1.5 text-center font-rotulo text-2xl uppercase tracking-wide text-[#181411]">
+                <h3 className="mt-1.5 text-center font-rotulo text-2xl uppercase tracking-wide text-ticket-tinta">
                   {nombreLocal}
                 </h3>
-                <p className="text-center text-[10px] text-[#5C4E41]">
+                <p className="text-center text-[10px] text-ticket-suave">
                   {barrioNombre} · {ticketStory.plato}
                 </p>
 
-                <div className="my-2.5 grid grid-cols-2 gap-x-3 gap-y-1 border-y border-dashed border-[#5C4E41]/40 py-2 text-[10px]">
+                <div className="my-2.5 grid grid-cols-2 gap-x-3 gap-y-1 border-y border-dashed border-ticket-suave/40 py-2 text-[10px]">
                   <div className="flex justify-between">
                     <span>CARNE</span>
                     <strong>{formatearNota(ticketStory.notas.meat)}</strong>
@@ -367,22 +367,22 @@ export function TicketsLocalCliente({
                   </div>
                 </div>
 
-                <p className="line-clamp-3 font-sans text-[11px] italic text-[#181411]">
+                <p className="line-clamp-3 font-sans text-[11px] italic text-ticket-tinta">
                   &ldquo;{ticketStory.comentario}&rdquo;
                 </p>
 
-                <div className="mt-3 flex items-center justify-between border-t-2 border-[#181411] pt-2">
+                <div className="mt-3 flex items-center justify-between border-t-2 border-ticket-tinta pt-2">
                   <span className="text-[10px] font-bold">{ticketStory.autorNombre}</span>
-                  <span className="bg-[#181411] px-2.5 py-0.5 text-sm font-bold text-[#EFE6D5]">
+                  <span className="bg-ticket-tinta px-2.5 py-0.5 text-sm font-bold text-ticket-papel">
                     TOTAL: {formatearNota(ticketStory.notaTotal)}
                   </span>
                 </div>
               </div>
 
               {/* Pie Story */}
-              <div className="relative z-10 flex items-center justify-between border-t border-white/10 pt-2.5 font-ticket text-[10px] text-[#C9B9A6]">
+              <div className="relative z-10 flex items-center justify-between border-t border-linea/10 pt-2.5 font-ticket text-[10px] text-texto-suave">
                 <span>kebabscore.malaga</span>
-                <span className="text-[#35C759]">● TICKET VERIFICADO</span>
+                <span className="text-lechuga">● TICKET VERIFICADO</span>
               </div>
             </div>
 
@@ -391,7 +391,7 @@ export function TicketsLocalCliente({
               <button
                 type="button"
                 onClick={() => compartirStory(ticketStory)}
-                className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-[#FF3B30] py-2.5 font-rotulo text-sm uppercase tracking-wider text-[#F5EFE6]"
+                className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-guindilla-red py-2.5 font-rotulo text-sm uppercase tracking-wider text-carbon"
               >
                 <Icono nombre="share" className="h-4 w-4" />
                 {copiado ? '¡Copiado al portapapeles!' : 'Compartir Story'}
@@ -399,7 +399,7 @@ export function TicketsLocalCliente({
               <button
                 type="button"
                 onClick={() => setTicketStory(null)}
-                className="rounded-xl border border-white/15 bg-[#1B1613] px-4 py-2.5 font-ticket text-xs font-bold text-[#C9B9A6] hover:text-[#F5EFE6]"
+                className="rounded-xl border border-linea/15 bg-superficie-baja px-4 py-2.5 font-ticket text-xs font-bold text-texto-suave hover:text-texto"
               >
                 Cerrar
               </button>

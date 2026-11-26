@@ -26,7 +26,7 @@ import { TrompoCarga } from './TrompoCarga';
 const MapaLeaflet = dynamic(() => import('@/components/mapa/MapaLeaflet'), {
   ssr: false,
   loading: () => (
-    <div className="flex h-[260px] w-full items-center justify-center rounded-xl border border-white/10 bg-[#120d0a]">
+    <div className="flex h-[260px] w-full items-center justify-center rounded-xl border border-linea/10 bg-fondo">
       <TrompoCarga mensaje="Encendiendo el callejero de Málaga…" />
     </div>
   ),
@@ -175,10 +175,10 @@ export function ExploradorInicio({ locales, barrios }: Props) {
     <>
       {/* ============ BUSCADOR & FILTROS (DISEÑO STITCH) ============ */}
       <section aria-label="Buscador de kebabs" className="px-4 py-4">
-        <div className="rounded-xl border border-white/10 bg-[#1B1613] p-4 shadow-xl">
+        <div className="rounded-xl border border-linea/10 bg-superficie-baja p-4 shadow-xl">
           <label
             htmlFor="buscador-kebab"
-            className="mb-2 block font-rotulo text-xl uppercase tracking-wide text-[#F5EFE6]"
+            className="mb-2 block font-rotulo text-xl uppercase tracking-wide text-texto"
           >
             {TEXTOS.buscadorPregunta}
           </label>
@@ -187,7 +187,7 @@ export function ExploradorInicio({ locales, barrios }: Props) {
           <div className="relative flex items-center">
             <Icono
               nombre="search"
-              className="pointer-events-none absolute left-3.5 h-5 w-5 text-[#FF7A1F]"
+              className="pointer-events-none absolute left-3.5 h-5 w-5 text-acento"
             />
             <input
               id="buscador-kebab"
@@ -196,14 +196,14 @@ export function ExploradorInicio({ locales, barrios }: Props) {
               onChange={(e) => setBusqueda(e.target.value)}
               placeholder="Barrio, calle o nombre (ej. Teatinos, Carretería)..."
               autoComplete="off"
-              className="w-full rounded-lg border border-white/15 bg-[#120F0D] py-3.5 pl-11 pr-24 text-sm text-[#F5EFE6] placeholder:text-[#C9B9A6]/50 focus:border-[#FF7A1F] focus:outline-none"
+              className="w-full rounded-lg border border-linea/15 bg-fondo py-3.5 pl-11 pr-24 text-sm text-texto placeholder:text-texto-suave/50 focus:border-acento focus:outline-none"
             />
             <button
               type="button"
               onClick={() => {
                 if (busqueda) setBusqueda('');
               }}
-              className="absolute right-2 rounded bg-[#FF7A1F] px-3 py-1.5 font-rotulo text-xs uppercase tracking-wider text-[#120F0D] transition-colors hover:bg-[#FF7A1F]/90"
+              className="absolute right-2 rounded bg-primario px-3 py-1.5 font-rotulo text-xs uppercase tracking-wider text-carbon transition-colors hover:bg-primario/90"
             >
               {busqueda ? 'Limpiar' : 'Filtrar'}
             </button>
@@ -217,21 +217,21 @@ export function ExploradorInicio({ locales, barrios }: Props) {
               aria-pressed={soloAbiertos}
               className={`flex items-center justify-between rounded-lg border px-3.5 py-2.5 transition-all active:scale-95 ${
                 soloAbiertos
-                  ? 'border-[#35C759]/40 bg-[#35C759]/15'
-                  : 'border-white/10 bg-[#241D18] hover:border-[#35C759]/40'
+                  ? 'border-lechuga/40 bg-lechuga-green/15'
+                  : 'border-linea/10 bg-superficie hover:border-lechuga/40'
               }`}
             >
               <span className="flex items-center gap-2">
-                <span className="h-2 w-2 animate-pulse rounded-full bg-[#35C759] shadow-[0_0_8px_#35C759]" />
+                <span className="h-2 w-2 animate-pulse rounded-full bg-lechuga-green shadow-[0_0_8px_#35C759]" />
                 <span
                   className={`text-xs font-bold ${
-                    soloAbiertos ? 'text-[#35C759]' : 'text-[#F5EFE6]'
+                    soloAbiertos ? 'text-lechuga' : 'text-texto'
                   }`}
                 >
                   Abierto ahora
                 </span>
               </span>
-              <span className="rounded bg-[#35C759]/20 px-1.5 py-0.5 font-ticket text-[11px] font-bold text-[#35C759]">
+              <span className="rounded bg-lechuga-green/20 px-1.5 py-0.5 font-ticket text-[11px] font-bold text-lechuga">
                 {cuantosAbiertos}
               </span>
             </button>
@@ -239,17 +239,17 @@ export function ExploradorInicio({ locales, barrios }: Props) {
             <button
               type="button"
               onClick={pedirUbicacion}
-              className="flex items-center justify-center gap-2 rounded-lg border border-white/10 bg-[#241D18] px-3.5 py-2.5 transition-all hover:border-[#FF7A1F]/40 active:scale-95"
+              className="flex items-center justify-center gap-2 rounded-lg border border-linea/10 bg-superficie px-3.5 py-2.5 transition-all hover:border-acento/40 active:scale-95"
             >
-              <Icono nombre="near_me" className="h-4 w-4 text-[#FF7A1F]" />
-              <span className="text-xs font-semibold text-[#F5EFE6]">
+              <Icono nombre="near_me" className="h-4 w-4 text-acento" />
+              <span className="text-xs font-semibold text-texto">
                 {ubicacion ? 'Por cercanía' : 'Cerca de mí'}
               </span>
             </button>
           </div>
 
           {mensajeGeo && (
-            <p role="status" className="mt-2 font-ticket text-[11px] text-[#C9B9A6]">
+            <p role="status" className="mt-2 font-ticket text-[11px] text-texto-suave">
               {mensajeGeo}
             </p>
           )}
@@ -266,8 +266,8 @@ export function ExploradorInicio({ locales, barrios }: Props) {
               aria-pressed={barrioActivo === 'todos'}
               className={`shrink-0 rounded-full px-3.5 py-1.5 font-ticket text-xs font-bold transition-colors ${
                 barrioActivo === 'todos'
-                  ? 'bg-[#FF7A1F] text-[#120F0D]'
-                  : 'border border-white/10 bg-[#241D18] text-[#C9B9A6] hover:text-[#F5EFE6]'
+                  ? 'bg-primario text-carbon'
+                  : 'border border-linea/10 bg-superficie text-texto-suave hover:text-texto'
               }`}
             >
               Toda Málaga ({locales.length})
@@ -282,8 +282,8 @@ export function ExploradorInicio({ locales, barrios }: Props) {
                   aria-pressed={activo}
                   className={`shrink-0 rounded-full px-3.5 py-1.5 font-ticket text-xs font-medium transition-colors ${
                     activo
-                      ? 'bg-[#FF7A1F] font-bold text-[#120F0D]'
-                      : 'border border-white/10 bg-[#241D18] text-[#C9B9A6] hover:text-[#F5EFE6]'
+                      ? 'bg-primario font-bold text-carbon'
+                      : 'border border-linea/10 bg-superficie text-texto-suave hover:text-texto'
                   }`}
                 >
                   {b.nombre}
@@ -298,10 +298,10 @@ export function ExploradorInicio({ locales, barrios }: Props) {
       <section aria-label="Radar de Asadores" className="px-4 py-3">
         <div className="mb-2.5 flex items-center justify-between gap-2">
           <div>
-            <h2 className="font-rotulo text-lg uppercase tracking-wide text-[#F5EFE6]">
+            <h2 className="font-rotulo text-lg uppercase tracking-wide text-texto">
               Radar de Asadores
             </h2>
-            <p className="font-ticket text-[11px] text-[#C9B9A6]">
+            <p className="font-ticket text-[11px] text-texto-suave">
               {localesFiltrados.length}{' '}
               {localesFiltrados.length === 1
                 ? 'local humeando ahora'
@@ -311,27 +311,27 @@ export function ExploradorInicio({ locales, barrios }: Props) {
 
           <div className="flex items-center gap-2">
             {/* Leyenda de colores */}
-            <div className="hidden items-center gap-2.5 rounded-full border border-white/5 bg-[#1B1613] px-2.5 py-1 font-ticket text-[10px] sm:flex">
-              <span className="flex items-center gap-1 text-[#FF3B30]">
-                <span className="h-2 w-2 rounded-full bg-[#FF3B30]" /> ≥8,5 Fuego
+            <div className="hidden items-center gap-2.5 rounded-full border border-linea/5 bg-superficie-baja px-2.5 py-1 font-ticket text-[10px] sm:flex">
+              <span className="flex items-center gap-1 text-guindilla">
+                <span className="h-2 w-2 rounded-full bg-guindilla-red" /> ≥8,5 Fuego
               </span>
-              <span className="flex items-center gap-1 text-[#FF7A1F]">
-                <span className="h-2 w-2 rounded-full bg-[#FF7A1F]" /> 7-8,4
+              <span className="flex items-center gap-1 text-acento">
+                <span className="h-2 w-2 rounded-full bg-primario" /> 7-8,4
               </span>
-              <span className="flex items-center gap-1 text-[#F2C14E]">
-                <span className="h-2 w-2 rounded-full bg-[#F2C14E]" /> 5-6,9
+              <span className="flex items-center gap-1 text-mostaza">
+                <span className="h-2 w-2 rounded-full bg-mostaza-gold" /> 5-6,9
               </span>
             </div>
 
             {/* Conmutador Radar 3 AM / Mapa OSM */}
-            <div className="inline-flex rounded-lg border border-white/10 bg-[#1B1613] p-0.5 font-ticket text-[10px]">
+            <div className="inline-flex rounded-lg border border-linea/10 bg-superficie-baja p-0.5 font-ticket text-[10px]">
               <button
                 type="button"
                 onClick={() => setVistaMapa('radar')}
                 className={`rounded-md px-2 py-1 font-bold uppercase transition-colors ${
                   vistaMapa === 'radar'
-                    ? 'bg-[#FF7A1F] text-[#120F0D]'
-                    : 'text-[#C9B9A6] hover:text-[#F5EFE6]'
+                    ? 'bg-primario text-carbon'
+                    : 'text-texto-suave hover:text-texto'
                 }`}
               >
                 Radar 3AM
@@ -341,8 +341,8 @@ export function ExploradorInicio({ locales, barrios }: Props) {
                 onClick={() => setVistaMapa('leaflet')}
                 className={`rounded-md px-2 py-1 font-bold uppercase transition-colors ${
                   vistaMapa === 'leaflet'
-                    ? 'bg-[#FF7A1F] text-[#120F0D]'
-                    : 'text-[#C9B9A6] hover:text-[#F5EFE6]'
+                    ? 'bg-primario text-carbon'
+                    : 'text-texto-suave hover:text-texto'
                 }`}
               >
                 Callejero
@@ -352,7 +352,7 @@ export function ExploradorInicio({ locales, barrios }: Props) {
         </div>
 
         {vistaMapa === 'radar' ? (
-          <div className="relative h-60 w-full overflow-hidden rounded-xl border border-white/15 bg-[#120d0a] shadow-inner">
+          <div className="relative h-60 w-full overflow-hidden rounded-xl border border-linea/15 bg-fondo shadow-inner">
             {/* Rejilla oscura tipo radar nocturno de Málaga */}
             <div
               className="absolute inset-0 opacity-40"
@@ -388,9 +388,9 @@ export function ExploradorInicio({ locales, barrios }: Props) {
             </svg>
 
             {/* Anillos de calor concéntricos */}
-            <div className="pointer-events-none absolute left-1/2 top-1/2 h-32 w-32 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#FF7A1F]/30 heat-wave" />
+            <div className="pointer-events-none absolute left-1/2 top-1/2 h-32 w-32 -translate-x-1/2 -translate-y-1/2 rounded-full border border-acento/30 heat-wave" />
             <div
-              className="pointer-events-none absolute left-1/2 top-1/2 h-48 w-48 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#FF3B30]/20 heat-wave"
+              className="pointer-events-none absolute left-1/2 top-1/2 h-48 w-48 -translate-x-1/2 -translate-y-1/2 rounded-full border border-guindilla/20 heat-wave"
               style={{ animationDelay: '1.2s' }}
             />
 
@@ -403,10 +403,10 @@ export function ExploradorInicio({ locales, barrios }: Props) {
               const seleccionado = localSeleccionado?.id === local.id;
 
               const claseColor = esFuego
-                ? 'bg-[#FF3B30] text-[#F5EFE6] border-[#F5EFE6]/80 shadow-[0_0_15px_rgba(255,59,48,0.8)]'
+                ? 'bg-guindilla-red text-carbon border-texto/80 shadow-[0_0_15px_rgba(255,59,48,0.8)]'
                 : esPicante
-                  ? 'bg-[#FF7A1F] text-[#120F0D] border-[#120F0D] shadow-lg'
-                  : 'bg-[#F2C14E] text-[#120F0D] border-[#120F0D] shadow-md';
+                  ? 'bg-primario text-carbon border-carbon shadow-lg'
+                  : 'bg-mostaza-gold text-carbon border-carbon shadow-md';
 
               return (
                 <button
@@ -432,10 +432,10 @@ export function ExploradorInicio({ locales, barrios }: Props) {
                   <div
                     className={`h-2 w-0.5 ${
                       esFuego
-                        ? 'bg-[#FF3B30]'
+                        ? 'bg-guindilla-red'
                         : esPicante
-                          ? 'bg-[#FF7A1F]'
-                          : 'bg-[#F2C14E]'
+                          ? 'bg-primario'
+                          : 'bg-mostaza-gold'
                     }`}
                   />
                 </button>
@@ -444,19 +444,19 @@ export function ExploradorInicio({ locales, barrios }: Props) {
 
             {/* Tarjeta flotante del local seleccionado en la parte inferior del radar */}
             {localSeleccionado && (
-              <div className="absolute bottom-2.5 left-2.5 right-2.5 z-30 flex items-center justify-between gap-2 rounded-lg border border-white/15 bg-[#120F0D]/90 px-3 py-2 backdrop-blur-md">
+              <div className="absolute bottom-2.5 left-2.5 right-2.5 z-30 flex items-center justify-between gap-2 rounded-lg border border-linea/15 bg-fondo/90 px-3 py-2 backdrop-blur-md">
                 <div className="min-w-0">
-                  <p className="truncate font-rotulo text-sm uppercase tracking-wide text-[#F5EFE6]">
+                  <p className="truncate font-rotulo text-sm uppercase tracking-wide text-texto">
                     {localSeleccionado.nombre}
                   </p>
-                  <p className="truncate font-ticket text-[10px] text-[#C9B9A6]">
+                  <p className="truncate font-ticket text-[10px] text-texto-suave">
                     {localSeleccionado.barrio.nombre} · {localSeleccionado.direccion} ·{' '}
                     {formatearPrecio(localSeleccionado.precioDurumCentimos)}
                   </p>
                 </div>
                 <Link
                   href={`/kebab/${localSeleccionado.slug}`}
-                  className="shrink-0 rounded-md bg-[#FF7A1F] px-2.5 py-1.5 font-ticket text-[10px] font-bold uppercase text-[#120F0D] hover:bg-[#FF3B30] hover:text-[#F5EFE6]"
+                  className="shrink-0 rounded-md bg-primario px-2.5 py-1.5 font-ticket text-[10px] font-bold uppercase text-carbon hover:bg-guindilla-red hover:text-texto"
                 >
                   Ver ficha →
                 </Link>

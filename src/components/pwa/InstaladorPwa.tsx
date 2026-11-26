@@ -53,16 +53,16 @@ export function InstaladorPwa() {
 
   return (
     <div className="mx-auto max-w-lg px-4 pt-2">
-      <div className="flex items-center justify-between gap-2 rounded-xl border border-[#35C759]/40 bg-[#1B1613] px-3.5 py-2.5 shadow-lg">
+      <div className="flex items-center justify-between gap-2 rounded-xl border border-lechuga/40 bg-superficie-baja px-3.5 py-2.5 shadow-lg">
         <div className="flex items-center gap-2.5 min-w-0">
-          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#35C759]/20 text-[#35C759]">
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-lechuga-green/20 text-lechuga">
             <Icono nombre="bolt" className="h-4 w-4" />
           </span>
           <div className="min-w-0">
-            <p className="truncate font-rotulo text-sm uppercase tracking-wide text-[#F5EFE6]">
+            <p className="truncate font-rotulo text-sm uppercase tracking-wide text-texto">
               Instalar App KebabScore
             </p>
-            <p className="truncate font-ticket text-[10px] text-[#C9B9A6]">
+            <p className="truncate font-ticket text-[10px] text-texto-suave">
               Acceso directo 3 AM en tu pantalla de inicio
             </p>
           </div>
@@ -72,7 +72,7 @@ export function InstaladorPwa() {
           <button
             type="button"
             onClick={instalarApp}
-            className="rounded-lg bg-[#35C759] px-3 py-1.5 font-rotulo text-xs uppercase tracking-wider text-[#120F0D]"
+            className="rounded-lg bg-lechuga-green px-3 py-1.5 font-rotulo text-xs uppercase tracking-wider text-carbon"
           >
             Instalar
           </button>
@@ -80,7 +80,7 @@ export function InstaladorPwa() {
             type="button"
             onClick={() => setOcultado(true)}
             aria-label="Cerrar aviso de instalación"
-            className="rounded p-1 text-[#C9B9A6] hover:text-[#F5EFE6]"
+            className="rounded p-1 text-texto-suave hover:text-texto"
           >
             <Icono nombre="close" className="h-4 w-4" />
           </button>

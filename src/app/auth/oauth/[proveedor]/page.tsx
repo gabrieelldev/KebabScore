@@ -20,7 +20,7 @@ export default async function PaginaOAuthProveedor({ params }: Props) {
   return (
     <Suspense
       fallback={
-        <div className="mx-auto max-w-md px-4 py-12 text-center font-ticket text-xs text-[#C9B9A6]">
+        <div className="mx-auto max-w-md px-4 py-12 text-center font-ticket text-xs text-texto-suave">
           Conectando con {provNormalizado === 'google' ? 'Google' : 'Apple'}...
         </div>
       }

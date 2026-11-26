@@ -115,7 +115,7 @@ export function MisionesYPerfilCliente({ aliasUsuario }: Props) {
 
   if (!authHidratado) {
     return (
-      <div className="mx-auto max-w-lg px-4 py-12 text-center font-ticket text-xs text-[#C9B9A6]">
+      <div className="mx-auto max-w-lg px-4 py-12 text-center font-ticket text-xs text-texto-suave">
         Comprobando tu ficha de crítico…
       </div>
     );
@@ -157,43 +157,43 @@ export function MisionesYPerfilCliente({ aliasUsuario }: Props) {
       <div className="space-y-6 px-4 pt-5">
         {/* ============ 1. HUD REAL DEL PERFIL DEL USUARIO ============ */}
         <section aria-label="Perfil y nivel de experiencia" className="relative">
-          <div className="relative overflow-hidden rounded-xl border border-[#44372E]/60 bg-gradient-to-br from-[#241D18] via-[#1B1613] to-[#120F0D] p-4 shadow-2xl">
+          <div className="relative overflow-hidden rounded-xl border border-borde/60 bg-gradient-to-br from-superficie via-superficie-baja to-fondo p-4 shadow-2xl">
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-[#FF7A1F]/15 blur-2xl"
+              className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-primario/15 blur-2xl"
             />
 
             <div className="relative z-10 flex items-start justify-between gap-3">
               <div className="flex items-center gap-3.5">
                 <div className="relative">
-                  <div className="flex h-14 w-14 items-center justify-center rounded-xl border-2 border-[#FF7A1F] bg-[#120F0D] font-rotulo text-2xl tracking-wider text-[#FF7A1F] shadow-[0_0_15px_rgba(255,122,31,0.3)]">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-xl border-2 border-acento bg-fondo font-rotulo text-2xl tracking-wider text-acento shadow-[0_0_15px_rgba(255,122,31,0.3)]">
                     {usuarioActual.iniciales}
                   </div>
-                  <span className="absolute -bottom-1.5 -right-1.5 rounded border border-[#120F0D] bg-[#FF3B30] px-1.5 py-0.5 font-ticket text-[10px] font-bold text-[#F5EFE6] shadow">
+                  <span className="absolute -bottom-1.5 -right-1.5 rounded border border-carbon bg-guindilla-red px-1.5 py-0.5 font-ticket text-[10px] font-bold text-carbon shadow">
                     LVL {usuarioActual.nivel}
                   </span>
                 </div>
 
                 <div>
                   <div className="flex flex-wrap items-center gap-1.5">
-                    <span className="rounded border border-[#35C759]/40 bg-[#35C759]/15 px-1.5 py-0.5 font-ticket text-[9px] font-bold uppercase text-[#35C759]">
+                    <span className="rounded border border-lechuga/40 bg-lechuga-green/15 px-1.5 py-0.5 font-ticket text-[9px] font-bold uppercase text-lechuga">
                       {etiquetaProveedor}
                     </span>
-                    <Icono nombre="verified" className="h-3.5 w-3.5 text-[#35C759]" />
+                    <Icono nombre="verified" className="h-3.5 w-3.5 text-lechuga" />
                   </div>
-                  <h1 className="mt-1 font-rotulo text-2xl uppercase leading-none tracking-wide text-[#F5EFE6]">
+                  <h1 className="mt-1 font-rotulo text-2xl uppercase leading-none tracking-wide text-texto">
                     {usuarioActual.nombre}
                   </h1>
-                  <p className="mt-0.5 font-ticket text-[11px] text-[#C9B9A6]">
+                  <p className="mt-0.5 font-ticket text-[11px] text-texto-suave">
                     {usuarioActual.email}
                   </p>
-                  <p className="mt-0.5 font-sans text-xs text-[#C9B9A6]">
+                  <p className="mt-0.5 font-sans text-xs text-texto-suave">
                     Barrio:{' '}
-                    <strong className="text-[#F5EFE6]">
+                    <strong className="text-texto">
                       {usuarioActual.barrioBase}
                     </strong>{' '}
                     · Salsa:{' '}
-                    <strong className="text-[#F2C14E]">
+                    <strong className="text-mostaza">
                       {usuarioActual.salsaFavorita}
                     </strong>
                   </p>
@@ -201,21 +201,21 @@ export function MisionesYPerfilCliente({ aliasUsuario }: Props) {
               </div>
 
               <div className="shrink-0 text-right">
-                <div className="rounded-lg border border-[#44372E]/50 bg-[#120F0D]/80 px-3 py-2">
-                  <span className="block font-ticket text-[10px] uppercase text-[#C9B9A6]">
+                <div className="rounded-lg border border-borde/50 bg-fondo/80 px-3 py-2">
+                  <span className="block font-ticket text-[10px] uppercase text-texto-suave">
                     TOTAL XP
                   </span>
-                  <span className="font-ticket text-lg font-bold tracking-tight text-[#FF7A1F]">
+                  <span className="font-ticket text-lg font-bold tracking-tight text-acento">
                     {xpActual.toLocaleString('es-ES')}
                   </span>
-                  <span className="block font-ticket text-[9px] text-[#C9B9A6]/70">
+                  <span className="block font-ticket text-[9px] text-texto-suave/70">
                     / {xpMeta} XP
                   </span>
                 </div>
                 <button
                   type="button"
                   onClick={cerrarSesion}
-                  className="mt-1.5 font-ticket text-[10px] text-[#C9B9A6] underline-offset-2 hover:text-[#FF3B30] hover:underline"
+                  className="mt-1.5 font-ticket text-[10px] text-texto-suave underline-offset-2 hover:text-guindilla hover:underline"
                 >
                   Cerrar sesión
                 </button>
@@ -224,40 +224,40 @@ export function MisionesYPerfilCliente({ aliasUsuario }: Props) {
 
             <div className="mt-4">
               <div className="mb-1.5 flex justify-between font-ticket text-[11px]">
-                <span className="text-[#C9B9A6]">
+                <span className="text-texto-suave">
                   {Math.max(0, xpMeta - xpActual)} XP para subir a{' '}
-                  <strong className="text-[#F5EFE6]">
+                  <strong className="text-texto">
                     LVL {usuarioActual.nivel + 1} ({ajustes.rangoCritico})
                   </strong>
                 </span>
-                <span className="font-bold text-[#35C759]">CUENTA VERIFICADA</span>
+                <span className="font-bold text-lechuga">CUENTA VERIFICADA</span>
               </div>
-              <div className="h-2.5 w-full overflow-hidden rounded-full border border-[#44372E]/60 bg-[#120F0D] p-0.5">
+              <div className="h-2.5 w-full overflow-hidden rounded-full border border-borde/60 bg-fondo p-0.5">
                 <div
                   style={{ width: `${porcentajeXp}%` }}
-                  className="relative h-full rounded-full bg-gradient-to-r from-[#FF7A1F] via-[#FF3B30] to-[#F2C14E] transition-all duration-500"
+                  className="relative h-full rounded-full bg-gradient-to-r from-primario via-guindilla-red to-mostaza-gold transition-all duration-500"
                 />
               </div>
             </div>
 
-            <div className="mt-4 grid grid-cols-3 gap-2 border-t border-[#44372E]/40 pt-3 text-center">
-              <div className="rounded-lg bg-[#120F0D]/50 py-1.5">
-                <span className="block font-ticket text-sm font-bold text-[#F5EFE6]">
+            <div className="mt-4 grid grid-cols-3 gap-2 border-t border-borde/40 pt-3 text-center">
+              <div className="rounded-lg bg-fondo/50 py-1.5">
+                <span className="block font-ticket text-sm font-bold text-texto">
                   {usuarioActual.ticketsPublicados.length} Tickets
                 </span>
-                <span className="text-[10px] text-[#C9B9A6]">Auditados por ti</span>
+                <span className="text-[10px] text-texto-suave">Auditados por ti</span>
               </div>
-              <div className="rounded-lg bg-[#120F0D]/50 py-1.5">
-                <span className="block font-ticket text-sm font-bold text-[#35C759]">
+              <div className="rounded-lg bg-fondo/50 py-1.5">
+                <span className="block font-ticket text-sm font-bold text-lechuga">
                   {misionesActivas.length} Retos
                 </span>
-                <span className="text-[10px] text-[#C9B9A6]">Activos hoy</span>
+                <span className="text-[10px] text-texto-suave">Activos hoy</span>
               </div>
-              <div className="rounded-lg bg-[#120F0D]/50 py-1.5">
-                <span className="block font-ticket text-sm font-bold text-[#F2C14E]">
+              <div className="rounded-lg bg-fondo/50 py-1.5">
+                <span className="block font-ticket text-sm font-bold text-mostaza">
                   {pegatinasDesbloqueadas} Pegatinas
                 </span>
-                <span className="text-[10px] text-[#C9B9A6]">En tu vitrina</span>
+                <span className="text-[10px] text-texto-suave">En tu vitrina</span>
               </div>
             </div>
           </div>
@@ -266,41 +266,41 @@ export function MisionesYPerfilCliente({ aliasUsuario }: Props) {
         {/* ============ MIS TICKETS VERIFICADOS ============ */}
         {usuarioActual.ticketsPublicados.length > 0 && (
           <section aria-label="Tus tickets verificados" className="space-y-3">
-            <h2 className="font-rotulo text-xl uppercase tracking-wide text-[#F5EFE6]">
+            <h2 className="font-rotulo text-xl uppercase tracking-wide text-texto">
               TUS TICKETS AUDITADOS ({usuarioActual.ticketsPublicados.length})
             </h2>
             <div className="space-y-2.5">
               {usuarioActual.ticketsPublicados.map((t) => (
                 <div
                   key={t.id}
-                  className="flex items-center justify-between gap-3 rounded-xl border border-[#35C759]/40 bg-[#1B1613] p-3.5"
+                  className="flex items-center justify-between gap-3 rounded-xl border border-lechuga/40 bg-superficie-baja p-3.5"
                 >
                   <div>
                     <div className="flex items-center gap-2 font-ticket text-[10px]">
-                      <span className="rounded bg-[#35C759]/20 px-1.5 py-0.5 font-bold text-[#35C759]">
+                      <span className="rounded bg-lechuga-green/20 px-1.5 py-0.5 font-bold text-lechuga">
                         {t.metodoVerificacion === 'double_verified'
                           ? '✓✓ DOBLE VERIFICACIÓN (GPS + FOTO)'
                           : t.metodoVerificacion === 'gps_checkin'
                             ? `✓ GPS VERIFICADO (${t.distanciaMetros ?? 25}m)`
                             : `✓ TICKET CAJA (${t.referenciaTicketCaja ?? 'FOTO'})`}
                       </span>
-                      <span className="text-[#C9B9A6]">{t.codigoTicket}</span>
+                      <span className="text-texto-suave">{t.codigoTicket}</span>
                     </div>
                     <Link
                       href={`/kebab/${t.localSlug}`}
-                      className="mt-1 block font-rotulo text-lg uppercase text-[#F5EFE6] hover:text-[#FF7A1F]"
+                      className="mt-1 block font-rotulo text-lg uppercase text-texto hover:text-acento"
                     >
                       {t.localNombre} ({t.barrioNombre})
                     </Link>
-                    <p className="text-xs italic text-[#C9B9A6]">
+                    <p className="text-xs italic text-texto-suave">
                       &ldquo;{t.comentario}&rdquo;
                     </p>
                   </div>
-                  <div className="shrink-0 rounded-lg bg-[#120F0D] px-3 py-1.5 text-center font-ticket">
-                    <span className="block text-lg font-bold text-[#FF7A1F]">
+                  <div className="shrink-0 rounded-lg bg-fondo px-3 py-1.5 text-center font-ticket">
+                    <span className="block text-lg font-bold text-acento">
                       {formatearNota(t.notaTotal)}
                     </span>
-                    <span className="text-[9px] text-[#C9B9A6]">/ 10</span>
+                    <span className="text-[9px] text-texto-suave">/ 10</span>
                   </div>
                 </div>
               ))}
@@ -312,10 +312,10 @@ export function MisionesYPerfilCliente({ aliasUsuario }: Props) {
         <section aria-label="Filtrar y crear retos nocturnos" className="space-y-3">
           <div className="flex items-end justify-between">
             <div>
-              <span className="block font-ticket text-[10px] uppercase tracking-widest text-[#FF7A1F]">
+              <span className="block font-ticket text-[10px] uppercase tracking-widest text-acento">
                 PANEL DE ENCARGOS · 03:00 AM
               </span>
-              <h2 className="font-rotulo text-2xl uppercase tracking-wide text-[#F5EFE6]">
+              <h2 className="font-rotulo text-2xl uppercase tracking-wide text-texto">
                 EXPLORAR RETOS NOCTURNOS
               </h2>
             </div>
@@ -323,13 +323,13 @@ export function MisionesYPerfilCliente({ aliasUsuario }: Props) {
             {modoCreadorActivo ? (
               <Link
                 href="/creador"
-                className="inline-flex items-center gap-1 rounded border border-[#F2C14E] bg-[#F2C14E]/20 px-2.5 py-1 font-ticket text-[10px] font-bold text-[#F2C14E]"
+                className="inline-flex items-center gap-1 rounded border border-mostaza bg-mostaza-gold/20 px-2.5 py-1 font-ticket text-[10px] font-bold text-mostaza"
               >
                 <Icono nombre="tune" className="h-3.5 w-3.5" />
                 Editar Misiones
               </Link>
             ) : (
-              <span className="rounded border border-[#44372E]/50 bg-[#1B1613] px-2 py-1 font-ticket text-[11px] text-[#C9B9A6]">
+              <span className="rounded border border-borde/50 bg-superficie-baja px-2 py-1 font-ticket text-[11px] text-texto-suave">
                 MÁLAGA CAPITAL
               </span>
             )}
@@ -363,8 +363,8 @@ export function MisionesYPerfilCliente({ aliasUsuario }: Props) {
                   onClick={() => setCategoria(c.id)}
                   className={`flex shrink-0 items-center gap-1.5 rounded-lg px-3 py-1.5 font-ticket text-xs transition-all ${
                     activo
-                      ? 'bg-[#FF7A1F] font-bold text-[#120F0D] shadow-[0_0_12px_rgba(255,122,31,0.4)]'
-                      : 'border border-[#44372E]/60 bg-[#1B1613] text-[#C9B9A6] hover:border-[#FF7A1F]/50'
+                      ? 'bg-primario font-bold text-carbon shadow-[0_0_12px_rgba(255,122,31,0.4)]'
+                      : 'border border-borde/60 bg-superficie-baja text-texto-suave hover:border-acento/50'
                   }`}
                 >
                   <Icono nombre={c.icono} className="h-3.5 w-3.5" />
@@ -375,7 +375,7 @@ export function MisionesYPerfilCliente({ aliasUsuario }: Props) {
           </div>
 
           <div className="flex items-center justify-between gap-2 pt-1">
-            <div className="inline-flex rounded-lg border border-[#44372E]/50 bg-[#1B1613] p-1">
+            <div className="inline-flex rounded-lg border border-borde/50 bg-superficie-baja p-1">
               {[
                 { id: 'all' as const, texto: 'Todas' },
                 { id: 'facil' as const, texto: 'Fácil' },
@@ -390,8 +390,8 @@ export function MisionesYPerfilCliente({ aliasUsuario }: Props) {
                     onClick={() => setDificultad(d.id)}
                     className={`rounded-md px-2.5 py-1 font-ticket text-[11px] transition-all ${
                       activo
-                        ? 'bg-[#2E251F] font-bold text-[#F5EFE6] shadow'
-                        : 'text-[#C9B9A6] hover:text-[#F5EFE6]'
+                        ? 'bg-superficie-alta font-bold text-texto shadow'
+                        : 'text-texto-suave hover:text-texto'
                     }`}
                   >
                     {d.texto}
@@ -403,7 +403,7 @@ export function MisionesYPerfilCliente({ aliasUsuario }: Props) {
             <button
               type="button"
               onClick={generarRetoAMedida}
-              className="flex items-center gap-1.5 rounded-lg border border-[#FF3B30]/50 bg-[#FF3B30]/15 px-3 py-1.5 font-ticket text-[11px] font-bold text-[#FF3B30] transition-all hover:bg-[#FF3B30]/25 active:scale-95"
+              className="flex items-center gap-1.5 rounded-lg border border-guindilla/50 bg-guindilla-red/15 px-3 py-1.5 font-ticket text-[11px] font-bold text-guindilla transition-all hover:bg-guindilla-red/25 active:scale-95"
             >
               <Icono nombre="Casino" className="h-4 w-4" />
               CREAR RETO A MEDIDA
@@ -416,10 +416,10 @@ export function MisionesYPerfilCliente({ aliasUsuario }: Props) {
           {misionesFiltradas.map((m) => {
             const esLeyenda = m.dificultad === 'leyenda';
             const colorBarra = esLeyenda
-              ? 'bg-gradient-to-b from-[#F2C14E] to-[#FF3B30]'
+              ? 'bg-gradient-to-b from-mostaza-gold to-guindilla-red'
               : m.categoria === 'barrio'
-                ? 'bg-[#35C759]'
-                : 'bg-[#FF7A1F]';
+                ? 'bg-lechuga-green'
+                : 'bg-primario';
             const iconoMision =
               m.categoria === 'horario'
                 ? ('nightlight' as const)
@@ -432,37 +432,37 @@ export function MisionesYPerfilCliente({ aliasUsuario }: Props) {
             return (
               <article
                 key={m.id}
-                className="relative overflow-hidden rounded-xl border border-[#44372E]/70 bg-[#1B1613] p-4 shadow-lg"
+                className="relative overflow-hidden rounded-xl border border-borde/70 bg-superficie-baja p-4 shadow-lg"
               >
                 <div className={`absolute bottom-0 left-0 top-0 w-1.5 ${colorBarra}`} />
                 <div className="flex items-start justify-between gap-3 pl-2">
                   <div className="flex items-start gap-3">
-                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#FF7A1F]/40 bg-[#241D18] text-[#FF7A1F]">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-acento/40 bg-superficie text-acento">
                       <Icono nombre={iconoMision} className="h-6 w-6" />
                     </div>
                     <div>
                       <div className="flex flex-wrap items-center gap-1.5">
-                        <span className="rounded border border-[#FF7A1F]/30 bg-[#FF7A1F]/15 px-1.5 py-0.5 font-ticket text-[9px] font-bold uppercase text-[#FF7A1F]">
+                        <span className="rounded border border-acento/30 bg-primario/15 px-1.5 py-0.5 font-ticket text-[9px] font-bold uppercase text-acento">
                           {m.categoria.toUpperCase()}
                         </span>
-                        <span className="rounded bg-[#2E251F] px-1.5 py-0.5 font-ticket text-[9px] uppercase text-[#C9B9A6]">
+                        <span className="rounded bg-superficie-alta px-1.5 py-0.5 font-ticket text-[9px] uppercase text-texto-suave">
                           {m.dificultad.toUpperCase()}
                         </span>
                       </div>
-                      <h3 className="mt-1 font-rotulo text-xl uppercase leading-tight tracking-wide text-[#F5EFE6]">
+                      <h3 className="mt-1 font-rotulo text-xl uppercase leading-tight tracking-wide text-texto">
                         {m.titulo}
                       </h3>
-                      <p className="mt-1 text-xs leading-relaxed text-[#C9B9A6]">
+                      <p className="mt-1 text-xs leading-relaxed text-texto-suave">
                         {m.descripcion}
                       </p>
                     </div>
                   </div>
 
                   <div className="shrink-0 text-right">
-                    <div className="rounded-lg border border-[#FF7A1F]/40 bg-[#120F0D] px-2.5 py-1 font-ticket text-sm font-bold text-[#FF7A1F]">
+                    <div className="rounded-lg border border-acento/40 bg-fondo px-2.5 py-1 font-ticket text-sm font-bold text-acento">
                       +{m.xp} XP
                     </div>
-                    <span className="mt-1 block font-ticket text-[9px] text-[#35C759]">
+                    <span className="mt-1 block font-ticket text-[9px] text-lechuga">
                       ACTIVA
                     </span>
                   </div>
@@ -470,8 +470,8 @@ export function MisionesYPerfilCliente({ aliasUsuario }: Props) {
 
                 <div className="mt-4 pl-2">
                   <div className="mb-1 flex items-center justify-between font-ticket text-[11px]">
-                    <span className="text-[#C9B9A6]">PROGRESO DE RETO</span>
-                    <span className="font-bold text-[#F5EFE6]">
+                    <span className="text-texto-suave">PROGRESO DE RETO</span>
+                    <span className="font-bold text-texto">
                       {m.progresoActual} / {m.progresoMeta}
                     </span>
                   </div>
@@ -481,26 +481,26 @@ export function MisionesYPerfilCliente({ aliasUsuario }: Props) {
                         key={idx}
                         className={`h-2 flex-1 rounded-full ${
                           idx < m.progresoActual
-                            ? 'bg-[#FF7A1F] shadow-[0_0_8px_rgba(255,122,31,0.5)]'
-                            : 'border border-[#44372E] bg-[#120F0D]'
+                            ? 'bg-primario shadow-[0_0_8px_rgba(255,122,31,0.5)]'
+                            : 'border border-borde bg-fondo'
                         }`}
                       />
                     ))}
                   </div>
 
-                  <div className="mt-3 flex items-center justify-between border-t border-[#44372E]/40 pt-2.5">
+                  <div className="mt-3 flex items-center justify-between border-t border-borde/40 pt-2.5">
                     <div className="flex items-center gap-1.5">
                       <Icono
                         nombre="workspace_premium"
-                        className="h-4 w-4 text-[#F2C14E]"
+                        className="h-4 w-4 text-mostaza"
                       />
-                      <span className="font-ticket text-[10px] text-[#C9B9A6]">
-                        Desbloquea: <strong className="text-[#F2C14E]">{m.recompensa}</strong>
+                      <span className="font-ticket text-[10px] text-texto-suave">
+                        Desbloquea: <strong className="text-mostaza">{m.recompensa}</strong>
                       </span>
                     </div>
                     <Link
                       href={m.enlaceAccion}
-                      className="flex items-center gap-1 font-ticket text-xs font-bold text-[#FF7A1F] hover:underline"
+                      className="flex items-center gap-1 font-ticket text-xs font-bold text-acento hover:underline"
                     >
                       {m.textoAccion}
                       <Icono nombre="arrow_forward" className="h-3.5 w-3.5" />
@@ -513,41 +513,41 @@ export function MisionesYPerfilCliente({ aliasUsuario }: Props) {
 
           {/* RECIBO TÉRMICO #4092 LISTO PARA RECLAMAR */}
           {(categoria === 'all' || categoria === 'picante') && (
-            <article className="relative mx-0.5 rotate-[-0.4deg] rounded-sm bg-[#EFE6D5] p-4 font-ticket text-[#181411] shadow-[0_12px_28px_rgba(0,0,0,0.65)]">
-              <div className="mb-2 flex items-center justify-between border-b border-dashed border-[#5C4E41]/40 pb-2">
+            <article className="relative mx-0.5 rotate-[-0.4deg] rounded-sm bg-ticket-papel p-4 font-ticket text-ticket-tinta shadow-[0_12px_28px_rgba(0,0,0,0.65)]">
+              <div className="mb-2 flex items-center justify-between border-b border-dashed border-ticket-suave/40 pb-2">
                 <div className="flex items-center gap-1.5">
-                  <Icono nombre="check_circle" className="h-4 w-4 text-[#FF3B30]" />
+                  <Icono nombre="check_circle" className="h-4 w-4 text-guindilla" />
                   <span className="text-[10px] font-bold uppercase tracking-widest">
                     RECIBO DE AUDITORÍA #4092
                   </span>
                 </div>
-                <span className="rounded bg-[#181411] px-2 py-0.5 text-[10px] font-bold text-[#EFE6D5]">
+                <span className="rounded bg-ticket-tinta px-2 py-0.5 text-[10px] font-bold text-ticket-papel">
                   3 / 3 COMPLETADO
                 </span>
               </div>
 
               <div className="flex items-start justify-between gap-2">
                 <div>
-                  <h3 className="font-rotulo text-2xl uppercase leading-none tracking-wide text-[#181411]">
+                  <h3 className="font-rotulo text-2xl uppercase leading-none tracking-wide text-ticket-tinta">
                     Paladar de Brasa Indómito
                   </h3>
-                  <p className="mt-1 font-sans text-xs text-[#5C4E41]">
+                  <p className="mt-1 font-sans text-xs text-ticket-suave">
                     Has auditado 3 locales con KebabScore ≥ 8,5 (Nivel Fuego) pidiendo
                     salsa picante casera.
                   </p>
                 </div>
-                <div className="shrink-0 rotate-3 border-2 border-[#FF3B30] px-2 py-1 text-center">
-                  <span className="block text-[9px] font-bold leading-none text-[#FF3B30]">
+                <div className="shrink-0 rotate-3 border-2 border-guindilla px-2 py-1 text-center">
+                  <span className="block text-[9px] font-bold leading-none text-guindilla">
                     VERIFICADO
                   </span>
-                  <span className="text-sm font-bold text-[#181411]">+250 XP</span>
+                  <span className="text-sm font-bold text-ticket-tinta">+250 XP</span>
                 </div>
               </div>
 
-              <div className="mt-3 flex items-center justify-between border-t border-dashed border-[#5C4E41]/40 pt-3">
-                <div className="text-[10px] text-[#5C4E41]">
+              <div className="mt-3 flex items-center justify-between border-t border-dashed border-ticket-suave/40 pt-3">
+                <div className="text-[10px] text-ticket-suave">
                   <span>PREMIO: </span>
-                  <strong className="text-[#181411]">
+                  <strong className="text-ticket-tinta">
                     &apos;Pegatina Oro de Escaparate&apos;
                   </strong>
                 </div>
@@ -560,8 +560,8 @@ export function MisionesYPerfilCliente({ aliasUsuario }: Props) {
                   }}
                   className={`flex items-center gap-1.5 rounded px-3.5 py-2 text-xs font-bold uppercase tracking-wider transition-all ${
                     reclamado4092
-                      ? 'bg-[#35C759] text-[#120F0D]'
-                      : 'bg-[#FF3B30] text-[#F5EFE6] shadow-[0_4px_12px_rgba(255,59,48,0.4)] active:scale-95'
+                      ? 'bg-lechuga-green text-carbon'
+                      : 'bg-guindilla-red text-carbon shadow-[0_4px_12px_rgba(255,59,48,0.4)] active:scale-95'
                   }`}
                 >
                   <Icono
@@ -579,14 +579,14 @@ export function MisionesYPerfilCliente({ aliasUsuario }: Props) {
         <section aria-label="Pegatinas de escaparate" className="pt-2">
           <div className="mb-3 flex items-end justify-between">
             <div>
-              <span className="block font-ticket text-[10px] uppercase tracking-widest text-[#F2C14E]">
+              <span className="block font-ticket text-[10px] uppercase tracking-widest text-mostaza">
                 VITRINA DEL CRÍTICO
               </span>
-              <h2 className="font-rotulo text-2xl uppercase tracking-wide text-[#F5EFE6]">
+              <h2 className="font-rotulo text-2xl uppercase tracking-wide text-texto">
                 PEGATINAS DE ESCAPARATE
               </h2>
             </div>
-            <span className="font-ticket text-xs text-[#C9B9A6]">
+            <span className="font-ticket text-xs text-texto-suave">
               {pegatinasDesbloqueadas} / {pegatinas.length} pegadas
             </span>
           </div>
@@ -597,8 +597,8 @@ export function MisionesYPerfilCliente({ aliasUsuario }: Props) {
                 key={peg.id}
                 className={`flex items-center gap-3 rounded-xl border p-3 ${
                   peg.desbloqueada
-                    ? 'border-white/15 bg-[#1B1613]'
-                    : 'border-dashed border-white/10 bg-[#120F0D]/60 opacity-65'
+                    ? 'border-linea/15 bg-superficie-baja'
+                    : 'border-dashed border-linea/10 bg-fondo/60 opacity-65'
                 }`}
               >
                 <div
@@ -612,10 +612,10 @@ export function MisionesYPerfilCliente({ aliasUsuario }: Props) {
                   <Icono nombre={peg.icono} className="h-5 w-5" />
                 </div>
                 <div className="min-w-0">
-                  <p className="truncate font-rotulo text-sm uppercase tracking-wide text-[#F5EFE6]">
+                  <p className="truncate font-rotulo text-sm uppercase tracking-wide text-texto">
                     {peg.titulo}
                   </p>
-                  <p className="truncate font-ticket text-[10px] text-[#C9B9A6]">
+                  <p className="truncate font-ticket text-[10px] text-texto-suave">
                     {peg.subtitulo}
                   </p>
                 </div>
@@ -626,89 +626,89 @@ export function MisionesYPerfilCliente({ aliasUsuario }: Props) {
 
         {/* ============ 5. RANKING DE LA PEÑA (LEADERBOARD) ============ */}
         <section aria-label="Ranking de la peña" className="pt-2">
-          <div className="overflow-hidden rounded-xl border border-[#44372E]/70 bg-[#1B1613] shadow-xl">
-            <div className="flex items-center justify-between border-b border-[#44372E]/50 bg-[#241D18] px-4 py-3">
+          <div className="overflow-hidden rounded-xl border border-borde/70 bg-superficie-baja shadow-xl">
+            <div className="flex items-center justify-between border-b border-borde/50 bg-superficie px-4 py-3">
               <div className="flex items-center gap-2">
-                <Icono nombre="emoji_events" className="h-5 w-5 text-[#F2C14E]" />
+                <Icono nombre="emoji_events" className="h-5 w-5 text-mostaza" />
                 <div>
-                  <h2 className="font-rotulo text-xl uppercase leading-none tracking-wide text-[#F5EFE6]">
+                  <h2 className="font-rotulo text-xl uppercase leading-none tracking-wide text-texto">
                     RANKING DE LA PEÑA
                   </h2>
-                  <span className="font-ticket text-[10px] text-[#C9B9A6]">
+                  <span className="font-ticket text-[10px] text-texto-suave">
                     TEMPORADA DE OTOÑO · MÁLAGA
                   </span>
                 </div>
               </div>
-              <span className="rounded border border-[#35C759]/30 bg-[#120F0D] px-2 py-1 font-ticket text-[10px] text-[#35C759]">
+              <span className="rounded border border-lechuga/30 bg-fondo px-2 py-1 font-ticket text-[10px] text-lechuga">
                 TOP CRÍTICOS
               </span>
             </div>
 
-            <div className="divide-y divide-[#44372E]/30">
+            <div className="divide-y divide-borde/30">
               <div className="flex items-center justify-between px-4 py-3">
                 <div className="flex items-center gap-3">
-                  <span className="flex h-6 w-6 items-center justify-center rounded bg-[#F2C14E] font-ticket text-xs font-bold text-[#120F0D]">
+                  <span className="flex h-6 w-6 items-center justify-center rounded bg-mostaza-gold font-ticket text-xs font-bold text-carbon">
                     1
                   </span>
                   <div>
                     <div className="flex items-center gap-1.5">
-                      <span className="text-sm font-bold text-[#F5EFE6]">
+                      <span className="text-sm font-bold text-texto">
                         Salva_Doner99
                       </span>
-                      <span className="rounded border border-[#F2C14E]/30 bg-[#F2C14E]/15 px-1.5 py-0.5 font-ticket text-[9px] text-[#F2C14E]">
+                      <span className="rounded border border-mostaza/30 bg-mostaza-gold/15 px-1.5 py-0.5 font-ticket text-[9px] text-mostaza">
                         Sultán
                       </span>
                     </div>
-                    <span className="font-ticket text-[10px] text-[#C9B9A6]">
+                    <span className="font-ticket text-[10px] text-texto-suave">
                       42 tickets · Centro &amp; Soho
                     </span>
                   </div>
                 </div>
-                <span className="font-ticket text-sm font-bold text-[#F2C14E]">
+                <span className="font-ticket text-sm font-bold text-mostaza">
                   4.820 XP
                 </span>
               </div>
 
               <div className="flex items-center justify-between px-4 py-3">
                 <div className="flex items-center gap-3">
-                  <span className="flex h-6 w-6 items-center justify-center rounded bg-[#C9B9A6] font-ticket text-xs font-bold text-[#120F0D]">
+                  <span className="flex h-6 w-6 items-center justify-center rounded bg-crema-300 font-ticket text-xs font-bold text-carbon">
                     2
                   </span>
                   <div>
-                    <span className="text-sm font-bold text-[#F5EFE6]">
+                    <span className="text-sm font-bold text-texto">
                       KebabMaster_Vialia
                     </span>
-                    <span className="block font-ticket text-[10px] text-[#C9B9A6]">
+                    <span className="block font-ticket text-[10px] text-texto-suave">
                       35 tickets · El Perchel
                     </span>
                   </div>
                 </div>
-                <span className="font-ticket text-sm font-bold text-[#F5EFE6]">
+                <span className="font-ticket text-sm font-bold text-texto">
                   3.910 XP
                 </span>
               </div>
 
-              <div className="flex items-center justify-between border-l-4 border-[#FF7A1F] bg-[#FF7A1F]/10 px-4 py-3">
+              <div className="flex items-center justify-between border-l-4 border-acento bg-primario/10 px-4 py-3">
                 <div className="flex items-center gap-3">
-                  <span className="flex h-6 w-6 items-center justify-center rounded bg-[#FF7A1F] font-ticket text-xs font-bold text-[#120F0D]">
+                  <span className="flex h-6 w-6 items-center justify-center rounded bg-primario font-ticket text-xs font-bold text-carbon">
                     3
                   </span>
                   <div>
                     <div className="flex items-center gap-1.5">
-                      <span className="text-sm font-bold text-[#FF7A1F]">
+                      <span className="text-sm font-bold text-acento">
                         {usuarioActual.nombre} (TÚ)
                       </span>
-                      <span className="rounded bg-[#FF3B30] px-1.5 py-0.5 font-ticket text-[9px] font-bold text-[#F5EFE6]">
+                      <span className="rounded bg-guindilla-red px-1.5 py-0.5 font-ticket text-[9px] font-bold text-carbon">
                         LVL {usuarioActual.nivel}
                       </span>
                     </div>
-                    <span className="font-ticket text-[10px] text-[#C9B9A6]">
+                    <span className="font-ticket text-[10px] text-texto-suave">
                       {usuarioActual.ticketsPublicados.length} tickets verificados ·{' '}
                       {usuarioActual.barrioBase}
                     </span>
                   </div>
                 </div>
-                <span className="font-ticket text-sm font-bold text-[#FF7A1F]">
+                <span className="font-ticket text-sm font-bold text-acento">
                   {xpActual.toLocaleString('es-ES')} XP
                 </span>
               </div>
