@@ -755,3 +755,38 @@ html:not([data-modo]) .selector-compacto [data-icono-modo="auto"],
     box-shadow: 5px 6px 0 var(--sombra-dura);
   }
 }
+
+/* =====================================================================
+ * 10. RADAR DE ASADORES
+ * ---------------------------------------------------------------------
+ *  La aguja da una vuelta cada 4 s (VUELTA_S en RadarAsadores.tsx). Cada
+ *  pin lleva un animation-delay = rumbo/360 × 4 s, así su eco se enciende
+ *  justo cuando la aguja le pasa por encima.
+ * ===================================================================== */
+@keyframes barridoRadar {
+  /* Solo rotate: el centrado lo hace la propiedad translate de Tailwind */
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.radar-barrido {
+  background: conic-gradient(
+    from 0deg,
+    rgb(255 122 31 / 0) 0deg,
+    rgb(255 122 31 / 0) 300deg,
+    rgb(255 122 31 / 0.08) 330deg,
+    rgb(255 148 71 / 0.38) 359deg,
+    rgb(255 241 224 / 0.7) 360deg
+  );
+  /* conic-gradient empieza arriba: el borde brillante (360°) es la aguja */
+  animation: barridoRadar 4s linear infinite;
+}
+@keyframes ecoRadar {
+  0%   { transform: scale(0.4); opacity: 0.9; box-shadow: 0 0 0 2px rgb(255 148 71 / 0.9); }
+  35%  { opacity: 0.35; }
+  60%, 100% { transform: scale(1.5); opacity: 0; box-shadow: 0 0 0 2px rgb(255 148 71 / 0); }
+}
+.radar-eco {
+  pointer-events: none;
+  opacity: 0;
+  animation: ecoRadar 4s ease-out infinite;
+}

@@ -5,6 +5,9 @@
 // en el servidor. El componente padre (ExploradorInicio) lo importa con
 // `next/dynamic` y `ssr: false`.
 //
+// Las estadísticas del local seleccionado NO van en un popup: las enseña
+// la hoja inferior de MapaAsadores, que tiene sitio para las 6 capas.
+//
 // ¿Por qué `L.divIcon`? Nos permite dibujar cada pin como un SVG con forma
 // de mini dürüm y la nota dentro, coloreado según su nivel de "picante".
 // =====================================================================
@@ -13,11 +16,10 @@
 
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import Link from 'next/link';
-import { useEffect } from 'react';
-import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
+import { useEffect, useMemo, useRef } from 'react';
+import { MapContainer, Marker, TileLayer, useMap } from 'react-leaflet';
 import type { LocalResumen } from '@/lib/datos/tipos';
-import { formatearNota, formatearPrecio, nivelDeNota, type Nivel } from '@/lib/puntuacion';
+import { formatearNota, nivelDeNota, type Nivel } from '@/lib/puntuacion';
 
 const CENTRO_MALAGA: [number, number] = [36.7213, -4.4214];
 
@@ -61,9 +63,33 @@ function crearIconoDurum(nota: number | null, seleccionado: boolean): L.DivIcon 
   });
 }
 
-/** Subcomponente que mueve la cámara cuando el usuario elige un local o usa su ubicación. */
-function ControladorVista({ destino }: { destino: { lat: number; lng: number; zoom: number } | null }) {
+/** Punto verde pulsante de "estás aquí". */
+const ICONO_TU = L.divIcon({
+  className: 'pin-durum-icono',
+  html: `<div style="width:16px;height:16px;border-radius:999px;background:#7ED957;border:3px solid #120D0A;box-shadow:0 0 0 2px #7ED957,0 0 14px #7ED957;"></div>`,
+  iconSize: [16, 16],
+  iconAnchor: [8, 8],
+});
+
+/**
+ * Mueve la cámara: al montar encuadra todos los puntos y después vuela a
+ * cada destino nuevo (local elegido, barrio o tu ubicación).
+ */
+function ControladorVista({
+  destino,
+  encuadre,
+}: {
+  destino: { lat: number; lng: number; zoom: number } | null;
+  encuadre: Array<[number, number]>;
+}) {
   const mapa = useMap();
+  const encuadrado = useRef(false);
+  useEffect(() => {
+    if (encuadrado.current || encuadre.length === 0) return;
+    encuadrado.current = true;
+    if (destino) return; // si ya hay destino, manda el destino
+    mapa.fitBounds(L.latLngBounds(encuadre), { padding: [36, 36], maxZoom: 15 });
+  }, [encuadre, destino, mapa]);
   useEffect(() => {
     if (destino) {
       mapa.flyTo([destino.lat, destino.lng], destino.zoom, { duration: 0.6 });
@@ -77,6 +103,9 @@ type Props = {
   seleccionadoId: string | null;
   onSeleccionar: (id: string) => void;
   destinoCamara: { lat: number; lng: number; zoom: number } | null;
+  /** Tu ubicación real, si la has compartido. */
+  ubicacion?: { lat: number; lng: number } | null;
+  className?: string;
 };
 
 export default function MapaLeaflet({
@@ -84,53 +113,40 @@ export default function MapaLeaflet({
   seleccionadoId,
   onSeleccionar,
   destinoCamara,
+  ubicacion = null,
+  className = 'h-[360px] w-full rounded-xl border border-borde sm:h-[440px]',
 }: Props) {
+  const encuadre = useMemo<Array<[number, number]>>(
+    () => [
+      ...locales.map((l) => [l.lat, l.lng] as [number, number]),
+      ...(ubicacion ? [[ubicacion.lat, ubicacion.lng] as [number, number]] : []),
+    ],
+    [locales, ubicacion],
+  );
+
   return (
-    <MapContainer
-      center={CENTRO_MALAGA}
-      zoom={13}
-      scrollWheelZoom={false}
-      className="h-[360px] w-full rounded-xl border border-borde sm:h-[440px]"
-    >
+    <MapContainer center={CENTRO_MALAGA} zoom={13} scrollWheelZoom className={className}>
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <ControladorVista destino={destinoCamara} />
+      <ControladorVista destino={destinoCamara} encuadre={encuadre} />
+
+      {ubicacion && (
+        <Marker position={[ubicacion.lat, ubicacion.lng]} icon={ICONO_TU} title="Estás aquí" />
+      )}
 
       {locales.map((local) => (
         <Marker
           key={local.id}
           position={[local.lat, local.lng]}
           icon={crearIconoDurum(local.nota, local.id === seleccionadoId)}
+          title={`${local.nombre} · ${formatearNota(local.nota)}`}
+          zIndexOffset={local.id === seleccionadoId ? 1000 : 0}
           eventHandlers={{
             click: () => onSeleccionar(local.id),
           }}
-        >
-          <Popup>
-            <div className="min-w-44 font-sans text-carbon">
-              <p className="text-xs font-semibold uppercase tracking-wider text-[#5A4A3E]">
-                {local.barrio.nombre}
-              </p>
-              <p className="mt-0.5 text-base font-bold leading-tight">{local.nombre}</p>
-              <p className="text-xs text-[#5A4A3E]">{local.direccion}</p>
-              <div className="mt-2 flex items-center justify-between gap-2 border-t border-[#D8C6A8] pt-2 font-ticket text-xs">
-                <span className="font-bold">
-                  TOTAL: {local.nota !== null ? formatearNota(local.nota) : '—'}
-                </span>
-                {local.precioDurumCentimos !== null && (
-                  <span>{formatearPrecio(local.precioDurumCentimos)}</span>
-                )}
-              </div>
-              <Link
-                href={`/kebab/${local.slug}`}
-                className="mt-2 block rounded bg-brasa px-2.5 py-1 text-center font-ticket text-xs font-bold uppercase text-carbon hover:opacity-90"
-              >
-                Ver ficha y tickets →
-              </Link>
-            </div>
-          </Popup>
-        </Marker>
+        />
       ))}
     </MapContainer>
   );

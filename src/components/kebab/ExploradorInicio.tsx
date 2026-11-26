@@ -5,33 +5,23 @@
 //   1. Buscador "¿Dónde cenas esta noche?" con icono y botón "Filtrar"
 //   2. Dos botones rápidos en 2 columnas: "Abierto ahora" y "Cerca de mí"
 //   3. Pastillas horizontales de barrios de Málaga
-//   4. "Radar de Asadores": permite alternar entre el Radar Nocturno de
-//      Stitch (anillos de calor + pines luminosos interactivos) y el
-//      Mapa Callejero real con Leaflet + OpenStreetMap.
+//   4. "Radar de Asadores": radar real (distancia y rumbo de cada local
+//      respecto a ti o al centro). Al pulsarlo se abre el mapa a pantalla
+//      completa (Leaflet + OpenStreetMap) con las estadísticas de cada kebab.
 // =====================================================================
 
 'use client';
 
-import dynamic from 'next/dynamic';
-import Link from 'next/link';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Brocheta } from '@/components/kebab/Brocheta';
+import { MapaAsadores } from '@/components/mapa/MapaAsadores';
+import { RadarAsadores } from '@/components/mapa/RadarAsadores';
 import { Icono } from '@/components/ui/Icono';
 import type { Barrio, LocalResumen } from '@/lib/datos/tipos';
+import { CENTRO_MALAGA, distanciaKm } from '@/lib/geo';
 import { estadoHorario, type EstadoHorario } from '@/lib/horario';
-import { formatearNota, formatearPrecio } from '@/lib/puntuacion';
 import { TEXTOS } from '@/lib/textos';
-import { TrompoCarga } from './TrompoCarga';
-
-// Cargamos Leaflet SOLO en el navegador cuando el usuario activa la vista OSM
-const MapaLeaflet = dynamic(() => import('@/components/mapa/MapaLeaflet'), {
-  ssr: false,
-  loading: () => (
-    <div className="flex h-[260px] w-full items-center justify-center rounded-xl border border-linea/10 bg-fondo">
-      <TrompoCarga mensaje="Encendiendo el callejero de Málaga…" />
-    </div>
-  ),
-});
 
 /** Quita tildes y pasa a minúsculas para que "perchel" encuentre "El Perchel". */
 function normalizar(texto: string): string {
@@ -40,27 +30,6 @@ function normalizar(texto: string): string {
     .replace(/\p{Diacritic}/gu, '')
     .toLowerCase();
 }
-
-/** Distancia aproximada en km entre dos coordenadas (fórmula de Haversine). */
-function distanciaKm(lat1: number, lng1: number, lat2: number, lng2: number): number {
-  const aRad = (g: number) => (g * Math.PI) / 180;
-  const dLat = aRad(lat2 - lat1);
-  const dLng = aRad(lng2 - lng1);
-  const a =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos(aRad(lat1)) * Math.cos(aRad(lat2)) * Math.sin(dLng / 2) ** 2;
-  return 6371 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-}
-
-/** Posiciones relativas en el radar nocturno para los primeros pines */
-const POSICIONES_RADAR = [
-  { top: '34%', left: '42%' },
-  { top: '62%', left: '68%' },
-  { top: '24%', left: '20%' },
-  { top: '70%', left: '26%' },
-  { top: '26%', left: '74%' },
-  { top: '50%', left: '18%' },
-];
 
 type Props = {
   locales: LocalResumen[];
@@ -71,7 +40,7 @@ export function ExploradorInicio({ locales, barrios }: Props) {
   const [busqueda, setBusqueda] = useState('');
   const [barrioActivo, setBarrioActivo] = useState<string>('todos');
   const [soloAbiertos, setSoloAbiertos] = useState(true);
-  const [vistaMapa, setVistaMapa] = useState<'radar' | 'leaflet'>('radar');
+  const [mapaAbierto, setMapaAbierto] = useState(false);
   const [seleccionadoId, setSeleccionadoId] = useState<string | null>(locales[0]?.id ?? null);
   const [destinoCamara, setDestinoCamara] = useState<{
     lat: number;
@@ -124,10 +93,7 @@ export function ExploradorInicio({ locales, barrios }: Props) {
       })
       .sort((a, b) => {
         if (ubicacion) {
-          return (
-            distanciaKm(ubicacion.lat, ubicacion.lng, a.lat, a.lng) -
-            distanciaKm(ubicacion.lat, ubicacion.lng, b.lat, b.lng)
-          );
+          return distanciaKm(ubicacion, a) - distanciaKm(ubicacion, b);
         }
         return b.notaRanking - a.notaRanking;
       });
@@ -140,6 +106,20 @@ export function ExploradorInicio({ locales, barrios }: Props) {
       null,
     [localesFiltrados, seleccionadoId],
   );
+
+  const centroRadar = ubicacion ?? CENTRO_MALAGA;
+
+  function abrirMapa(localId: string | null) {
+    if (localId) {
+      const l = locales.find((x) => x.id === localId);
+      setSeleccionadoId(localId);
+      if (l) setDestinoCamara({ lat: l.lat, lng: l.lng, zoom: 16 });
+    } else {
+      setDestinoCamara(null); // el mapa encuadra todos los locales
+    }
+    setMapaAbierto(true);
+  }
+  const cerrarMapa = useCallback(() => setMapaAbierto(false), []);
 
   function elegirBarrio(slug: string) {
     setBarrioActivo(slug);
@@ -311,168 +291,52 @@ export function ExploradorInicio({ locales, barrios }: Props) {
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
-            {/* Leyenda de colores */}
-            <div className="hidden items-center gap-2.5 rounded-full border border-linea/5 bg-superficie-baja px-2.5 py-1 font-ticket text-[10px] sm:flex">
-              <span className="flex items-center gap-1 text-guindilla">
-                <span className="h-2 w-2 rounded-full bg-guindilla-red" /> ≥8,5 Fuego
-              </span>
-              <span className="flex items-center gap-1 text-acento">
-                <span className="h-2 w-2 rounded-full bg-primario" /> 7-8,4
-              </span>
-              <span className="flex items-center gap-1 text-mostaza">
-                <span className="h-2 w-2 rounded-full bg-mostaza-gold" /> 5-6,9
-              </span>
-            </div>
-
-            {/* Conmutador Radar 3 AM / Mapa OSM */}
-            <div className="inline-flex rounded-lg border border-linea/10 bg-superficie-baja p-0.5 font-ticket text-[10px]">
-              <button
-                type="button"
-                onClick={() => setVistaMapa('radar')}
-                className={`rounded-md px-2 py-1 font-bold uppercase transition-colors ${
-                  vistaMapa === 'radar'
-                    ? 'bg-primario text-carbon'
-                    : 'text-texto-suave hover:text-texto'
-                }`}
-              >
-                Radar 3AM
-              </button>
-              <button
-                type="button"
-                onClick={() => setVistaMapa('leaflet')}
-                className={`rounded-md px-2 py-1 font-bold uppercase transition-colors ${
-                  vistaMapa === 'leaflet'
-                    ? 'bg-primario text-carbon'
-                    : 'text-texto-suave hover:text-texto'
-                }`}
-              >
-                Callejero
-              </button>
-            </div>
+          {/* Leyenda de colores (el color siempre va con su número) */}
+          <div className="flex flex-col items-start gap-0.5 rounded-lg border border-linea/5 bg-superficie-baja px-2.5 py-1.5 font-ticket text-[10px] sm:flex-row sm:items-center sm:gap-2.5 sm:rounded-full">
+            <span className="flex items-center gap-1 text-guindilla">
+              <span className="h-2 w-2 rounded-full bg-guindilla-red" /> ≥8,5 Fuego
+            </span>
+            <span className="flex items-center gap-1 text-acento">
+              <span className="h-2 w-2 rounded-full bg-primario" /> 7-8,4
+            </span>
+            <span className="flex items-center gap-1 text-mostaza">
+              <span className="h-2 w-2 rounded-full bg-mostaza-gold" /> 5-6,9
+            </span>
           </div>
         </div>
 
-        {vistaMapa === 'radar' ? (
-          <div className="relative h-60 w-full overflow-hidden rounded-xl border border-linea/15 bg-fondo shadow-inner">
-            {/* Rejilla oscura tipo radar nocturno de Málaga */}
-            <div
-              className="absolute inset-0 opacity-40"
-              style={{
-                backgroundImage:
-                  'radial-gradient(#FF7A1F 1px, transparent 1px), radial-gradient(#241D18 1px, #120F0D 1px)',
-                backgroundSize: '24px 24px',
-                backgroundPosition: '0 0, 12px 12px',
-              }}
-            />
-
-            {/* Trazado arterial estilizado de Málaga */}
-            <svg
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-0 h-full w-full opacity-20"
-              viewBox="0 0 400 200"
-            >
-              <path
-                d="M-20,150 Q120,130 220,90 T420,40"
-                fill="none"
-                stroke="#C9B9A6"
-                strokeWidth="3"
-              />
-              <path d="M80,-10 L180,220" fill="none" stroke="#C9B9A6" strokeWidth="1.5" />
-              <path d="M260,-10 L210,220" fill="none" stroke="#C9B9A6" strokeWidth="1.5" />
-              <path
-                d="M0,190 Q200,160 400,180"
-                fill="none"
-                stroke="#FF7A1F"
-                strokeDasharray="6 4"
-                strokeWidth="2"
-              />
-            </svg>
-
-            {/* Anillos de calor concéntricos */}
-            <div className="pointer-events-none absolute left-1/2 top-1/2 h-32 w-32 -translate-x-1/2 -translate-y-1/2 rounded-full border border-acento/30 heat-wave" />
-            <div
-              className="pointer-events-none absolute left-1/2 top-1/2 h-48 w-48 -translate-x-1/2 -translate-y-1/2 rounded-full border border-guindilla/20 heat-wave"
-              style={{ animationDelay: '1.2s' }}
-            />
-
-            {/* Pines de locales sobre el radar */}
-            {localesFiltrados.slice(0, 6).map((local, idx) => {
-              const pos = POSICIONES_RADAR[idx % POSICIONES_RADAR.length];
-              const notaNum = local.nota ?? 6.5;
-              const esFuego = notaNum >= 8.5;
-              const esPicante = notaNum >= 7 && notaNum < 8.5;
-              const seleccionado = localSeleccionado?.id === local.id;
-
-              const claseColor = esFuego
-                ? 'bg-guindilla-red text-carbon border-texto/80 shadow-[0_0_15px_rgba(255,59,48,0.8)]'
-                : esPicante
-                  ? 'bg-primario text-carbon border-carbon shadow-lg'
-                  : 'bg-mostaza-gold text-carbon border-carbon shadow-md';
-
-              return (
-                <button
-                  key={local.id}
-                  type="button"
-                  onClick={() => setSeleccionadoId(local.id)}
-                  style={{ top: pos.top, left: pos.left }}
-                  className={`group absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center transition-transform ${
-                    seleccionado ? 'z-20 scale-110' : 'z-10 hover:scale-105'
-                  }`}
-                >
-                  <div
-                    className={`flex items-center gap-1 rounded-full border px-2 py-0.5 font-ticket text-[11px] font-bold ${claseColor}`}
-                  >
-                    {esFuego && (
-                      <Icono nombre="local_fire_department" className="h-3 w-3" />
-                    )}
-                    <span>{formatearNota(local.nota)}</span>
-                    <span className="max-w-[78px] truncate text-[9px] opacity-90">
-                      {local.barrio.nombre}
-                    </span>
-                  </div>
-                  <div
-                    className={`h-2 w-0.5 ${
-                      esFuego
-                        ? 'bg-guindilla-red'
-                        : esPicante
-                          ? 'bg-primario'
-                          : 'bg-mostaza-gold'
-                    }`}
-                  />
-                </button>
-              );
-            })}
-
-            {/* Tarjeta flotante del local seleccionado en la parte inferior del radar */}
-            {localSeleccionado && (
-              <div className="absolute bottom-2.5 left-2.5 right-2.5 z-30 flex items-center justify-between gap-2 rounded-lg border border-linea/15 bg-fondo/90 px-3 py-2 backdrop-blur-md">
-                <div className="min-w-0">
-                  <p className="truncate font-rotulo text-sm uppercase tracking-wide text-texto">
-                    {localSeleccionado.nombre}
-                  </p>
-                  <p className="truncate font-ticket text-[10px] text-texto-suave">
-                    {localSeleccionado.barrio.nombre} · {localSeleccionado.direccion} ·{' '}
-                    {formatearPrecio(localSeleccionado.precioDurumCentimos)}
-                  </p>
-                </div>
-                <Link
-                  href={`/kebab/${localSeleccionado.slug}`}
-                  className="shrink-0 rounded-md bg-primario px-2.5 py-1.5 font-ticket text-[10px] font-bold uppercase text-carbon hover:bg-guindilla-red hover:text-texto"
-                >
-                  Ver ficha →
-                </Link>
-              </div>
-            )}
-          </div>
-        ) : (
-          <MapaLeaflet
-            locales={localesFiltrados}
-            seleccionadoId={seleccionadoId}
-            onSeleccionar={setSeleccionadoId}
-            destinoCamara={destinoCamara}
-          />
+        <RadarAsadores
+          locales={localesFiltrados}
+          centro={centroRadar}
+          esUbicacionReal={Boolean(ubicacion)}
+          seleccionadoId={localSeleccionado?.id ?? null}
+          onAbrirMapa={abrirMapa}
+        />
+        {!ubicacion && (
+          <button
+            type="button"
+            onClick={pedirUbicacion}
+            className="mt-2 flex w-full items-center justify-center gap-1.5 rounded-lg border border-linea/10 bg-superficie-baja px-3 py-2 font-ticket text-[11px] font-bold text-texto-suave hover:text-texto"
+          >
+            <Icono nombre="near_me" className="h-3.5 w-3.5 text-acento" />
+            Centrar el radar en mi ubicación
+          </button>
         )}
+
+        {mapaAbierto &&
+          createPortal(
+            <MapaAsadores
+              locales={localesFiltrados}
+              seleccionadoId={localSeleccionado?.id ?? null}
+              onSeleccionar={setSeleccionadoId}
+              onCerrar={cerrarMapa}
+              horarios={horariosActuales}
+              ubicacion={ubicacion}
+              centro={centroRadar}
+              destinoInicial={destinoCamara}
+            />,
+            document.body,
+          )}
       </section>
     </>
   );
